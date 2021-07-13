@@ -1,0 +1,17 @@
+Backend:
+Crear script base de datos:
+Tablas importantes:
+Empleado
+Tipo de ingreso
+Tipo de deducción
+Tablas menores (id y nombre):
+Departamento
+Puesto
+Nómina (tipo de nómina)
+
+Crea el proyecto en Visual Studio 
+Aplicación web ASP.NET (.NET Framework)
+En plantilla elegir API web
+Descargar paquete EntityFramework
+Agregar modelo Database First con la base de datos creada
+Agregar los controladores de Web API con acciones que usan Entity Framework con cada tabla
