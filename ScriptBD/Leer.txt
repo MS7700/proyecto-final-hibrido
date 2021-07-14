@@ -1,0 +1,2 @@
+Recordar ejecutar los triggers, de lo contrario la relación entre los tipos(Deduccion e ingreso) no funcionará. Sin embargo, no estoy seguro de si Entity framework
+maneja esto automáticamente, lo agrego por si acaso. 
