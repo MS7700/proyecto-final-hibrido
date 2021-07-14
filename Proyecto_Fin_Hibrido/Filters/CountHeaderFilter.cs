@@ -10,8 +10,11 @@ namespace Proyecto_Fin_Hibrido.Filters
     {
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
-            var count = actionExecutedContext.Request.Properties["Count"];
-            actionExecutedContext.Response.Content.Headers.Add("X-Total-Count", count.ToString());
+            if (actionExecutedContext.Request.Properties.ContainsKey("Count"))
+            {
+ var count = actionExecutedContext.Request.Properties["Count"];
+                actionExecutedContext.Response.Content.Headers.Add("X-Total-Count", count.ToString());
+            }
         }
     }
 

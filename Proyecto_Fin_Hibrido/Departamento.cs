@@ -22,6 +22,7 @@ namespace Proyecto_Fin_Hibrido
 
         [JsonProperty(PropertyName = "id")]
         public int IdDepartamento { get; set; }
+        [JsonProperty(PropertyName = "departamento")]
         public string Departamento1 { get; set; }
         [JsonIgnore]
         public virtual ICollection<Empleado> Empleado { get; set; }

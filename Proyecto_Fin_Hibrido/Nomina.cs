@@ -19,8 +19,9 @@ namespace Proyecto_Fin_Hibrido
         {
             this.Empleado = new HashSet<Empleado>();
         }
-    
+        [JsonProperty(PropertyName = "id")]
         public int IdNomina { get; set; }
+        [JsonProperty(PropertyName = "nomina")]
         public string Nomina1 { get; set; }
         [JsonIgnore]
         public virtual ICollection<Empleado> Empleado { get; set; }

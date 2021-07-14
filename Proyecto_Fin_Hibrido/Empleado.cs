@@ -26,16 +26,22 @@ namespace Proyecto_Fin_Hibrido
         public string Cedula { get; set; }
         public string Nombre { get; set; }
         public double Salario { get; set; }
+        [JsonIgnore]
+        //[JsonProperty(PropertyName = "departamento")]
         public int IdDepartamento { get; set; }
+        [JsonIgnore]
+        //[JsonProperty(PropertyName = "puesto")]
         public int IdPuesto { get; set; }
+        [JsonIgnore]
+        //[JsonProperty(PropertyName = "nomina")]
         public int IdNomina { get; set; }
         [JsonIgnore]
         public virtual ICollection<Asiento_Contable> Asiento_Contable { get; set; }
-        [JsonIgnore]
+        //[JsonIgnore]
         public virtual Departamento Departamento { get; set; }
-        [JsonIgnore]
+        //[JsonIgnore]
         public virtual Nomina Nomina { get; set; }
-        [JsonIgnore]
+        //[JsonIgnore]
         public virtual Puesto Puesto { get; set; }
         [JsonIgnore]
         public virtual ICollection<RegistroTransacciones> RegistroTransacciones { get; set; }
