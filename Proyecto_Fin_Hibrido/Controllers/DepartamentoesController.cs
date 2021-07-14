@@ -7,11 +7,16 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using Proyecto_Fin_Hibrido;
+using Proyecto_Fin_Hibrido.Filters;
 
 namespace Proyecto_Fin_Hibrido.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-Total-Count")]
+    [CountHeaderFilter]
+    [Route("api/Departamento")]
     public class DepartamentoesController : ApiController
     {
         private Proyecto_Fin_HibridoEntities db = new Proyecto_Fin_HibridoEntities();
@@ -19,6 +24,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
         // GET: api/Departamentoes
         public IQueryable<Departamento> GetDepartamento()
         {
+            Request.Properties["Count"] = db.Departamento.Count();
             return db.Departamento;
         }
 

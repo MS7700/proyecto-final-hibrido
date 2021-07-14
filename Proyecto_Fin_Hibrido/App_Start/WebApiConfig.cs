@@ -10,7 +10,7 @@ namespace Proyecto_Fin_Hibrido
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-
+            config.EnableCors();
             // Web API routes
             config.MapHttpAttributeRoutes();
 
@@ -20,6 +20,7 @@ namespace Proyecto_Fin_Hibrido
                 defaults: new { id = RouteParameter.Optional }
 
             );
+            
         }
     }
 }

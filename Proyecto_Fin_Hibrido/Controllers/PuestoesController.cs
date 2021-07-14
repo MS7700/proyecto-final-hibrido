@@ -7,11 +7,18 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
+//using Newtonsoft.Json;
 using Proyecto_Fin_Hibrido;
+using System.Text.Json;
+using Proyecto_Fin_Hibrido.Filters;
 
 namespace Proyecto_Fin_Hibrido.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-Total-Count")]
+    [CountHeaderFilter]
+    [Route("api/Puesto")]
     public class PuestoesController : ApiController
     {
         private Proyecto_Fin_HibridoEntities db = new Proyecto_Fin_HibridoEntities();
@@ -19,6 +26,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
         // GET: api/Puestoes
         public IQueryable<Puesto> GetPuesto()
         {
+            Request.Properties["Count"] = db.Puesto.Count();
             return db.Puesto;
         }
 

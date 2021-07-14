@@ -7,11 +7,16 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using Proyecto_Fin_Hibrido;
+using Proyecto_Fin_Hibrido.Filters;
 
 namespace Proyecto_Fin_Hibrido.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-Total-Count")]
+    [CountHeaderFilter]
+    [Route("api/Deduccion")]
     public class TipoDeduccionsController : ApiController
     {
         private Proyecto_Fin_HibridoEntities db = new Proyecto_Fin_HibridoEntities();
@@ -19,6 +24,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
         // GET: api/TipoDeduccions
         public IQueryable<TipoDeduccion> GetTipoDeduccion()
         {
+            Request.Properties["Count"] = db.TipoDeduccion.Count();
             return db.TipoDeduccion;
         }
 

@@ -20,7 +20,8 @@ namespace Proyecto_Fin_Hibrido
             this.Asiento_Contable = new HashSet<Asiento_Contable>();
             this.RegistroTransacciones = new HashSet<RegistroTransacciones>();
         }
-    
+
+        [JsonProperty(PropertyName = "id")]
         public int IdEmpleado { get; set; }
         public string Cedula { get; set; }
         public string Nombre { get; set; }

@@ -19,7 +19,8 @@ namespace Proyecto_Fin_Hibrido
         {
             this.REL_TIPOS = new HashSet<REL_TIPOS>();
         }
-    
+
+        [JsonProperty(PropertyName = "id")]
         public int IdDeduccion { get; set; }
         public string Nombre { get; set; }
         public bool DependeSalario { get; set; }
