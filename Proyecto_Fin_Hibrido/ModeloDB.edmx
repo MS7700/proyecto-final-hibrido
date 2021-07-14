@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Proyecto_Fin_HibridoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Proyecto_Fin_HibridoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Asiento_Contable">
           <Key>
             <PropertyRef Name="IdAsiento" />
@@ -18,6 +18,13 @@
           <Property Name="MontoAsiento" Type="float" Nullable="false" />
           <Property Name="Estado" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Departamento">
+          <Key>
+            <PropertyRef Name="IdDepartamento" />
+          </Key>
+          <Property Name="IdDepartamento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Departamento" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Empleado">
           <Key>
             <PropertyRef Name="IdEmpleado" />
@@ -25,9 +32,9 @@
           <Property Name="IdEmpleado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Cedula" Type="varchar" MaxLength="11" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="70" Nullable="false" />
-          <Property Name="SalarioMensual" Type="float" Nullable="false" />
-          <Property Name="Departamento" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Puesto" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Salario" Type="float" Nullable="false" />
+          <Property Name="IdDepartamento" Type="int" Nullable="false" />
+          <Property Name="IdPuesto" Type="int" Nullable="false" />
           <Property Name="IdNomina" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Nomina">
@@ -35,8 +42,14 @@
             <PropertyRef Name="IdNomina" />
           </Key>
           <Property Name="IdNomina" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="Nomina" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Puesto">
+          <Key>
+            <PropertyRef Name="IdPuesto" />
+          </Key>
+          <Property Name="IdPuesto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Puesto" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="RegistroTransacciones">
           <Key>
@@ -57,16 +70,6 @@
           <Property Name="IdTipo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdDeduccion" Type="int" />
           <Property Name="IdIngreso" Type="int" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="TipoDeduccion">
           <Key>
@@ -98,6 +101,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Empleado_Departamento">
+          <End Role="Departamento" Type="Self.Departamento" Multiplicity="1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departamento">
+              <PropertyRef Name="IdDepartamento" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="IdDepartamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Empleado_Nomina">
           <End Role="Nomina" Type="Self.Nomina" Multiplicity="1" />
           <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
@@ -107,6 +122,18 @@
             </Principal>
             <Dependent Role="Empleado">
               <PropertyRef Name="IdNomina" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Empleado_Puesto">
+          <End Role="Puesto" Type="Self.Puesto" Multiplicity="1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Puesto">
+              <PropertyRef Name="IdPuesto" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="IdPuesto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -160,19 +187,28 @@
         </Association>
         <EntityContainer Name="Proyecto_Fin_HibridoModelStoreContainer">
           <EntitySet Name="Asiento_Contable" EntityType="Self.Asiento_Contable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Departamento" EntityType="Self.Departamento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empleado" EntityType="Self.Empleado" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Nomina" EntityType="Self.Nomina" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Puesto" EntityType="Self.Puesto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RegistroTransacciones" EntityType="Self.RegistroTransacciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="REL_TIPOS" EntityType="Self.REL_TIPOS" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoDeduccion" EntityType="Self.TipoDeduccion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoIngreso" EntityType="Self.TipoIngreso" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Asiento_Contable_Empleado" Association="Self.FK_Asiento_Contable_Empleado">
             <End Role="Empleado" EntitySet="Empleado" />
             <End Role="Asiento_Contable" EntitySet="Asiento_Contable" />
           </AssociationSet>
+          <AssociationSet Name="FK_Empleado_Departamento" Association="Self.FK_Empleado_Departamento">
+            <End Role="Departamento" EntitySet="Departamento" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
           <AssociationSet Name="FK_Empleado_Nomina" Association="Self.FK_Empleado_Nomina">
             <End Role="Nomina" EntitySet="Nomina" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Empleado_Puesto" Association="Self.FK_Empleado_Puesto">
+            <End Role="Puesto" EntitySet="Puesto" />
             <End Role="Empleado" EntitySet="Empleado" />
           </AssociationSet>
           <AssociationSet Name="FK_RegistroTransacciones_Empleado" Association="Self.FK_RegistroTransacciones_Empleado">
@@ -192,48 +228,107 @@
             <End Role="REL_TIPOS" EntitySet="REL_TIPOS" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Proyecto_Fin_HibridoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Proyecto_Fin_HibridoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Asiento_Contable" EntityType="Proyecto_Fin_HibridoModel.Asiento_Contable" />
+          <EntitySet Name="Departamento" EntityType="Proyecto_Fin_HibridoModel.Departamento" />
+          <EntitySet Name="Empleado" EntityType="Proyecto_Fin_HibridoModel.Empleado" />
+          <EntitySet Name="Nomina" EntityType="Proyecto_Fin_HibridoModel.Nomina" />
+          <EntitySet Name="Puesto" EntityType="Proyecto_Fin_HibridoModel.Puesto" />
+          <EntitySet Name="RegistroTransacciones" EntityType="Proyecto_Fin_HibridoModel.RegistroTransacciones" />
+          <EntitySet Name="REL_TIPOS" EntityType="Proyecto_Fin_HibridoModel.REL_TIPOS" />
+          <EntitySet Name="TipoDeduccion" EntityType="Proyecto_Fin_HibridoModel.TipoDeduccion" />
+          <EntitySet Name="TipoIngreso" EntityType="Proyecto_Fin_HibridoModel.TipoIngreso" />
+          <AssociationSet Name="FK_Asiento_Contable_Empleado" Association="Proyecto_Fin_HibridoModel.FK_Asiento_Contable_Empleado">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Asiento_Contable" EntitySet="Asiento_Contable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Empleado_Departamento" Association="Proyecto_Fin_HibridoModel.FK_Empleado_Departamento">
+            <End Role="Departamento" EntitySet="Departamento" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Empleado_Nomina" Association="Proyecto_Fin_HibridoModel.FK_Empleado_Nomina">
+            <End Role="Nomina" EntitySet="Nomina" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Empleado_Puesto" Association="Proyecto_Fin_HibridoModel.FK_Empleado_Puesto">
+            <End Role="Puesto" EntitySet="Puesto" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RegistroTransacciones_Empleado" Association="Proyecto_Fin_HibridoModel.FK_RegistroTransacciones_Empleado">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="RegistroTransacciones" EntitySet="RegistroTransacciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RegistroTransacciones_REL_TIPOS" Association="Proyecto_Fin_HibridoModel.FK_RegistroTransacciones_REL_TIPOS">
+            <End Role="REL_TIPOS" EntitySet="REL_TIPOS" />
+            <End Role="RegistroTransacciones" EntitySet="RegistroTransacciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REL_TIPOS_TipoDeduccion" Association="Proyecto_Fin_HibridoModel.FK_REL_TIPOS_TipoDeduccion">
+            <End Role="TipoDeduccion" EntitySet="TipoDeduccion" />
+            <End Role="REL_TIPOS" EntitySet="REL_TIPOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REL_TIPOS_TipoIngreso" Association="Proyecto_Fin_HibridoModel.FK_REL_TIPOS_TipoIngreso">
+            <End Role="TipoIngreso" EntitySet="TipoIngreso" />
+            <End Role="REL_TIPOS" EntitySet="REL_TIPOS" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Asiento_Contable">
           <Key>
             <PropertyRef Name="IdAsiento" />
           </Key>
           <Property Name="IdAsiento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
-          <Property Name="Cuenta" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="TipoMovimiento" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Cuenta" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TipoMovimiento" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
           <Property Name="FechaAsiento" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="MontoAsiento" Type="Double" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Empleado" Relationship="Self.FK_Asiento_Contable_Empleado" FromRole="Asiento_Contable" ToRole="Empleado" />
+          <NavigationProperty Name="Empleado" Relationship="Proyecto_Fin_HibridoModel.FK_Asiento_Contable_Empleado" FromRole="Asiento_Contable" ToRole="Empleado" />
+        </EntityType>
+        <EntityType Name="Departamento">
+          <Key>
+            <PropertyRef Name="IdDepartamento" />
+          </Key>
+          <Property Name="IdDepartamento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Departamento1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Empleado" Relationship="Proyecto_Fin_HibridoModel.FK_Empleado_Departamento" FromRole="Departamento" ToRole="Empleado" />
         </EntityType>
         <EntityType Name="Empleado">
           <Key>
             <PropertyRef Name="IdEmpleado" />
           </Key>
           <Property Name="IdEmpleado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Cedula" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Nombre" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="SalarioMensual" Type="Double" Nullable="false" />
-          <Property Name="Departamento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Puesto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Cedula" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="Salario" Type="Double" Nullable="false" />
+          <Property Name="IdDepartamento" Type="Int32" Nullable="false" />
+          <Property Name="IdPuesto" Type="Int32" Nullable="false" />
           <Property Name="IdNomina" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Asiento_Contable" Relationship="Self.FK_Asiento_Contable_Empleado" FromRole="Empleado" ToRole="Asiento_Contable" />
-          <NavigationProperty Name="Nomina" Relationship="Self.FK_Empleado_Nomina" FromRole="Empleado" ToRole="Nomina" />
-          <NavigationProperty Name="RegistroTransacciones" Relationship="Self.FK_RegistroTransacciones_Empleado" FromRole="Empleado" ToRole="RegistroTransacciones" />
+          <NavigationProperty Name="Asiento_Contable" Relationship="Proyecto_Fin_HibridoModel.FK_Asiento_Contable_Empleado" FromRole="Empleado" ToRole="Asiento_Contable" />
+          <NavigationProperty Name="Departamento" Relationship="Proyecto_Fin_HibridoModel.FK_Empleado_Departamento" FromRole="Empleado" ToRole="Departamento" />
+          <NavigationProperty Name="Nomina" Relationship="Proyecto_Fin_HibridoModel.FK_Empleado_Nomina" FromRole="Empleado" ToRole="Nomina" />
+          <NavigationProperty Name="Puesto" Relationship="Proyecto_Fin_HibridoModel.FK_Empleado_Puesto" FromRole="Empleado" ToRole="Puesto" />
+          <NavigationProperty Name="RegistroTransacciones" Relationship="Proyecto_Fin_HibridoModel.FK_RegistroTransacciones_Empleado" FromRole="Empleado" ToRole="RegistroTransacciones" />
         </EntityType>
         <EntityType Name="Nomina">
           <Key>
             <PropertyRef Name="IdNomina" />
           </Key>
           <Property Name="IdNomina" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Empleado" Relationship="Self.FK_Empleado_Nomina" FromRole="Nomina" ToRole="Empleado" />
+          <Property Name="Nomina1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Empleado" Relationship="Proyecto_Fin_HibridoModel.FK_Empleado_Nomina" FromRole="Nomina" ToRole="Empleado" />
+        </EntityType>
+        <EntityType Name="Puesto">
+          <Key>
+            <PropertyRef Name="IdPuesto" />
+          </Key>
+          <Property Name="IdPuesto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Puesto1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Empleado" Relationship="Proyecto_Fin_HibridoModel.FK_Empleado_Puesto" FromRole="Puesto" ToRole="Empleado" />
         </EntityType>
         <EntityType Name="RegistroTransacciones">
           <Key>
@@ -242,12 +337,12 @@
           <Property Name="IdTransaccion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdEmpleado" Type="Int32" Nullable="false" />
           <Property Name="IdTipo" Type="Int32" Nullable="false" />
-          <Property Name="TipoTransaccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TipoTransaccion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Monto" Type="Double" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Empleado" Relationship="Self.FK_RegistroTransacciones_Empleado" FromRole="RegistroTransacciones" ToRole="Empleado" />
-          <NavigationProperty Name="REL_TIPOS" Relationship="Self.FK_RegistroTransacciones_REL_TIPOS" FromRole="RegistroTransacciones" ToRole="REL_TIPOS" />
+          <NavigationProperty Name="Empleado" Relationship="Proyecto_Fin_HibridoModel.FK_RegistroTransacciones_Empleado" FromRole="RegistroTransacciones" ToRole="Empleado" />
+          <NavigationProperty Name="REL_TIPOS" Relationship="Proyecto_Fin_HibridoModel.FK_RegistroTransacciones_REL_TIPOS" FromRole="RegistroTransacciones" ToRole="REL_TIPOS" />
         </EntityType>
         <EntityType Name="REL_TIPOS">
           <Key>
@@ -256,43 +351,33 @@
           <Property Name="IdTipo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdDeduccion" Type="Int32" />
           <Property Name="IdIngreso" Type="Int32" />
-          <NavigationProperty Name="RegistroTransacciones" Relationship="Self.FK_RegistroTransacciones_REL_TIPOS" FromRole="REL_TIPOS" ToRole="RegistroTransacciones" />
-          <NavigationProperty Name="TipoDeduccion" Relationship="Self.FK_REL_TIPOS_TipoDeduccion" FromRole="REL_TIPOS" ToRole="TipoDeduccion" />
-          <NavigationProperty Name="TipoIngreso" Relationship="Self.FK_REL_TIPOS_TipoIngreso" FromRole="REL_TIPOS" ToRole="TipoIngreso" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="RegistroTransacciones" Relationship="Proyecto_Fin_HibridoModel.FK_RegistroTransacciones_REL_TIPOS" FromRole="REL_TIPOS" ToRole="RegistroTransacciones" />
+          <NavigationProperty Name="TipoDeduccion" Relationship="Proyecto_Fin_HibridoModel.FK_REL_TIPOS_TipoDeduccion" FromRole="REL_TIPOS" ToRole="TipoDeduccion" />
+          <NavigationProperty Name="TipoIngreso" Relationship="Proyecto_Fin_HibridoModel.FK_REL_TIPOS_TipoIngreso" FromRole="REL_TIPOS" ToRole="TipoIngreso" />
         </EntityType>
         <EntityType Name="TipoDeduccion">
           <Key>
             <PropertyRef Name="IdDeduccion" />
           </Key>
           <Property Name="IdDeduccion" Type="Int32" Nullable="false" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DependeSalario" Type="Boolean" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="REL_TIPOS" Relationship="Self.FK_REL_TIPOS_TipoDeduccion" FromRole="TipoDeduccion" ToRole="REL_TIPOS" />
+          <NavigationProperty Name="REL_TIPOS" Relationship="Proyecto_Fin_HibridoModel.FK_REL_TIPOS_TipoDeduccion" FromRole="TipoDeduccion" ToRole="REL_TIPOS" />
         </EntityType>
         <EntityType Name="TipoIngreso">
           <Key>
             <PropertyRef Name="IdIngreso" />
           </Key>
           <Property Name="IdIngreso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DependeSalario" Type="Boolean" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="REL_TIPOS" Relationship="Self.FK_REL_TIPOS_TipoIngreso" FromRole="TipoIngreso" ToRole="REL_TIPOS" />
+          <NavigationProperty Name="REL_TIPOS" Relationship="Proyecto_Fin_HibridoModel.FK_REL_TIPOS_TipoIngreso" FromRole="TipoIngreso" ToRole="REL_TIPOS" />
         </EntityType>
         <Association Name="FK_Asiento_Contable_Empleado">
-          <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
-          <End Role="Asiento_Contable" Type="Self.Asiento_Contable" Multiplicity="*" />
+          <End Type="Proyecto_Fin_HibridoModel.Empleado" Role="Empleado" Multiplicity="1" />
+          <End Type="Proyecto_Fin_HibridoModel.Asiento_Contable" Role="Asiento_Contable" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Empleado">
               <PropertyRef Name="IdEmpleado" />
@@ -302,9 +387,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Empleado_Departamento">
+          <End Type="Proyecto_Fin_HibridoModel.Departamento" Role="Departamento" Multiplicity="1" />
+          <End Type="Proyecto_Fin_HibridoModel.Empleado" Role="Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departamento">
+              <PropertyRef Name="IdDepartamento" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="IdDepartamento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Empleado_Nomina">
-          <End Role="Nomina" Type="Self.Nomina" Multiplicity="1" />
-          <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+          <End Type="Proyecto_Fin_HibridoModel.Nomina" Role="Nomina" Multiplicity="1" />
+          <End Type="Proyecto_Fin_HibridoModel.Empleado" Role="Empleado" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Nomina">
               <PropertyRef Name="IdNomina" />
@@ -314,9 +411,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Empleado_Puesto">
+          <End Type="Proyecto_Fin_HibridoModel.Puesto" Role="Puesto" Multiplicity="1" />
+          <End Type="Proyecto_Fin_HibridoModel.Empleado" Role="Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Puesto">
+              <PropertyRef Name="IdPuesto" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="IdPuesto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_RegistroTransacciones_Empleado">
-          <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
-          <End Role="RegistroTransacciones" Type="Self.RegistroTransacciones" Multiplicity="*" />
+          <End Type="Proyecto_Fin_HibridoModel.Empleado" Role="Empleado" Multiplicity="1" />
+          <End Type="Proyecto_Fin_HibridoModel.RegistroTransacciones" Role="RegistroTransacciones" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Empleado">
               <PropertyRef Name="IdEmpleado" />
@@ -327,8 +436,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_RegistroTransacciones_REL_TIPOS">
-          <End Role="REL_TIPOS" Type="Self.REL_TIPOS" Multiplicity="1" />
-          <End Role="RegistroTransacciones" Type="Self.RegistroTransacciones" Multiplicity="*" />
+          <End Type="Proyecto_Fin_HibridoModel.REL_TIPOS" Role="REL_TIPOS" Multiplicity="1" />
+          <End Type="Proyecto_Fin_HibridoModel.RegistroTransacciones" Role="RegistroTransacciones" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="REL_TIPOS">
               <PropertyRef Name="IdTipo" />
@@ -339,8 +448,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_REL_TIPOS_TipoDeduccion">
-          <End Role="TipoDeduccion" Type="Self.TipoDeduccion" Multiplicity="0..1" />
-          <End Role="REL_TIPOS" Type="Self.REL_TIPOS" Multiplicity="*" />
+          <End Type="Proyecto_Fin_HibridoModel.TipoDeduccion" Role="TipoDeduccion" Multiplicity="0..1" />
+          <End Type="Proyecto_Fin_HibridoModel.REL_TIPOS" Role="REL_TIPOS" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TipoDeduccion">
               <PropertyRef Name="IdDeduccion" />
@@ -351,8 +460,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_REL_TIPOS_TipoIngreso">
-          <End Role="TipoIngreso" Type="Self.TipoIngreso" Multiplicity="0..1" />
-          <End Role="REL_TIPOS" Type="Self.REL_TIPOS" Multiplicity="*" />
+          <End Type="Proyecto_Fin_HibridoModel.TipoIngreso" Role="TipoIngreso" Multiplicity="0..1" />
+          <End Type="Proyecto_Fin_HibridoModel.REL_TIPOS" Role="REL_TIPOS" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TipoIngreso">
               <PropertyRef Name="IdIngreso" />
@@ -362,40 +471,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Proyecto_Fin_HibridoEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Asiento_Contable" EntityType="Self.Asiento_Contable" />
-          <EntitySet Name="Empleado" EntityType="Self.Empleado" />
-          <EntitySet Name="Nomina" EntityType="Self.Nomina" />
-          <EntitySet Name="RegistroTransacciones" EntityType="Self.RegistroTransacciones" />
-          <EntitySet Name="REL_TIPOS" EntityType="Self.REL_TIPOS" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
-          <EntitySet Name="TipoDeduccion" EntityType="Self.TipoDeduccion" />
-          <EntitySet Name="TipoIngreso" EntityType="Self.TipoIngreso" />
-          <AssociationSet Name="FK_Asiento_Contable_Empleado" Association="Self.FK_Asiento_Contable_Empleado">
-            <End Role="Empleado" EntitySet="Empleado" />
-            <End Role="Asiento_Contable" EntitySet="Asiento_Contable" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Empleado_Nomina" Association="Self.FK_Empleado_Nomina">
-            <End Role="Nomina" EntitySet="Nomina" />
-            <End Role="Empleado" EntitySet="Empleado" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RegistroTransacciones_Empleado" Association="Self.FK_RegistroTransacciones_Empleado">
-            <End Role="Empleado" EntitySet="Empleado" />
-            <End Role="RegistroTransacciones" EntitySet="RegistroTransacciones" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RegistroTransacciones_REL_TIPOS" Association="Self.FK_RegistroTransacciones_REL_TIPOS">
-            <End Role="REL_TIPOS" EntitySet="REL_TIPOS" />
-            <End Role="RegistroTransacciones" EntitySet="RegistroTransacciones" />
-          </AssociationSet>
-          <AssociationSet Name="FK_REL_TIPOS_TipoDeduccion" Association="Self.FK_REL_TIPOS_TipoDeduccion">
-            <End Role="TipoDeduccion" EntitySet="TipoDeduccion" />
-            <End Role="REL_TIPOS" EntitySet="REL_TIPOS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_REL_TIPOS_TipoIngreso" Association="Self.FK_REL_TIPOS_TipoIngreso">
-            <End Role="TipoIngreso" EntitySet="TipoIngreso" />
-            <End Role="REL_TIPOS" EntitySet="REL_TIPOS" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -405,89 +480,93 @@
           <EntitySetMapping Name="Asiento_Contable">
             <EntityTypeMapping TypeName="Proyecto_Fin_HibridoModel.Asiento_Contable">
               <MappingFragment StoreEntitySet="Asiento_Contable">
-                <ScalarProperty Name="IdAsiento" ColumnName="IdAsiento" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
-                <ScalarProperty Name="Cuenta" ColumnName="Cuenta" />
-                <ScalarProperty Name="TipoMovimiento" ColumnName="TipoMovimiento" />
-                <ScalarProperty Name="FechaAsiento" ColumnName="FechaAsiento" />
-                <ScalarProperty Name="MontoAsiento" ColumnName="MontoAsiento" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="MontoAsiento" ColumnName="MontoAsiento" />
+                <ScalarProperty Name="FechaAsiento" ColumnName="FechaAsiento" />
+                <ScalarProperty Name="TipoMovimiento" ColumnName="TipoMovimiento" />
+                <ScalarProperty Name="Cuenta" ColumnName="Cuenta" />
+                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdAsiento" ColumnName="IdAsiento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departamento">
+            <EntityTypeMapping TypeName="Proyecto_Fin_HibridoModel.Departamento">
+              <MappingFragment StoreEntitySet="Departamento">
+                <ScalarProperty Name="Departamento1" ColumnName="Departamento" />
+                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Empleado">
             <EntityTypeMapping TypeName="Proyecto_Fin_HibridoModel.Empleado">
               <MappingFragment StoreEntitySet="Empleado">
-                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="SalarioMensual" ColumnName="SalarioMensual" />
-                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
-                <ScalarProperty Name="Puesto" ColumnName="Puesto" />
                 <ScalarProperty Name="IdNomina" ColumnName="IdNomina" />
+                <ScalarProperty Name="IdPuesto" ColumnName="IdPuesto" />
+                <ScalarProperty Name="IdDepartamento" ColumnName="IdDepartamento" />
+                <ScalarProperty Name="Salario" ColumnName="Salario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Nomina">
             <EntityTypeMapping TypeName="Proyecto_Fin_HibridoModel.Nomina">
               <MappingFragment StoreEntitySet="Nomina">
+                <ScalarProperty Name="Nomina1" ColumnName="Nomina" />
                 <ScalarProperty Name="IdNomina" ColumnName="IdNomina" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Puesto">
+            <EntityTypeMapping TypeName="Proyecto_Fin_HibridoModel.Puesto">
+              <MappingFragment StoreEntitySet="Puesto">
+                <ScalarProperty Name="Puesto1" ColumnName="Puesto" />
+                <ScalarProperty Name="IdPuesto" ColumnName="IdPuesto" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RegistroTransacciones">
             <EntityTypeMapping TypeName="Proyecto_Fin_HibridoModel.RegistroTransacciones">
               <MappingFragment StoreEntitySet="RegistroTransacciones">
-                <ScalarProperty Name="IdTransaccion" ColumnName="IdTransaccion" />
-                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
-                <ScalarProperty Name="IdTipo" ColumnName="IdTipo" />
-                <ScalarProperty Name="TipoTransaccion" ColumnName="TipoTransaccion" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Monto" ColumnName="Monto" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="TipoTransaccion" ColumnName="TipoTransaccion" />
+                <ScalarProperty Name="IdTipo" ColumnName="IdTipo" />
+                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
+                <ScalarProperty Name="IdTransaccion" ColumnName="IdTransaccion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="REL_TIPOS">
             <EntityTypeMapping TypeName="Proyecto_Fin_HibridoModel.REL_TIPOS">
               <MappingFragment StoreEntitySet="REL_TIPOS">
-                <ScalarProperty Name="IdTipo" ColumnName="IdTipo" />
-                <ScalarProperty Name="IdDeduccion" ColumnName="IdDeduccion" />
                 <ScalarProperty Name="IdIngreso" ColumnName="IdIngreso" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="Proyecto_Fin_HibridoModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="IdDeduccion" ColumnName="IdDeduccion" />
+                <ScalarProperty Name="IdTipo" ColumnName="IdTipo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TipoDeduccion">
             <EntityTypeMapping TypeName="Proyecto_Fin_HibridoModel.TipoDeduccion">
               <MappingFragment StoreEntitySet="TipoDeduccion">
-                <ScalarProperty Name="IdDeduccion" ColumnName="IdDeduccion" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="DependeSalario" ColumnName="DependeSalario" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="DependeSalario" ColumnName="DependeSalario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdDeduccion" ColumnName="IdDeduccion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TipoIngreso">
             <EntityTypeMapping TypeName="Proyecto_Fin_HibridoModel.TipoIngreso">
               <MappingFragment StoreEntitySet="TipoIngreso">
-                <ScalarProperty Name="IdIngreso" ColumnName="IdIngreso" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="DependeSalario" ColumnName="DependeSalario" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="DependeSalario" ColumnName="DependeSalario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdIngreso" ColumnName="IdIngreso" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -12,17 +12,17 @@ using Proyecto_Fin_Hibrido;
 
 namespace Proyecto_Fin_Hibrido.Controllers
 {
-    public class EmpleadoController : ApiController
+    public class EmpleadoesController : ApiController
     {
         private Proyecto_Fin_HibridoEntities db = new Proyecto_Fin_HibridoEntities();
 
-        // GET: api/Empleado
+        // GET: api/Empleadoes
         public IQueryable<Empleado> GetEmpleado()
         {
             return db.Empleado;
         }
 
-        // GET: api/Empleado/5
+        // GET: api/Empleadoes/5
         [ResponseType(typeof(Empleado))]
         public IHttpActionResult GetEmpleado(int id)
         {
@@ -35,7 +35,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
             return Ok(empleado);
         }
 
-        // PUT: api/Empleado/5
+        // PUT: api/Empleadoes/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutEmpleado(int id, Empleado empleado)
         {
@@ -70,7 +70,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Empleado
+        // POST: api/Empleadoes
         [ResponseType(typeof(Empleado))]
         public IHttpActionResult PostEmpleado(Empleado empleado)
         {
@@ -85,7 +85,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
             return CreatedAtRoute("DefaultApi", new { id = empleado.IdEmpleado }, empleado);
         }
 
-        // DELETE: api/Empleado/5
+        // DELETE: api/Empleadoes/5
         [ResponseType(typeof(Empleado))]
         public IHttpActionResult DeleteEmpleado(int id)
         {

@@ -12,17 +12,17 @@ using Proyecto_Fin_Hibrido;
 
 namespace Proyecto_Fin_Hibrido.Controllers
 {
-    public class TipoDeduccionController : ApiController
+    public class TipoDeduccionsController : ApiController
     {
         private Proyecto_Fin_HibridoEntities db = new Proyecto_Fin_HibridoEntities();
 
-        // GET: api/TipoDeduccion
+        // GET: api/TipoDeduccions
         public IQueryable<TipoDeduccion> GetTipoDeduccion()
         {
             return db.TipoDeduccion;
         }
 
-        // GET: api/TipoDeduccion/5
+        // GET: api/TipoDeduccions/5
         [ResponseType(typeof(TipoDeduccion))]
         public IHttpActionResult GetTipoDeduccion(int id)
         {
@@ -35,7 +35,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
             return Ok(tipoDeduccion);
         }
 
-        // PUT: api/TipoDeduccion/5
+        // PUT: api/TipoDeduccions/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutTipoDeduccion(int id, TipoDeduccion tipoDeduccion)
         {
@@ -70,7 +70,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/TipoDeduccion
+        // POST: api/TipoDeduccions
         [ResponseType(typeof(TipoDeduccion))]
         public IHttpActionResult PostTipoDeduccion(TipoDeduccion tipoDeduccion)
         {
@@ -100,7 +100,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
             return CreatedAtRoute("DefaultApi", new { id = tipoDeduccion.IdDeduccion }, tipoDeduccion);
         }
 
-        // DELETE: api/TipoDeduccion/5
+        // DELETE: api/TipoDeduccions/5
         [ResponseType(typeof(TipoDeduccion))]
         public IHttpActionResult DeleteTipoDeduccion(int id)
         {

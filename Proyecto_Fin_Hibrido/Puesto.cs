@@ -13,18 +13,16 @@ namespace Proyecto_Fin_Hibrido
     using System;
     using System.Collections.Generic;
     
-    public partial class TipoIngreso
+    public partial class Puesto
     {
-        public TipoIngreso()
+        public Puesto()
         {
-            this.REL_TIPOS = new HashSet<REL_TIPOS>();
+            this.Empleado = new HashSet<Empleado>();
         }
     
-        public int IdIngreso { get; set; }
-        public string Nombre { get; set; }
-        public bool DependeSalario { get; set; }
-        public bool Estado { get; set; }
+        public int IdPuesto { get; set; }
+        public string Puesto1 { get; set; }
         [JsonIgnore]
-        public virtual ICollection<REL_TIPOS> REL_TIPOS { get; set; }
+        public virtual ICollection<Empleado> Empleado { get; set; }
     }
 }

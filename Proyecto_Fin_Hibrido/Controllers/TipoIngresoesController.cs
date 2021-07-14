@@ -12,44 +12,44 @@ using Proyecto_Fin_Hibrido;
 
 namespace Proyecto_Fin_Hibrido.Controllers
 {
-    public class NominaController : ApiController
+    public class TipoIngresoesController : ApiController
     {
         private Proyecto_Fin_HibridoEntities db = new Proyecto_Fin_HibridoEntities();
 
-        // GET: api/Nomina
-        public IQueryable<Nomina> GetNomina()
+        // GET: api/TipoIngresoes
+        public IQueryable<TipoIngreso> GetTipoIngreso()
         {
-            return db.Nomina;
+            return db.TipoIngreso;
         }
 
-        // GET: api/Nomina/5
-        [ResponseType(typeof(Nomina))]
-        public IHttpActionResult GetNomina(int id)
+        // GET: api/TipoIngresoes/5
+        [ResponseType(typeof(TipoIngreso))]
+        public IHttpActionResult GetTipoIngreso(int id)
         {
-            Nomina nomina = db.Nomina.Find(id);
-            if (nomina == null)
+            TipoIngreso tipoIngreso = db.TipoIngreso.Find(id);
+            if (tipoIngreso == null)
             {
                 return NotFound();
             }
 
-            return Ok(nomina);
+            return Ok(tipoIngreso);
         }
 
-        // PUT: api/Nomina/5
+        // PUT: api/TipoIngresoes/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutNomina(int id, Nomina nomina)
+        public IHttpActionResult PutTipoIngreso(int id, TipoIngreso tipoIngreso)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != nomina.IdNomina)
+            if (id != tipoIngreso.IdIngreso)
             {
                 return BadRequest();
             }
 
-            db.Entry(nomina).State = EntityState.Modified;
+            db.Entry(tipoIngreso).State = EntityState.Modified;
 
             try
             {
@@ -57,7 +57,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!NominaExists(id))
+                if (!TipoIngresoExists(id))
                 {
                     return NotFound();
                 }
@@ -70,35 +70,35 @@ namespace Proyecto_Fin_Hibrido.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Nomina
-        [ResponseType(typeof(Nomina))]
-        public IHttpActionResult PostNomina(Nomina nomina)
+        // POST: api/TipoIngresoes
+        [ResponseType(typeof(TipoIngreso))]
+        public IHttpActionResult PostTipoIngreso(TipoIngreso tipoIngreso)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Nomina.Add(nomina);
+            db.TipoIngreso.Add(tipoIngreso);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = nomina.IdNomina }, nomina);
+            return CreatedAtRoute("DefaultApi", new { id = tipoIngreso.IdIngreso }, tipoIngreso);
         }
 
-        // DELETE: api/Nomina/5
-        [ResponseType(typeof(Nomina))]
-        public IHttpActionResult DeleteNomina(int id)
+        // DELETE: api/TipoIngresoes/5
+        [ResponseType(typeof(TipoIngreso))]
+        public IHttpActionResult DeleteTipoIngreso(int id)
         {
-            Nomina nomina = db.Nomina.Find(id);
-            if (nomina == null)
+            TipoIngreso tipoIngreso = db.TipoIngreso.Find(id);
+            if (tipoIngreso == null)
             {
                 return NotFound();
             }
 
-            db.Nomina.Remove(nomina);
+            db.TipoIngreso.Remove(tipoIngreso);
             db.SaveChanges();
 
-            return Ok(nomina);
+            return Ok(tipoIngreso);
         }
 
         protected override void Dispose(bool disposing)
@@ -110,9 +110,9 @@ namespace Proyecto_Fin_Hibrido.Controllers
             base.Dispose(disposing);
         }
 
-        private bool NominaExists(int id)
+        private bool TipoIngresoExists(int id)
         {
-            return db.Nomina.Count(e => e.IdNomina == id) > 0;
+            return db.TipoIngreso.Count(e => e.IdIngreso == id) > 0;
         }
     }
 }

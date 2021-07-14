@@ -166,14 +166,18 @@
       <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\Asiento_ContableController.cs" />
-    <Compile Include="Controllers\EmpleadoController.cs" />
+    <Compile Include="Controllers\DepartamentoesController.cs" />
+    <Compile Include="Controllers\EmpleadoesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\NominaController.cs" />
+    <Compile Include="Controllers\NominasController.cs" />
+    <Compile Include="Controllers\PuestoesController.cs" />
     <Compile Include="Controllers\RegistroTransaccionesController.cs" />
     <Compile Include="Controllers\REL_TIPOSController.cs" />
-    <Compile Include="Controllers\TipoDeduccionController.cs" />
-    <Compile Include="Controllers\TipoIngresoController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\TipoDeduccionsController.cs" />
+    <Compile Include="Controllers\TipoIngresoesController.cs" />
+    <Compile Include="Departamento.cs">
+      <DependentUpon>ModeloDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Empleado.cs">
       <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
@@ -199,13 +203,13 @@
       <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Puesto.cs">
+      <DependentUpon>ModeloDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="RegistroTransacciones.cs">
       <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="REL_TIPOS.cs">
-      <DependentUpon>ModeloDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagrams.cs">
       <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="TipoDeduccion.cs">
