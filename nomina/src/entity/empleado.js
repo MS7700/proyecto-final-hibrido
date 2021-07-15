@@ -1,5 +1,6 @@
 import * as React from "react";
-import { List, Datagrid, TextField, BooleanField, Edit, Create, TextInput, SimpleForm, BooleanInput, NumberField } from 'react-admin';
+import { List, Datagrid, TextField, BooleanField, Edit, Create, TextInput, SimpleForm, BooleanInput, NumberField,ReferenceField,NumberInput,ReferenceInput,SelectInput   } from 'react-admin';
+
 
 
 export const EmpleadoList = props => (
@@ -9,9 +10,23 @@ export const EmpleadoList = props => (
             <TextField source="Cedula" />
             <TextField source="Nombre" />
             <NumberField source="Salario" />
-            <TextField source="departamento.departamento" />
-            <TextField source="puesto.puesto" />
-            <TextField source="nomina.nomina" />
+            <ReferenceField source="DepartamentoId" reference="Departamentos"><TextField source="id" /></ReferenceField>
+            
         </Datagrid>
     </List>
+);
+
+export const EmpleadoEdit = props => (
+    <Edit {...props}>
+        <SimpleForm>
+            
+            <NumberInput source="Nomina.id" />
+            <NumberInput source="Puesto.id" />
+            <TextInput source="id" />
+            <TextInput source="Cedula" />
+            <TextInput source="Nombre" />
+            <NumberInput source="Salario" />
+                <SelectInput source="Departamento" optionText="departamento" />
+        </SimpleForm>
+    </Edit>
 );

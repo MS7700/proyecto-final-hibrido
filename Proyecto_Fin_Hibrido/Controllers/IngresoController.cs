@@ -17,7 +17,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-Total-Count")]
     [CountHeaderFilter]
-    public class IngresoController : ApiController
+    public class IngresosController : ApiController
     {
         private Proyecto_Fin_HibridoEntities db = new Proyecto_Fin_HibridoEntities();
 
