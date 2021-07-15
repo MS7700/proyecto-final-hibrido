@@ -21,15 +21,70 @@ namespace Proyecto_Fin_Hibrido.Controllers
     {
         private Proyecto_Fin_HibridoEntities db = new Proyecto_Fin_HibridoEntities();
 
-        // GET: api/Puesto
+        // GET: api/Puestos
+        [Route("api/Puestos")]
         public IQueryable<Puesto> GetPuesto()
         {
             Request.Properties["Count"] = db.Puesto.Count();
             return db.Puesto;
         }
 
-        // GET: api/Puesto/5
+        // GET: api/Puestos?id[0]=1&id[1]=2
+        [Route("api/Puestos/{id?}")]
+        public IQueryable<Puesto> GetPuesto([FromUri] int[]id)
+        {
+
+            if (id == null)
+            {
+                Request.Properties["Count"] = db.Puesto.Count();
+                return db.Puesto;
+            }
+            else
+            {
+
+                
+                List<Puesto> res = new List<Puesto>();
+                foreach (int uid in id)
+                {
+                    res.Add(db.Puesto.Find(uid));
+                }
+                Request.Properties["Count"] = res.Count();
+                return res.AsQueryable<Puesto>();
+            }
+
+        }
+
+        //// GET: api/Puestos?id[0]=1&id[1]=2
+        //[Route("api/Puestos/{puesto?}")]
+        //public IQueryable<Puesto> GetPuesto([FromUri] Puesto puesto)
+        //{
+            
+        //    if (puesto == null)
+        //    {
+        //        Request.Properties["Count"] = db.Puesto.Count();
+        //        return db.Puesto;
+        //    }
+        //    else
+        //    {
+
+
+        //        List<Puesto> res = new List<Puesto>();
+        //        foreach(var p in puesto.GetType().GetProperties())
+        //        {
+        //            res.AddRange(db.Puesto.Where(dbp => p.GetValue(dbp, null).Equals(p.GetValue(p, null))));
+        //        }
+        //        Request.Properties["Count"] = res.Count();
+        //        return res.AsQueryable<Puesto>();
+        //    }
+
+        //}
+
+
+
+
+        // GET: api/Puestos/5
         [ResponseType(typeof(Puesto))]
+        [Route("api/Puestos/{id}")]
         public IHttpActionResult GetPuesto(int id)
         {
             Puesto puesto = db.Puesto.Find(id);
@@ -41,8 +96,9 @@ namespace Proyecto_Fin_Hibrido.Controllers
             return Ok(puesto);
         }
 
-        // PUT: api/Puesto/5
+        // PUT: api/Puestos/5
         [ResponseType(typeof(Puesto))]
+        [Route("api/Puestos/{id}")]
         public IHttpActionResult PutPuesto(int id, Puesto puesto)
         {
             if (!ModelState.IsValid)
@@ -76,8 +132,9 @@ namespace Proyecto_Fin_Hibrido.Controllers
             return Ok(puesto);
         }
 
-        // POST: api/Puesto
+        // POST: api/Puestos
         [ResponseType(typeof(Puesto))]
+        [Route("api/Puestos")]
         public IHttpActionResult PostPuesto(Puesto puesto)
         {
             if (!ModelState.IsValid)
@@ -91,8 +148,9 @@ namespace Proyecto_Fin_Hibrido.Controllers
             return Ok(puesto);
         }
 
-        // DELETE: api/Puesto/5
+        // DELETE: api/Puestos/5
         [ResponseType(typeof(Puesto))]
+        [Route("api/Puestos/{id}")]
         public IHttpActionResult DeletePuesto(int id)
         {
             Puesto puesto = db.Puesto.Find(id);
@@ -100,7 +158,10 @@ namespace Proyecto_Fin_Hibrido.Controllers
             {
                 return NotFound();
             }
-
+            if (db.Empleado.Count(e => e.IdPuesto == id) > 0)
+            {
+                return Conflict();
+            }
             db.Puesto.Remove(puesto);
             db.SaveChanges();
 

@@ -56,14 +56,44 @@ namespace <#= Namespace #>
         private <#= ContextTypeName #> db = new <#= ContextTypeName #>();
 
         // GET: <#= routePrefix #>
+        [Route("<#= routePrefix #>")]
         public IQueryable<<#= ModelTypeName #>> Get<#= entitySetName #>()
         {
             Request.Properties["Count"] = db.<#= entitySetName #>.Count();
             return db.<#= entitySetName #>;
         }
 
+        // GET: <#= routePrefix #>?id[0]=1&id[1]=2
+        [Route("<#= routePrefix #>/{id?}")]
+        public IQueryable<<#= ModelTypeName #>> Get<#= entitySetName #>([FromUri] int[]id)
+        {
+
+            if (id == null)
+            {
+                Request.Properties["Count"] = db.<#= entitySetName #>.Count();
+                return db.<#= entitySetName #>;
+            }
+            else
+            {
+
+                
+                List<<#= ModelTypeName #>> res = new List<<#= ModelTypeName #>>();
+                foreach (int uid in id)
+                {
+                    res.Add(db.<#= entitySetName #>.Find(uid));
+                }
+                Request.Properties["Count"] = res.Count();
+                return res.AsQueryable<<#= ModelTypeName #>>();
+            }
+
+        }
+
+
+
+
         // GET: <#= routePrefix #>/5
         [ResponseType(typeof(<#= ModelTypeName #>))]
+        [Route("<#= routePrefix #>/{id}")]
 <# if (UseAsync) { #>
         public async Task<IHttpActionResult> Get<#= ModelTypeName #>(<#= primaryKeyShortTypeName #> id)
 <# } else { #>
@@ -85,6 +115,7 @@ namespace <#= Namespace #>
 
         // PUT: <#= routePrefix #>/5
         [ResponseType(typeof(<#= ModelTypeName #>))]
+        [Route("<#= routePrefix #>/{id}")]
 <# if (UseAsync) { #>
         public async Task<IHttpActionResult> Put<#= ModelTypeName #>(<#= primaryKeyShortTypeName #> id, <#= ModelTypeName #> <#= ModelVariable #>)
 <# } else { #>
@@ -128,6 +159,7 @@ namespace <#= Namespace #>
 
         // POST: <#= routePrefix #>
         [ResponseType(typeof(<#= ModelTypeName #>))]
+        [Route("<#= routePrefix #>")]
 <# if (UseAsync) { #>
         public async Task<IHttpActionResult> Post<#= ModelTypeName #>(<#= ModelTypeName #> <#= ModelVariable #>)
 <# } else { #>
@@ -174,6 +206,7 @@ namespace <#= Namespace #>
 
         // DELETE: <#= routePrefix #>/5
         [ResponseType(typeof(<#= ModelTypeName #>))]
+        [Route("<#= routePrefix #>/{id}")]
 <# if (UseAsync) { #>
         public async Task<IHttpActionResult> Delete<#= ModelTypeName #>(<#= primaryKeyShortTypeName #> id)
 <# } else { #>

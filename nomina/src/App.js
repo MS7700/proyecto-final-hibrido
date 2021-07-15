@@ -7,13 +7,13 @@ import { DeduccionList, DeduccionEdit, DeduccionCreate } from './entity/deduccio
 import { DepartamentoList, DepartamentoEdit, DepartamentoCreate } from './entity/departamento';
 import { PuestoList, PuestoEdit, PuestoCreate } from './entity/puesto';
 import { NominaList, NominaEdit, NominaCreate } from './entity/nomina';
-import { EmpleadoList, EmpleadoEdit, /*NominaCreate */} from './entity/empleado';
+import { EmpleadoList, EmpleadoEdit, EmpleadoCreate} from './entity/empleado';
 
 const dataProvider = jsonServerProvider('http://localhost:55922/api');
 //const dataProvider = jsonServerProvider('https://jsonplaceholder.typicode.com');
 const App = () => (
       <Admin dataProvider={dataProvider}>
-        <Resource name="Empleados" list={EmpleadoList} edit={EditGuesser}/>
+        <Resource name="Empleados" list={EmpleadoList} edit={EmpleadoEdit} create={EmpleadoCreate} />
           <Resource name="Ingresos" list={IngresoList} edit={IngresoEdit} create={IngresoCreate}  />
           <Resource name="Deduccions" list={DeduccionList} edit={DeduccionEdit} create={DeduccionCreate}  />
           <Resource name="Puestos" list={PuestoList} edit={PuestoEdit} create={PuestoCreate} />

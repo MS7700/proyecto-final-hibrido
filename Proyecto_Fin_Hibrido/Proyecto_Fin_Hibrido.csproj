@@ -205,8 +205,8 @@
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IngresoController.cs" />
-    <Compile Include="Controllers\NominaController.cs" />
-    <Compile Include="Controllers\PuestoController.cs" />
+    <Compile Include="Controllers\NominasController.cs" />
+    <Compile Include="Controllers\PuestosController.cs" />
     <Compile Include="Controllers\TipoController.cs" />
     <Compile Include="Controllers\TransaccionController.cs" />
     <Compile Include="Departamento.cs">

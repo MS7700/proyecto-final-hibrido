@@ -22,34 +22,20 @@ namespace Proyecto_Fin_Hibrido.Controllers
         private Proyecto_Fin_HibridoEntities db = new Proyecto_Fin_HibridoEntities();
 
         // GET: api/Departamento
-        //public IQueryable<Departamento> GetDepartamento(string ids = null)
-        //{
-
-
-        //    if (ids == null)
-        //    {
-        //        Request.Properties["Count"] = db.Departamento.Count();
-        //        return db.Departamento;
-        //    }
-        //    else
-        //    {
-
-        //        var arrayids = ids.Substring(1, ids.Length - 2).Split(',');
-        //        List<Departamento> res = new List<Departamento>();
-        //        foreach (var id in arrayids)
-        //        {
-        //            res.Add(db.Departamento.Find(int.Parse(id)));
-        //        }
-        //        //IQueryable<Departamento> res = db.Departamento.Where(d => arrayids.Contains(d.IdDepartamento.ToString()));
-        //        //var res = db.Departamento.Where(d => arrayids.Contains(d.IdDepartamento));
-        //        Request.Properties["Count"] = res.Count();
-        //        return res.AsQueryable<Departamento>();
-        //    }
-
-
-        public IQueryable<Departamento> GetDepartamento(int[]id = null)
+        [Route("api/Departamentos")]
+        public IQueryable<Departamento> GetDepartamento()
         {
 
+                Request.Properties["Count"] = db.Departamento.Count();
+                return db.Departamento;
+            
+
+        }
+
+        // GET: api/Departamento?id[0]=1&id[1]=2
+        [Route("api/Departamentos/{id?}")]
+        public IQueryable<Departamento> GetDepartamento([FromUri] int[]id)
+        {
 
             if (id == null)
             {
@@ -65,59 +51,17 @@ namespace Proyecto_Fin_Hibrido.Controllers
                 {
                     res.Add(db.Departamento.Find(uid));
                 }
-                //IQueryable<Departamento> res = db.Departamento.Where(d => arrayids.Contains(d.IdDepartamento.ToString()));
-                //var res = db.Departamento.Where(d => arrayids.Contains(d.IdDepartamento));
                 Request.Properties["Count"] = res.Count();
                 return res.AsQueryable<Departamento>();
             }
 
-
-
-            
-
         }
 
-
-        //Request.Properties["Count"] = db.Departamento.Count();
-        //return db.Departamento;
-
-        //}
-
-
-        //[Route("api/Departamentos/filter/{ids?}")]
-        //public IQueryable<Departamento> GetDepartamento([FromUri] int[] id = null)
-        //{
-
-        //    //Request.Properties["Count"] = db.Departamento.Count();
-        //    //return db.Departamento;
-        //    if (id == null)
-        //    {
-        //        Request.Properties["Count"] = db.Departamento.Count();
-        //        return db.Departamento;
-        //    }
-        //    else
-        //    {
-        //        var res = db.Departamento.Where(d => id.Contains(d.IdDepartamento));
-        //        Request.Properties["Count"] = res.Count();
-        //        return res;
-        //    }
-
-        //    }
-
-
-        //[Route("api/Departamento?filter=id:{id}")]
-        //public IQueryable<Departamento> GetDepartamento(int[] id)
-        //{
-        //    var res = db.Departamento.Where(d => id.Contains(d.IdDepartamento));
-        //    Request.Properties["Count"] = res.Count();
-        //    return res;
-        //    //Request.Properties["Count"] = db.Departamento.Count();
-        //    //return db.Departamento;
-        //}
 
 
         // GET: api/Departamento/5
         [ResponseType(typeof(Departamento))]
+        [Route("api/Departamentos/{id}")]
         public IHttpActionResult GetDepartamento(int id)
         {
             Departamento departamento = db.Departamento.Find(id);
@@ -131,6 +75,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
 
         // PUT: api/Departamento/5
         [ResponseType(typeof(Departamento))]
+        [Route("api/Departamentos/{id}")]
         public IHttpActionResult PutDepartamento(int id, Departamento departamento)
         {
             if (!ModelState.IsValid)
@@ -166,6 +111,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
 
         // POST: api/Departamento
         [ResponseType(typeof(Departamento))]
+        [Route("api/Departamentos")]
         public IHttpActionResult PostDepartamento(Departamento departamento)
         {
             if (!ModelState.IsValid)
@@ -181,12 +127,18 @@ namespace Proyecto_Fin_Hibrido.Controllers
 
         // DELETE: api/Departamento/5
         [ResponseType(typeof(Departamento))]
+        [Route("api/Departamentos/{id}")]
         public IHttpActionResult DeleteDepartamento(int id)
         {
             Departamento departamento = db.Departamento.Find(id);
             if (departamento == null)
             {
                 return NotFound();
+            }
+
+            if (db.Empleado.Count(e => e.IdDepartamento == id) > 0)
+            {
+                return Conflict();
             }
 
             db.Departamento.Remove(departamento);
