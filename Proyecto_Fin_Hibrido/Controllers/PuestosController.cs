@@ -12,6 +12,7 @@ using Proyecto_Fin_Hibrido.Filters;
 using System.Web.Http.Cors;
 
 using Proyecto_Fin_Hibrido;
+using Proyecto_Fin_Hibrido.Dto;
 
 namespace Proyecto_Fin_Hibrido.Controllers
 {
@@ -22,35 +23,53 @@ namespace Proyecto_Fin_Hibrido.Controllers
         private Proyecto_Fin_HibridoEntities db = new Proyecto_Fin_HibridoEntities();
 
         // GET: api/Puestos
-        [Route("api/Puestos")]
-        public IQueryable<Puesto> GetPuesto()
-        {
-            Request.Properties["Count"] = db.Puesto.Count();
-            return db.Puesto;
-        }
+        //[Route("api/Puestos")]
+        //public IQueryable<Puesto> GetPuesto()
+        //{
+        //    Request.Properties["Count"] = db.Puesto.Count();
+        //    return db.Puesto;
+        //}
 
         // GET: api/Puestos?id[0]=1&id[1]=2
-        [Route("api/Puestos/{id?}")]
-        public IQueryable<Puesto> GetPuesto([FromUri] int[]id)
+        //[Route("api/Puestos/{id?}")]
+        public IEnumerable<Puesto> GetPuesto([FromUri] PuestoDto dto = null)
         {
-
-            if (id == null)
+            List<Puesto> res = db.Puesto.ToList<Puesto>();
+            if (dto == null)
             {
-                Request.Properties["Count"] = db.Puesto.Count();
-                return db.Puesto;
+                Request.Properties["Count"] = res.Count();
+                Console.WriteLine("No value");
+                return res;
             }
             else
             {
 
-                
-                List<Puesto> res = new List<Puesto>();
-                foreach (int uid in id)
+                if(dto.sort != null)
                 {
-                    res.Add(db.Puesto.Find(uid));
+                    dto.SortList<Puesto>(res);
+                    Console.WriteLine(dto.getSortColumn());
+                    Console.WriteLine(dto.getSortOrder());
                 }
-                Request.Properties["Count"] = res.Count();
-                return res.AsQueryable<Puesto>();
+                if(dto.range != null)
+                {
+                    dto.rangeList<Puesto>(res);
+                    Console.WriteLine(dto.getRangeStart());
+                    Console.WriteLine(dto.getRangeEnd());
+                }
+                if(dto.filter != null)
+                {
+                    Console.WriteLine(dto.filter);
+                }
+                //List<Puesto> res = new List<Puesto>();
+                //foreach (int uid in id)
+                //{
+                //    res.Add(db.Puesto.Find(uid));
+                //}
+                //Request.Properties["Count"] = res.Count();
+                //return res.AsQueryable<Puesto>();
             }
+            Request.Properties["Count"] = res.Count();
+            return res;
 
         }
 
@@ -84,7 +103,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
 
         // GET: api/Puestos/5
         [ResponseType(typeof(Puesto))]
-        [Route("api/Puestos/{id}")]
+        //[Route("api/Puestos/{id}")]
         public IHttpActionResult GetPuesto(int id)
         {
             Puesto puesto = db.Puesto.Find(id);
@@ -98,7 +117,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
 
         // PUT: api/Puestos/5
         [ResponseType(typeof(Puesto))]
-        [Route("api/Puestos/{id}")]
+        //[Route("api/Puestos/{id}")]
         public IHttpActionResult PutPuesto(int id, Puesto puesto)
         {
             if (!ModelState.IsValid)
@@ -134,7 +153,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
 
         // POST: api/Puestos
         [ResponseType(typeof(Puesto))]
-        [Route("api/Puestos")]
+        //[Route("api/Puestos")]
         public IHttpActionResult PostPuesto(Puesto puesto)
         {
             if (!ModelState.IsValid)
@@ -150,7 +169,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
 
         // DELETE: api/Puestos/5
         [ResponseType(typeof(Puesto))]
-        [Route("api/Puestos/{id}")]
+        //[Route("api/Puestos/{id}")]
         public IHttpActionResult DeletePuesto(int id)
         {
             Puesto puesto = db.Puesto.Find(id);

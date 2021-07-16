@@ -212,6 +212,8 @@
     <Compile Include="Departamento.cs">
       <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Dto\ApiDto.cs" />
+    <Compile Include="Dto\PuestoDto.cs" />
     <Compile Include="Empleado.cs">
       <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
