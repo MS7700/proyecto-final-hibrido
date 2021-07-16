@@ -1,9 +1,14 @@
 import * as React from "react";
-import { List, Datagrid, TextField, BooleanField, Edit, Create, TextInput, SimpleForm, BooleanInput } from 'react-admin';
+import { List, Datagrid, TextField, BooleanField, Edit, Create, TextInput, SimpleForm, BooleanInput, NumberInput } from 'react-admin';
 
+
+const postFilters = [
+    <NumberInput label="ID" source="id" />,
+    <TextInput label="Puesto"  source="puesto" />
+];
 
 export const PuestoList = props => (
-    <List {...props}>
+    <List {...props} filters={postFilters}>
         <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="puesto" />

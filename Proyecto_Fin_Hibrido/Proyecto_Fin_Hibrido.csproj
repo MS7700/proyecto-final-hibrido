@@ -200,19 +200,24 @@
       <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AsientoContableController.cs" />
-    <Compile Include="Controllers\DeduccionController.cs" />
-    <Compile Include="Controllers\DepartamentoController.cs" />
-    <Compile Include="Controllers\EmpleadoController.cs" />
+    <Compile Include="Controllers\DepartamentosController.cs" />
+    <Compile Include="Controllers\EmpleadosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\IngresoController.cs" />
     <Compile Include="Controllers\NominasController.cs" />
     <Compile Include="Controllers\PuestosController.cs" />
     <Compile Include="Controllers\TipoController.cs" />
+    <Compile Include="Controllers\TipoDeduccionsController.cs" />
+    <Compile Include="Controllers\TipoIngresoesController.cs" />
     <Compile Include="Controllers\TransaccionController.cs" />
     <Compile Include="Departamento.cs">
       <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Dto\ApiDto.cs" />
+    <Compile Include="Dto\DepartamentoDto.cs" />
+    <Compile Include="Dto\DeduccionDto.cs" />
+    <Compile Include="Dto\EmpleadoDto.cs" />
+    <Compile Include="Dto\IngresoDto.cs" />
+    <Compile Include="Dto\NominaDto.cs" />
     <Compile Include="Dto\PuestoDto.cs" />
     <Compile Include="Empleado.cs">
       <DependentUpon>ModeloDB.tt</DependentUpon>

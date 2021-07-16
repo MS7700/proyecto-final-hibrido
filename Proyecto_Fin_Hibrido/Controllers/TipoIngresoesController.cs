@@ -11,24 +11,52 @@ using System.Web.Http.Description;
 using Proyecto_Fin_Hibrido.Filters;
 using System.Web.Http.Cors;
 
+
 using Proyecto_Fin_Hibrido;
+using Proyecto_Fin_Hibrido.Dto;
 
 namespace Proyecto_Fin_Hibrido.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-Total-Count")]
+    [EnableCors(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-Total-Count,Content-Range")]
     [CountHeaderFilter]
     public class IngresosController : ApiController
     {
         private Proyecto_Fin_HibridoEntities db = new Proyecto_Fin_HibridoEntities();
 
-        // GET: api/Ingreso
-        public IQueryable<TipoIngreso> GetTipoIngreso()
+        // GET: api/TipoIngresoes
+        public IEnumerable<TipoIngreso> GetTipoIngreso([FromUri] IngresoDto dto = null)
         {
-            Request.Properties["Count"] = db.TipoIngreso.Count();
-            return db.TipoIngreso;
+            List<TipoIngreso> res = db.TipoIngreso.ToList<TipoIngreso>();
+            if (dto == null)
+            {
+                Request.Properties["Count"] = res.Count();
+                return res;
+            }
+            else
+            {
+
+                if (dto.filter != null)
+                {
+                    dto.FilterList(res);
+                }
+                if (dto.sort != null)
+                {
+                    dto.SortList<TipoIngreso>(res);
+                }
+                if(dto.range != null)
+                {
+                    dto.RangeList<TipoIngreso>(res);
+                }
+            }
+            Request.Properties["Count"] = res.Count();
+            return res;
+
         }
 
-        // GET: api/Ingreso/5
+
+
+
+        // GET: api/TipoIngresoes/5
         [ResponseType(typeof(TipoIngreso))]
         public IHttpActionResult GetTipoIngreso(int id)
         {
@@ -41,7 +69,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
             return Ok(tipoIngreso);
         }
 
-        // PUT: api/Ingreso/5
+        // PUT: api/TipoIngresoes/5
         [ResponseType(typeof(TipoIngreso))]
         public IHttpActionResult PutTipoIngreso(int id, TipoIngreso tipoIngreso)
         {
@@ -76,7 +104,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
             return Ok(tipoIngreso);
         }
 
-        // POST: api/Ingreso
+        // POST: api/TipoIngresoes
         [ResponseType(typeof(TipoIngreso))]
         public IHttpActionResult PostTipoIngreso(TipoIngreso tipoIngreso)
         {
@@ -91,7 +119,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
             return Ok(tipoIngreso);
         }
 
-        // DELETE: api/Ingreso/5
+        // DELETE: api/TipoIngresoes/5
         [ResponseType(typeof(TipoIngreso))]
         public IHttpActionResult DeleteTipoIngreso(int id)
         {

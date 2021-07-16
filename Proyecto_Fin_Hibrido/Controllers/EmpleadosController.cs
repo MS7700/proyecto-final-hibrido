@@ -11,24 +11,52 @@ using System.Web.Http.Description;
 using Proyecto_Fin_Hibrido.Filters;
 using System.Web.Http.Cors;
 
+
 using Proyecto_Fin_Hibrido;
+using Proyecto_Fin_Hibrido.Dto;
 
 namespace Proyecto_Fin_Hibrido.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-Total-Count")]
+    [EnableCors(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-Total-Count,Content-Range")]
     [CountHeaderFilter]
     public class EmpleadosController : ApiController
     {
         private Proyecto_Fin_HibridoEntities db = new Proyecto_Fin_HibridoEntities();
 
-        // GET: api/Empleado
-        public IQueryable<Empleado> GetEmpleado()
+        // GET: api/Empleados
+        public IEnumerable<Empleado> GetEmpleado([FromUri] EmpleadoDto dto = null)
         {
-            Request.Properties["Count"] = db.Empleado.Count();
-            return db.Empleado;
+            List<Empleado> res = db.Empleado.ToList<Empleado>();
+            if (dto == null)
+            {
+                Request.Properties["Count"] = res.Count();
+                return res;
+            }
+            else
+            {
+
+                if (dto.filter != null)
+                {
+                    dto.FilterList(res);
+                }
+                if (dto.sort != null)
+                {
+                    dto.SortList<Empleado>(res);
+                }
+                if(dto.range != null)
+                {
+                    dto.RangeList<Empleado>(res);
+                }
+            }
+            Request.Properties["Count"] = res.Count();
+            return res;
+
         }
 
-        // GET: api/Empleado/5
+
+
+
+        // GET: api/Empleados/5
         [ResponseType(typeof(Empleado))]
         public IHttpActionResult GetEmpleado(int id)
         {
@@ -41,7 +69,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
             return Ok(empleado);
         }
 
-        // PUT: api/Empleado/5
+        // PUT: api/Empleados/5
         [ResponseType(typeof(Empleado))]
         public IHttpActionResult PutEmpleado(int id, Empleado empleado)
         {
@@ -76,7 +104,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
             return Ok(empleado);
         }
 
-        // POST: api/Empleado
+        // POST: api/Empleados
         [ResponseType(typeof(Empleado))]
         public IHttpActionResult PostEmpleado(Empleado empleado)
         {
@@ -91,7 +119,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
             return Ok(empleado);
         }
 
-        // DELETE: api/Empleado/5
+        // DELETE: api/Empleados/5
         [ResponseType(typeof(Empleado))]
         public IHttpActionResult DeleteEmpleado(int id)
         {

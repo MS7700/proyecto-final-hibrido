@@ -11,46 +11,45 @@ using System.Web.Http.Description;
 using Proyecto_Fin_Hibrido.Filters;
 using System.Web.Http.Cors;
 
+
 using Proyecto_Fin_Hibrido;
+using Proyecto_Fin_Hibrido.Dto;
 
 namespace Proyecto_Fin_Hibrido.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-Total-Count")]
+    [EnableCors(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-Total-Count,Content-Range")]
     [CountHeaderFilter]
     public class NominasController : ApiController
     {
         private Proyecto_Fin_HibridoEntities db = new Proyecto_Fin_HibridoEntities();
 
         // GET: api/Nominas
-        [Route("api/Nominas")]
-        public IQueryable<Nomina> GetNomina()
+        public IEnumerable<Nomina> GetNomina([FromUri] NominaDto dto = null)
         {
-            Request.Properties["Count"] = db.Nomina.Count();
-            return db.Nomina;
-        }
-
-        // GET: api/Nominas?id[0]=1&id[1]=2
-        [Route("api/Nominas/{id?}")]
-        public IQueryable<Nomina> GetNomina([FromUri] int[]id)
-        {
-
-            if (id == null)
+            List<Nomina> res = db.Nomina.ToList<Nomina>();
+            if (dto == null)
             {
-                Request.Properties["Count"] = db.Nomina.Count();
-                return db.Nomina;
+                Request.Properties["Count"] = res.Count();
+                return res;
             }
             else
             {
 
-                
-                List<Nomina> res = new List<Nomina>();
-                foreach (int uid in id)
+                if (dto.filter != null)
                 {
-                    res.Add(db.Nomina.Find(uid));
+                    dto.FilterList(res);
                 }
-                Request.Properties["Count"] = res.Count();
-                return res.AsQueryable<Nomina>();
+                if (dto.sort != null)
+                {
+                    dto.SortList<Nomina>(res);
+                }
+                if(dto.range != null)
+                {
+                    dto.RangeList<Nomina>(res);
+                }
             }
+            Request.Properties["Count"] = res.Count();
+            return res;
 
         }
 
@@ -59,7 +58,6 @@ namespace Proyecto_Fin_Hibrido.Controllers
 
         // GET: api/Nominas/5
         [ResponseType(typeof(Nomina))]
-        [Route("api/Nominas/{id}")]
         public IHttpActionResult GetNomina(int id)
         {
             Nomina nomina = db.Nomina.Find(id);
@@ -73,7 +71,6 @@ namespace Proyecto_Fin_Hibrido.Controllers
 
         // PUT: api/Nominas/5
         [ResponseType(typeof(Nomina))]
-        [Route("api/Nominas/{id}")]
         public IHttpActionResult PutNomina(int id, Nomina nomina)
         {
             if (!ModelState.IsValid)
@@ -109,7 +106,6 @@ namespace Proyecto_Fin_Hibrido.Controllers
 
         // POST: api/Nominas
         [ResponseType(typeof(Nomina))]
-        [Route("api/Nominas")]
         public IHttpActionResult PostNomina(Nomina nomina)
         {
             if (!ModelState.IsValid)
@@ -125,7 +121,6 @@ namespace Proyecto_Fin_Hibrido.Controllers
 
         // DELETE: api/Nominas/5
         [ResponseType(typeof(Nomina))]
-        [Route("api/Nominas/{id}")]
         public IHttpActionResult DeleteNomina(int id)
         {
             Nomina nomina = db.Nomina.Find(id);
@@ -134,10 +129,6 @@ namespace Proyecto_Fin_Hibrido.Controllers
                 return NotFound();
             }
 
-            if(db.Empleado.Count(e => e.IdNomina == id) > 0)
-            {
-                return Conflict();
-            }
             db.Nomina.Remove(nomina);
             db.SaveChanges();
 

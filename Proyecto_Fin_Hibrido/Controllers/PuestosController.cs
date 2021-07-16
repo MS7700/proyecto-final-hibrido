@@ -16,19 +16,13 @@ using Proyecto_Fin_Hibrido.Dto;
 
 namespace Proyecto_Fin_Hibrido.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-Total-Count")]
+    [EnableCors(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-Total-Count,Content-Range")]
     [CountHeaderFilter]
     public class PuestosController : ApiController
     {
         private Proyecto_Fin_HibridoEntities db = new Proyecto_Fin_HibridoEntities();
 
-        // GET: api/Puestos
-        //[Route("api/Puestos")]
-        //public IQueryable<Puesto> GetPuesto()
-        //{
-        //    Request.Properties["Count"] = db.Puesto.Count();
-        //    return db.Puesto;
-        //}
+        
 
         // GET: api/Puestos?id[0]=1&id[1]=2
         //[Route("api/Puestos/{id?}")]
@@ -44,62 +38,23 @@ namespace Proyecto_Fin_Hibrido.Controllers
             else
             {
 
-                if(dto.sort != null)
+                if (dto.filter != null)
+                {
+                    dto.FilterList(res);
+                }
+                if (dto.sort != null)
                 {
                     dto.SortList<Puesto>(res);
-                    Console.WriteLine(dto.getSortColumn());
-                    Console.WriteLine(dto.getSortOrder());
                 }
                 if(dto.range != null)
                 {
                     dto.RangeList<Puesto>(res);
-                    Console.WriteLine(dto.getRangeStart());
-                    Console.WriteLine(dto.getRangeEnd());
                 }
-                if(dto.filter != null)
-                {
-                    dto.FilterList(res);
-                    Console.WriteLine(dto.filter);
-                }
-                //List<Puesto> res = new List<Puesto>();
-                //foreach (int uid in id)
-                //{
-                //    res.Add(db.Puesto.Find(uid));
-                //}
-                //Request.Properties["Count"] = res.Count();
-                //return res.AsQueryable<Puesto>();
             }
             Request.Properties["Count"] = res.Count();
             return res;
 
         }
-
-        //// GET: api/Puestos?id[0]=1&id[1]=2
-        //[Route("api/Puestos/{puesto?}")]
-        //public IQueryable<Puesto> GetPuesto([FromUri] Puesto puesto)
-        //{
-            
-        //    if (puesto == null)
-        //    {
-        //        Request.Properties["Count"] = db.Puesto.Count();
-        //        return db.Puesto;
-        //    }
-        //    else
-        //    {
-
-
-        //        List<Puesto> res = new List<Puesto>();
-        //        foreach(var p in puesto.GetType().GetProperties())
-        //        {
-        //            res.AddRange(db.Puesto.Where(dbp => p.GetValue(dbp, null).Equals(p.GetValue(p, null))));
-        //        }
-        //        Request.Properties["Count"] = res.Count();
-        //        return res.AsQueryable<Puesto>();
-        //    }
-
-        //}
-
-
 
 
         // GET: api/Puestos/5

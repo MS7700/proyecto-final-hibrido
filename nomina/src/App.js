@@ -1,6 +1,6 @@
 import * as React from "react";
-import jsonServerProvider from 'ra-data-json-server';
-//import simpleRestProvider from 'ra-data-simple-rest';
+//import jsonServerProvider from 'ra-data-json-server';
+import simpleRestProvider from 'ra-data-simple-rest';
 import { Admin, Resource, ListGuesser,EditGuesser } from 'react-admin';
 import { IngresoList, IngresoEdit, IngresoCreate } from './entity/ingreso';
 import { DeduccionList, DeduccionEdit, DeduccionCreate } from './entity/deduccion';
@@ -9,7 +9,9 @@ import { PuestoList, PuestoEdit, PuestoCreate } from './entity/puesto';
 import { NominaList, NominaEdit, NominaCreate } from './entity/nomina';
 import { EmpleadoList, EmpleadoEdit, EmpleadoCreate} from './entity/empleado';
 
-const dataProvider = jsonServerProvider('http://localhost:55922/api');
+
+const dataProvider = simpleRestProvider('http://localhost:55922/api');
+//const dataProvider = jsonServerProvider('http://localhost:55922/api');
 //const dataProvider = jsonServerProvider('https://jsonplaceholder.typicode.com');
 const App = () => (
       <Admin dataProvider={dataProvider}>

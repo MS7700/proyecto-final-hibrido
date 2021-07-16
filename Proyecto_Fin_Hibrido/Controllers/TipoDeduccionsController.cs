@@ -11,24 +11,52 @@ using System.Web.Http.Description;
 using Proyecto_Fin_Hibrido.Filters;
 using System.Web.Http.Cors;
 
+
 using Proyecto_Fin_Hibrido;
+using Proyecto_Fin_Hibrido.Dto;
 
 namespace Proyecto_Fin_Hibrido.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-Total-Count")]
+    [EnableCors(origins: "*", headers: "*", methods: "*", exposedHeaders: "X-Total-Count,Content-Range")]
     [CountHeaderFilter]
     public class DeduccionsController : ApiController
     {
         private Proyecto_Fin_HibridoEntities db = new Proyecto_Fin_HibridoEntities();
 
-        // GET: api/Deduccion
-        public IQueryable<TipoDeduccion> GetTipoDeduccion()
+        // GET: api/TipoDeduccions
+        public IEnumerable<TipoDeduccion> GetTipoDeduccion([FromUri] DeduccionDto dto = null)
         {
-            Request.Properties["Count"] = db.TipoDeduccion.Count();
-            return db.TipoDeduccion;
+            List<TipoDeduccion> res = db.TipoDeduccion.ToList<TipoDeduccion>();
+            if (dto == null)
+            {
+                Request.Properties["Count"] = res.Count();
+                return res;
+            }
+            else
+            {
+
+                if (dto.filter != null)
+                {
+                    dto.FilterList(res);
+                }
+                if (dto.sort != null)
+                {
+                    dto.SortList<TipoDeduccion>(res);
+                }
+                if(dto.range != null)
+                {
+                    dto.RangeList<TipoDeduccion>(res);
+                }
+            }
+            Request.Properties["Count"] = res.Count();
+            return res;
+
         }
 
-        // GET: api/Deduccion/5
+
+
+
+        // GET: api/TipoDeduccions/5
         [ResponseType(typeof(TipoDeduccion))]
         public IHttpActionResult GetTipoDeduccion(int id)
         {
@@ -41,7 +69,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
             return Ok(tipoDeduccion);
         }
 
-        // PUT: api/Deduccion/5
+        // PUT: api/TipoDeduccions/5
         [ResponseType(typeof(TipoDeduccion))]
         public IHttpActionResult PutTipoDeduccion(int id, TipoDeduccion tipoDeduccion)
         {
@@ -76,7 +104,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
             return Ok(tipoDeduccion);
         }
 
-        // POST: api/Deduccion
+        // POST: api/TipoDeduccions
         [ResponseType(typeof(TipoDeduccion))]
         public IHttpActionResult PostTipoDeduccion(TipoDeduccion tipoDeduccion)
         {
@@ -106,7 +134,7 @@ namespace Proyecto_Fin_Hibrido.Controllers
             return Ok(tipoDeduccion);
         }
 
-        // DELETE: api/Deduccion/5
+        // DELETE: api/TipoDeduccions/5
         [ResponseType(typeof(TipoDeduccion))]
         public IHttpActionResult DeleteTipoDeduccion(int id)
         {
