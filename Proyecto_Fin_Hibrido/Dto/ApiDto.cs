@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -28,7 +29,7 @@ namespace Proyecto_Fin_Hibrido.Dto
         {
             return rangeArray()[1];
         }
-        public virtual void rangeList<T>(List<T> list)
+        public virtual void RangeList<T>(List<T> list)
         {
             int start = getRangeStart();
             int end = getRangeEnd();
@@ -51,6 +52,20 @@ namespace Proyecto_Fin_Hibrido.Dto
         {
             return sortArray()[1];
         }
+        public JObject getFilterJson()
+        {
+            return JObject.Parse(filter);
+        }
+        public virtual void FilterList<T>(List<T> list)
+        {
+            JObject json = getFilterJson();
+            T o = json.ToObject<T>();
+            foreach(var p in o.GetType().GetProperties())
+            {
+                list.RemoveAll(plist => plist.GetType().GetProperty(p.Name).GetValue(plist).Equals(o.GetType().GetProperty(p.Name).GetValue(o)));
+            }
+        }
+
         public virtual void SortList<T>(List<T> list)
         {
             var property = typeof(T).GetProperty(getSortColumn());

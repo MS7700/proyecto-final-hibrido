@@ -52,12 +52,13 @@ namespace Proyecto_Fin_Hibrido.Controllers
                 }
                 if(dto.range != null)
                 {
-                    dto.rangeList<Puesto>(res);
+                    dto.RangeList<Puesto>(res);
                     Console.WriteLine(dto.getRangeStart());
                     Console.WriteLine(dto.getRangeEnd());
                 }
                 if(dto.filter != null)
                 {
+                    dto.FilterList(res);
                     Console.WriteLine(dto.filter);
                 }
                 //List<Puesto> res = new List<Puesto>();
