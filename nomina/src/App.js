@@ -10,6 +10,8 @@ import { PuestoList, PuestoEdit, PuestoCreate } from './entity/puesto';
 import { NominaList, NominaEdit, NominaCreate } from './entity/nomina';
 import { EmpleadoList, EmpleadoEdit, EmpleadoCreate} from './entity/empleado';
 
+
+const dataProvider = odataProvider('https://localhost:44340/odata/');
 //const dataProvider = simpleRestProvider('http://localhost:55922/api');
 //const dataProvider = simpleRestProvider('http://localhost:55922/api');
 //const dataProvider = jsonServerProvider('http://localhost:55922/api');
@@ -29,7 +31,7 @@ const App = () => (
 */
 //const dataProvider = useState<OdataDataProvider>({});
 
-/*
+
   const App = () => (
     <Admin dataProvider={dataProvider}>
       <Resource name="Empleado" list={ListGuesser} edit={EditGuesser}/>
@@ -38,9 +40,16 @@ const App = () => (
         <Resource name="Nomina" list={ListGuesser} edit={EditGuesser} />
     </Admin>
 );
-*/
+
+
+/*
 function App(){
-  const [dataProvider, setDataProvider] = useState<OdataDataProvider>(undefined);
+  const [dataProvider, setDataProvider] = useState<OdataDataProvider>(() => {
+    odataProvider(
+      "https://services.odata.org/v4/Northwind/Northwind.svc/"
+    ).then((p) => setDataProvider(p))
+  });
+    /*
   useEffect(() => {
     odataProvider(
       "https://services.odata.org/v4/Northwind/Northwind.svc/"
@@ -56,5 +65,6 @@ function App(){
     </Admin>
   );
 }
+*/
 
 export default App;
