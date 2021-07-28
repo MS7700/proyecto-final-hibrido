@@ -2,8 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using System.Web.Http.OData.Builder;
-using System.Web.Http.OData.Extensions;
+using System.Web.Http.Cors;
+using Microsoft.AspNet.OData.Builder;
+using Microsoft.AspNet.OData.Extensions;
+//using System.Web.Http.OData.Builder;
+////using System.Web.Http.OData.Extensions;
+////using Microsoft.AspNet.OData.Builder;
+//using Microsoft.AspNet.OData.Extensions;
+////using Microsoft.AspNetCore.Cors;
 using NominaAPI.Models;
 
 namespace NominaAPI
@@ -12,16 +18,37 @@ namespace NominaAPI
     {
         public static void Register(HttpConfiguration config)
         {
+            var builder = new ODataConventionModelBuilder();
+            builder.EntitySet<Puesto>("Puesto");
+            config.MapODataServiceRoute("ODataRoute", null, builder.GetEdmModel());
+            config.Select().Expand().Filter().OrderBy().MaxTop(null).Count();
             // Configuración y servicios de API web
             // New code:
-            ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-            builder.EntitySet<Empleado>("Empleado");
-            builder.EntitySet<Departamento>("Departamento");
-            builder.EntitySet<Nomina>("Nomina");
-            builder.EntitySet<Puesto>("Puesto");
-            config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
+            //ODataModelBuilder builder = new ODataConventionModelBuilder();
+            //builder.EntitySet<Puesto>("Puesto");
+            //builder.EntitySet<Empleado>("Empleado");
+            //builder.EntitySet<Departamento>("Departamento");
+            //builder.EntitySet<Nomina>("Nomina");
+            //config.MapODataServiceRoute(
+            //    routeName: "ODataRoute",
+            //    routePrefix: null,
+            //    model: builder.GetEdmModel());
+
+            //ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
+            //builder.EntitySet<Empleado>("Empleado");
+            //builder.EntitySet<Departamento>("Departamento");
+            //builder.EntitySet<Nomina>("Nomina");
+            //builder.EntitySet<Puesto>("Puesto");
+            //config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
             // Rutas de API web
-            config.MapHttpAttributeRoutes();
+            var cors = new EnableCorsAttribute(
+            "*",
+            "*",
+            "*",
+            "DataServiceVersion, MaxDataServiceVersion"
+            );
+            config.EnableCors(cors);
+            // config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

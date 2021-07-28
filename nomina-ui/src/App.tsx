@@ -1,25 +1,32 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import odataProvider, { OdataDataProvider } from "ra-data-odata-server";
+import { Admin, Resource, ListGuesser,EditGuesser,ShowGuesser,Loading } from 'react-admin';
+import { useEffect, useState } from "react";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  const [dataProvider, setDataProvider] = useState<OdataDataProvider>();
+  useEffect(() => {
+    odataProvider(
+      "https://localhost:44340/"
+    ).then((p) => setDataProvider(p));
+    return () => {};
+  }, []);
+  return dataProvider ? (
+    <Admin dataProvider={dataProvider}>
+      {dataProvider.getResources().map((r) => (
+        <Resource
+          key={r}
+          name={r}
+          list={ListGuesser}
+          edit={EditGuesser}
+          show={ShowGuesser}
+        />
+      ))}
+    </Admin>
+  ) : (
+    <Loading></Loading>
   );
 }
 
