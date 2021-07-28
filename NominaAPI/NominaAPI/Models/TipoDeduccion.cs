@@ -14,7 +14,7 @@ namespace NominaAPI.Models
     
     public partial class TipoDeduccion
     {
-        public int ID { get; set; }
+        public int id { get; set; }
         public string Nombre { get; set; }
         public bool DependeSalario { get; set; }
         public bool Estado { get; set; }

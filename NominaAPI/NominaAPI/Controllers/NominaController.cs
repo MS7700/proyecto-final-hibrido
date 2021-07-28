@@ -8,8 +8,9 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
-using System.Web.Http.OData;
 using System.Web.Http.OData.Routing;
+using Microsoft.AspNet.OData;
+using System.Threading.Tasks;
 using NominaAPI.Models;
 
 namespace NominaAPI.Controllers
@@ -31,39 +32,34 @@ namespace NominaAPI.Controllers
 
         // GET: odata/Nomina
         [EnableQuery]
-        public IQueryable<Nomina> GetNomina()
+        public IQueryable<Nomina> Get()
         {
             return db.Nomina;
         }
 
         // GET: odata/Nomina(5)
         [EnableQuery]
-        public SingleResult<Nomina> GetNomina([FromODataUri] int key)
+        public SingleResult<Nomina> Get([FromODataUri] int key)
         {
-            return SingleResult.Create(db.Nomina.Where(nomina => nomina.ID == key));
+            return SingleResult.Create(db.Nomina.Where(nomina => nomina.id == key));
         }
 
         // PUT: odata/Nomina(5)
-        public IHttpActionResult Put([FromODataUri] int key, Delta<Nomina> patch)
+        public async Task<IHttpActionResult> Put([FromODataUri] int key, Nomina update)
         {
-            Validate(patch.GetEntity());
-
+            
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            Nomina nomina = db.Nomina.Find(key);
-            if (nomina == null)
+            if (key != update.id)
             {
-                return NotFound();
+                return BadRequest();
             }
-
-            patch.Put(nomina);
-
+            db.Entry(update).State = EntityState.Modified;
             try
             {
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -76,12 +72,12 @@ namespace NominaAPI.Controllers
                     throw;
                 }
             }
+            return Updated(update);
 
-            return Updated(nomina);
         }
 
         // POST: odata/Nomina
-        public IHttpActionResult Post(Nomina nomina)
+        public async Task<IHttpActionResult> Post(Nomina nomina)
         {
             if (!ModelState.IsValid)
             {
@@ -89,23 +85,24 @@ namespace NominaAPI.Controllers
             }
 
             db.Nomina.Add(nomina);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             return Created(nomina);
         }
 
         // PATCH: odata/Nomina(5)
         [AcceptVerbs("PATCH", "MERGE")]
-        public IHttpActionResult Patch([FromODataUri] int key, Delta<Nomina> patch)
+        public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<Nomina> patch)
         {
-            Validate(patch.GetEntity());
+            
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            Nomina nomina = db.Nomina.Find(key);
+            Nomina nomina = await db.Nomina.FindAsync(key);
+
             if (nomina == null)
             {
                 return NotFound();
@@ -115,7 +112,7 @@ namespace NominaAPI.Controllers
 
             try
             {
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -133,16 +130,16 @@ namespace NominaAPI.Controllers
         }
 
         // DELETE: odata/Nomina(5)
-        public IHttpActionResult Delete([FromODataUri] int key)
+        public async Task<IHttpActionResult> Delete([FromODataUri] int key)
         {
-            Nomina nomina = db.Nomina.Find(key);
+            Nomina nomina = await db.Nomina.FindAsync(key);
             if (nomina == null)
             {
                 return NotFound();
             }
 
             db.Nomina.Remove(nomina);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             return StatusCode(HttpStatusCode.NoContent);
         }
@@ -151,7 +148,7 @@ namespace NominaAPI.Controllers
         [EnableQuery]
         public IQueryable<Empleado> GetEmpleado([FromODataUri] int key)
         {
-            return db.Nomina.Where(m => m.ID == key).SelectMany(m => m.Empleado);
+            return db.Nomina.Where(m => m.id == key).SelectMany(m => m.Empleado);
         }
 
         protected override void Dispose(bool disposing)
@@ -165,7 +162,7 @@ namespace NominaAPI.Controllers
 
         private bool NominaExists(int key)
         {
-            return db.Nomina.Count(e => e.ID == key) > 0;
+            return db.Nomina.Any(e => e.id == key);
         }
     }
 }

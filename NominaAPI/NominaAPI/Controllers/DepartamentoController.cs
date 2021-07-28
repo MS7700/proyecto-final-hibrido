@@ -8,8 +8,9 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
-using System.Web.Http.OData;
 using System.Web.Http.OData.Routing;
+using Microsoft.AspNet.OData;
+using System.Threading.Tasks;
 using NominaAPI.Models;
 
 namespace NominaAPI.Controllers
@@ -31,39 +32,34 @@ namespace NominaAPI.Controllers
 
         // GET: odata/Departamento
         [EnableQuery]
-        public IQueryable<Departamento> GetDepartamento()
+        public IQueryable<Departamento> Get()
         {
             return db.Departamento;
         }
 
         // GET: odata/Departamento(5)
         [EnableQuery]
-        public SingleResult<Departamento> GetDepartamento([FromODataUri] int key)
+        public SingleResult<Departamento> Get([FromODataUri] int key)
         {
-            return SingleResult.Create(db.Departamento.Where(departamento => departamento.ID == key));
+            return SingleResult.Create(db.Departamento.Where(departamento => departamento.id == key));
         }
 
         // PUT: odata/Departamento(5)
-        public IHttpActionResult Put([FromODataUri] int key, Delta<Departamento> patch)
+        public async Task<IHttpActionResult> Put([FromODataUri] int key, Departamento update)
         {
-            Validate(patch.GetEntity());
-
+            
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            Departamento departamento = db.Departamento.Find(key);
-            if (departamento == null)
+            if (key != update.id)
             {
-                return NotFound();
+                return BadRequest();
             }
-
-            patch.Put(departamento);
-
+            db.Entry(update).State = EntityState.Modified;
             try
             {
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -76,12 +72,12 @@ namespace NominaAPI.Controllers
                     throw;
                 }
             }
+            return Updated(update);
 
-            return Updated(departamento);
         }
 
         // POST: odata/Departamento
-        public IHttpActionResult Post(Departamento departamento)
+        public async Task<IHttpActionResult> Post(Departamento departamento)
         {
             if (!ModelState.IsValid)
             {
@@ -89,23 +85,24 @@ namespace NominaAPI.Controllers
             }
 
             db.Departamento.Add(departamento);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             return Created(departamento);
         }
 
         // PATCH: odata/Departamento(5)
         [AcceptVerbs("PATCH", "MERGE")]
-        public IHttpActionResult Patch([FromODataUri] int key, Delta<Departamento> patch)
+        public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<Departamento> patch)
         {
-            Validate(patch.GetEntity());
+            
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            Departamento departamento = db.Departamento.Find(key);
+            Departamento departamento = await db.Departamento.FindAsync(key);
+
             if (departamento == null)
             {
                 return NotFound();
@@ -115,7 +112,7 @@ namespace NominaAPI.Controllers
 
             try
             {
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -133,16 +130,16 @@ namespace NominaAPI.Controllers
         }
 
         // DELETE: odata/Departamento(5)
-        public IHttpActionResult Delete([FromODataUri] int key)
+        public async Task<IHttpActionResult> Delete([FromODataUri] int key)
         {
-            Departamento departamento = db.Departamento.Find(key);
+            Departamento departamento = await db.Departamento.FindAsync(key);
             if (departamento == null)
             {
                 return NotFound();
             }
 
             db.Departamento.Remove(departamento);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             return StatusCode(HttpStatusCode.NoContent);
         }
@@ -151,7 +148,7 @@ namespace NominaAPI.Controllers
         [EnableQuery]
         public IQueryable<Empleado> GetEmpleado([FromODataUri] int key)
         {
-            return db.Departamento.Where(m => m.ID == key).SelectMany(m => m.Empleado);
+            return db.Departamento.Where(m => m.id == key).SelectMany(m => m.Empleado);
         }
 
         protected override void Dispose(bool disposing)
@@ -165,7 +162,7 @@ namespace NominaAPI.Controllers
 
         private bool DepartamentoExists(int key)
         {
-            return db.Departamento.Count(e => e.ID == key) > 0;
+            return db.Departamento.Any(e => e.id == key);
         }
     }
 }

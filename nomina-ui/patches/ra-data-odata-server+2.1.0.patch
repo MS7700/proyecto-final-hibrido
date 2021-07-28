@@ -1,0 +1,44 @@
+diff --git a/node_modules/ra-data-odata-server/src/index.ts b/node_modules/ra-data-odata-server/src/index.ts
+index 9238458..31383b6 100644
+--- a/node_modules/ra-data-odata-server/src/index.ts
++++ b/node_modules/ra-data-odata-server/src/index.ts
+@@ -32,6 +32,21 @@ export interface OdataDataProvider extends DataProvider {
+   getResources: () => string[];
+ }
+ 
++const filterBuilder = (filterName, filterValue) => {
++  const [filterResource, filterOperation, valueType] = filterName.split("_");
++  console.log("Unfilter");
++  if (valueType === "str") filterValue = `'${filterValue}'`; //if filtering on a String field, make sure it has single quotes around value
++  
++  if (filterOperation) {
++    //if the filter operation exists, build filter query
++    console.log("Filtered");
++    return `${filterResource} ${filterOperation} ${filterValue}`;
++  } //if filter operation doesn't exist, default to Contains() method
++  
++  else return `Contains(${filterName},'${filterValue}')`;
++};
++
++
+ const ra_data_odata_server = async (
+   apiUrl: string,
+   option_callback: (() => Promise<RequestInit>) = () => Promise.resolve({})
+@@ -79,6 +94,7 @@ const ra_data_odata_server = async (
+     {
+       getResources: () => Object.values(resources).map(r => r.Name),
+       getList: async (resource, params: GetRelatedParams) => {
++        console.log("List");
+         const { page, perPage } = params.pagination;
+         const { field, order } = params.sort; // order is either 'DESC' or 'ASC'
+         let o = odata({
+@@ -100,7 +116,8 @@ const ra_data_odata_server = async (
+ 
+         for (const filterName in params.filter) {
+           o = o.filter(
+-            `Contains(${filterName},'${params.filter[filterName]}')`
++            filterBuilder(filterName, params.filter[filterName])
++            //`Contains(${filterName},'${params.filter[filterName]}')`
+           );
+         }
+ 

@@ -20,6 +20,9 @@ namespace NominaAPI
         {
             var builder = new ODataConventionModelBuilder();
             builder.EntitySet<Puesto>("Puesto");
+            builder.EntitySet<Empleado>("Empleado");
+            builder.EntitySet<Departamento>("Departamento");
+            builder.EntitySet<Nomina>("Nomina");
             config.MapODataServiceRoute("ODataRoute", null, builder.GetEdmModel());
             config.Select().Expand().Filter().OrderBy().MaxTop(null).Count();
             // Configuración y servicios de API web

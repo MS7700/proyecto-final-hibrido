@@ -14,7 +14,7 @@ namespace NominaAPI.Models
     
     public partial class Empleado
     {
-        public int ID { get; set; }
+        public int id { get; set; }
         public string Cedula { get; set; }
         public string Nombre { get; set; }
         public double Salario { get; set; }
