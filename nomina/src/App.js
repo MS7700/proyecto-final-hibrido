@@ -11,7 +11,7 @@ import { NominaList, NominaEdit, NominaCreate } from './entity/nomina';
 import { EmpleadoList, EmpleadoEdit, EmpleadoCreate} from './entity/empleado';
 
 
-const dataProvider = odataProvider('https://localhost:44340/odata/');
+const dataProvider = odataProvider('https://localhost:44340/odata/').then((p) => setDataProvider(p));
 //const dataProvider = simpleRestProvider('http://localhost:55922/api');
 //const dataProvider = simpleRestProvider('http://localhost:55922/api');
 //const dataProvider = jsonServerProvider('http://localhost:55922/api');
