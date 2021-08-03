@@ -10,18 +10,33 @@ import { DepartamentoList, DepartamentoEdit, DepartamentoCreate } from './entity
 import { PuestoList, PuestoEdit, PuestoCreate } from './entity/puesto';
 import { NominaList, NominaEdit, NominaCreate } from './entity/nomina';
 import { EmpleadoList, EmpleadoEdit, EmpleadoCreate} from './entity/empleado';
+import authProvider from './authProvider';
 
 
 function App() {
   const [dataProvider, setDataProvider] = useState<OdataDataProvider>();
+  useEffect(() => {
+    odataProvider("https://localhost:44340/", () => {
+      return Promise.resolve()
+          .then((token) => ({
+              headers: {
+                  Authorization: "Basic dXNlcjpwYXNz",
+              },
+          }));
+  }).then((provider) => setDataProvider(provider));
+    return () => {};
+  }, []);
+  /*
   useEffect(() => {
     odataProvider(
       "https://localhost:44340/"
     ).then((p) => setDataProvider(p));
     return () => {};
   }, []);
+  */
   return dataProvider ? (
-    <Admin dataProvider={dataProvider}>
+    //@ts-ignore
+    <Admin dataProvider={dataProvider} authProvider={authProvider}>
       <Resource name="Empleado" list={EmpleadoList} edit={EmpleadoEdit} create={EmpleadoCreate} />
         <Resource name="Puesto" list={PuestoList} edit={PuestoEdit} create={PuestoCreate} />
         <Resource name="Departamento" list={DepartamentoList} edit={DepartamentoEdit} create={DepartamentoCreate} />

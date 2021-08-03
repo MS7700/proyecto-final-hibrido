@@ -12,6 +12,7 @@ using System.Web.Http.OData.Routing;
 using Microsoft.AspNet.OData;
 using System.Threading.Tasks;
 using NominaAPI.Models;
+using NominaAPI.Attributes;
 
 namespace NominaAPI.Controllers
 {

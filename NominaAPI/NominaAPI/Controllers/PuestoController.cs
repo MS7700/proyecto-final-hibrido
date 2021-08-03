@@ -12,6 +12,7 @@ using System.Web.Http.OData.Routing;
 using Microsoft.AspNet.OData;
 using System.Threading.Tasks;
 using NominaAPI.Models;
+using NominaAPI.Attributes;
 
 namespace NominaAPI.Controllers
 {
@@ -26,6 +27,7 @@ namespace NominaAPI.Controllers
     builder.EntitySet<Empleado>("Empleado"); 
     config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
     */
+    
     public class PuestoController : ODataController
     {
         private Proyecto_Fin_Hibrido2Entities1 db = new Proyecto_Fin_Hibrido2Entities1();
