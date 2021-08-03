@@ -23,6 +23,14 @@ namespace NominaAPI
             builder.EntitySet<Empleado>("Empleado");
             builder.EntitySet<Departamento>("Departamento");
             builder.EntitySet<Nomina>("Nomina");
+            builder.EntitySet<AsientoContable>("AsientoContable");
+            builder.EntitySet<Cuenta>("Cuenta");
+            builder.EntitySet<TipoNomina>("TipoNomina");
+            builder.EntitySet<Transaccion>("Transaccion");
+            builder.EntitySet<Login>("Login");
+            builder.EntitySet<TipoDeduccion>("TipoDeduccion");
+            builder.EntitySet<TipoIngreso>("TipoIngreso");
+
             config.MapODataServiceRoute("ODataRoute", null, builder.GetEdmModel());
             config.Select().Expand().Filter().OrderBy().MaxTop(null).Count();
             // Configuración y servicios de API web

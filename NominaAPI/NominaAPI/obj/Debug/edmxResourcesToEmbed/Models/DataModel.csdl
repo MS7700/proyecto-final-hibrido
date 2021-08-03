@@ -1,12 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="Proyecto_Fin_Hibrido2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityContainer Name="Proyecto_Fin_Hibrido2Entities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AsientoContable" EntityType="Proyecto_Fin_Hibrido2Model.AsientoContable" />
+    <EntitySet Name="Cuenta" EntityType="Proyecto_Fin_Hibrido2Model.Cuenta" />
     <EntitySet Name="Departamento" EntityType="Proyecto_Fin_Hibrido2Model.Departamento" />
     <EntitySet Name="Empleado" EntityType="Proyecto_Fin_Hibrido2Model.Empleado" />
+    <EntitySet Name="Login" EntityType="Proyecto_Fin_Hibrido2Model.Login" />
     <EntitySet Name="Nomina" EntityType="Proyecto_Fin_Hibrido2Model.Nomina" />
     <EntitySet Name="Puesto" EntityType="Proyecto_Fin_Hibrido2Model.Puesto" />
     <EntitySet Name="TipoDeduccion" EntityType="Proyecto_Fin_Hibrido2Model.TipoDeduccion" />
     <EntitySet Name="TipoIngreso" EntityType="Proyecto_Fin_Hibrido2Model.TipoIngreso" />
+    <EntitySet Name="TipoNomina" EntityType="Proyecto_Fin_Hibrido2Model.TipoNomina" />
+    <EntitySet Name="Transaccion" EntityType="Proyecto_Fin_Hibrido2Model.Transaccion" />
+    <AssociationSet Name="FK_AsientoContable_Cuenta" Association="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta">
+      <End Role="Cuenta" EntitySet="Cuenta" />
+      <End Role="AsientoContable" EntitySet="AsientoContable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AsientoContable_Cuenta1" Association="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta1">
+      <End Role="Cuenta" EntitySet="Cuenta" />
+      <End Role="AsientoContable" EntitySet="AsientoContable" />
+    </AssociationSet>
     <AssociationSet Name="FK_Empleado_Departamento" Association="Proyecto_Fin_Hibrido2Model.FK_Empleado_Departamento">
       <End Role="Departamento" EntitySet="Departamento" />
       <End Role="Empleado" EntitySet="Empleado" />
@@ -19,7 +32,39 @@
       <End Role="Puesto" EntitySet="Puesto" />
       <End Role="Empleado" EntitySet="Empleado" />
     </AssociationSet>
+    <AssociationSet Name="FK_TipoNomina_Empleado" Association="Proyecto_Fin_Hibrido2Model.FK_TipoNomina_Empleado">
+      <End Role="Empleado" EntitySet="Empleado" />
+      <End Role="TipoNomina" EntitySet="TipoNomina" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Transaccion_Empleado" Association="Proyecto_Fin_Hibrido2Model.FK_Transaccion_Empleado">
+      <End Role="Empleado" EntitySet="Empleado" />
+      <End Role="Transaccion" EntitySet="Transaccion" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="AsientoContable">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Cuentadb" Type="Int32" Nullable="false" />
+    <Property Name="Cuentacr" Type="Int32" Nullable="false" />
+    <Property Name="Monto" Type="Double" Nullable="false" />
+    <Property Name="Contabilizado" Type="Boolean" Nullable="false" />
+    <Property Name="Estado" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Cuenta" Relationship="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta" FromRole="AsientoContable" ToRole="Cuenta" />
+    <NavigationProperty Name="Cuenta1" Relationship="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta1" FromRole="AsientoContable" ToRole="Cuenta" />
+  </EntityType>
+  <EntityType Name="Cuenta">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AsientoContable" Relationship="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta" FromRole="Cuenta" ToRole="AsientoContable" />
+    <NavigationProperty Name="AsientoContable1" Relationship="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta1" FromRole="Cuenta" ToRole="AsientoContable" />
+  </EntityType>
   <EntityType Name="Departamento">
     <Key>
       <PropertyRef Name="id" />
@@ -42,6 +87,16 @@
     <NavigationProperty Name="Departamento" Relationship="Proyecto_Fin_Hibrido2Model.FK_Empleado_Departamento" FromRole="Empleado" ToRole="Departamento" />
     <NavigationProperty Name="Nomina" Relationship="Proyecto_Fin_Hibrido2Model.FK_Empleado_Nomina" FromRole="Empleado" ToRole="Nomina" />
     <NavigationProperty Name="Puesto" Relationship="Proyecto_Fin_Hibrido2Model.FK_Empleado_Puesto" FromRole="Empleado" ToRole="Puesto" />
+    <NavigationProperty Name="TipoNomina" Relationship="Proyecto_Fin_Hibrido2Model.FK_TipoNomina_Empleado" FromRole="Empleado" ToRole="TipoNomina" />
+    <NavigationProperty Name="Transaccion" Relationship="Proyecto_Fin_Hibrido2Model.FK_Transaccion_Empleado" FromRole="Empleado" ToRole="Transaccion" />
+  </EntityType>
+  <EntityType Name="Login">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Usuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Contrasena" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Nomina">
     <Key>
@@ -67,6 +122,8 @@
     <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="DependeSalario" Type="Boolean" Nullable="false" />
     <Property Name="Estado" Type="Boolean" Nullable="false" />
+    <Property Name="Automatico" Type="Boolean" Nullable="false" />
+    <Property Name="Porcentual" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="TipoIngreso">
     <Key>
@@ -76,7 +133,57 @@
     <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="DependeSalario" Type="Boolean" Nullable="false" />
     <Property Name="Estado" Type="Boolean" Nullable="false" />
+    <Property Name="Automatico" Type="Boolean" Nullable="false" />
+    <Property Name="Porcentual" Type="Boolean" Nullable="false" />
   </EntityType>
+  <EntityType Name="TipoNomina">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="TipoNomina1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Periodo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="EmpleadoID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Empleado" Relationship="Proyecto_Fin_Hibrido2Model.FK_TipoNomina_Empleado" FromRole="TipoNomina" ToRole="Empleado" />
+  </EntityType>
+  <EntityType Name="Transaccion">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmpleadoID" Type="Int32" Nullable="false" />
+    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="IoD" Type="Boolean" Nullable="false" />
+    <Property Name="TipoIngreso" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="TipoDeduccion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Contabilizado" Type="Boolean" Nullable="false" />
+    <Property Name="Monto" Type="Double" Nullable="false" />
+    <NavigationProperty Name="Empleado" Relationship="Proyecto_Fin_Hibrido2Model.FK_Transaccion_Empleado" FromRole="Transaccion" ToRole="Empleado" />
+  </EntityType>
+  <Association Name="FK_AsientoContable_Cuenta">
+    <End Type="Proyecto_Fin_Hibrido2Model.Cuenta" Role="Cuenta" Multiplicity="1" />
+    <End Type="Proyecto_Fin_Hibrido2Model.AsientoContable" Role="AsientoContable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cuenta">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="AsientoContable">
+        <PropertyRef Name="Cuentadb" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AsientoContable_Cuenta1">
+    <End Type="Proyecto_Fin_Hibrido2Model.Cuenta" Role="Cuenta" Multiplicity="1" />
+    <End Type="Proyecto_Fin_Hibrido2Model.AsientoContable" Role="AsientoContable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cuenta">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="AsientoContable">
+        <PropertyRef Name="Cuentacr" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Empleado_Departamento">
     <End Type="Proyecto_Fin_Hibrido2Model.Departamento" Role="Departamento" Multiplicity="1" />
     <End Type="Proyecto_Fin_Hibrido2Model.Empleado" Role="Empleado" Multiplicity="*" />
@@ -110,6 +217,30 @@
       </Principal>
       <Dependent Role="Empleado">
         <PropertyRef Name="PuestoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TipoNomina_Empleado">
+    <End Type="Proyecto_Fin_Hibrido2Model.Empleado" Role="Empleado" Multiplicity="1" />
+    <End Type="Proyecto_Fin_Hibrido2Model.TipoNomina" Role="TipoNomina" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleado">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="TipoNomina">
+        <PropertyRef Name="EmpleadoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Transaccion_Empleado">
+    <End Type="Proyecto_Fin_Hibrido2Model.Empleado" Role="Empleado" Multiplicity="1" />
+    <End Type="Proyecto_Fin_Hibrido2Model.Transaccion" Role="Transaccion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleado">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Transaccion">
+        <PropertyRef Name="EmpleadoID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

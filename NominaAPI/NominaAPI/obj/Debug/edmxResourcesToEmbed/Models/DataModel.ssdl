@@ -1,5 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="Proyecto_Fin_Hibrido2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AsientoContable">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Cuentadb" Type="int" Nullable="false" />
+    <Property Name="Cuentacr" Type="int" Nullable="false" />
+    <Property Name="Monto" Type="float" Nullable="false" />
+    <Property Name="Contabilizado" Type="bit" Nullable="false" />
+    <Property Name="Estado" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="Fecha" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Cuenta">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
   <EntityType Name="Departamento">
     <Key>
       <PropertyRef Name="id" />
@@ -18,6 +38,14 @@
     <Property Name="DepartamentoID" Type="int" Nullable="false" />
     <Property Name="PuestoID" Type="int" Nullable="false" />
     <Property Name="NominaID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Login">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Usuario" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Contrasena" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="Nomina">
     <Key>
@@ -41,6 +69,8 @@
     <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="DependeSalario" Type="bit" Nullable="false" />
     <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="Automatico" Type="bit" Nullable="false" />
+    <Property Name="Porcentual" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="TipoIngreso">
     <Key>
@@ -50,7 +80,55 @@
     <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="DependeSalario" Type="bit" Nullable="false" />
     <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="Automatico" Type="bit" Nullable="false" />
+    <Property Name="Porcentual" Type="bit" Nullable="false" />
   </EntityType>
+  <EntityType Name="TipoNomina">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="TipoNomina" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Periodo" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="EmpleadoID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Transaccion">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpleadoID" Type="int" Nullable="false" />
+    <Property Name="fecha" Type="date" Nullable="false" />
+    <Property Name="IoD" Type="bit" Nullable="false" />
+    <Property Name="TipoIngreso" Type="varchar" MaxLength="20" />
+    <Property Name="TipoDeduccion" Type="varchar" MaxLength="20" />
+    <Property Name="Contabilizado" Type="bit" Nullable="false" />
+    <Property Name="Monto" Type="float" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_AsientoContable_Cuenta">
+    <End Role="Cuenta" Type="Self.Cuenta" Multiplicity="1" />
+    <End Role="AsientoContable" Type="Self.AsientoContable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cuenta">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="AsientoContable">
+        <PropertyRef Name="Cuentadb" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AsientoContable_Cuenta1">
+    <End Role="Cuenta" Type="Self.Cuenta" Multiplicity="1" />
+    <End Role="AsientoContable" Type="Self.AsientoContable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cuenta">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="AsientoContable">
+        <PropertyRef Name="Cuentacr" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Empleado_Departamento">
     <End Role="Departamento" Type="Self.Departamento" Multiplicity="1" />
     <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
@@ -87,13 +165,50 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_TipoNomina_Empleado">
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+    <End Role="TipoNomina" Type="Self.TipoNomina" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleado">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="TipoNomina">
+        <PropertyRef Name="EmpleadoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Transaccion_Empleado">
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+    <End Role="Transaccion" Type="Self.Transaccion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleado">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Transaccion">
+        <PropertyRef Name="EmpleadoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="Proyecto_Fin_Hibrido2ModelStoreContainer">
+    <EntitySet Name="AsientoContable" EntityType="Self.AsientoContable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Cuenta" EntityType="Self.Cuenta" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Departamento" EntityType="Self.Departamento" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Empleado" EntityType="Self.Empleado" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Nomina" EntityType="Self.Nomina" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Puesto" EntityType="Self.Puesto" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoDeduccion" EntityType="Self.TipoDeduccion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoIngreso" EntityType="Self.TipoIngreso" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoNomina" EntityType="Self.TipoNomina" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Transaccion" EntityType="Self.Transaccion" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_AsientoContable_Cuenta" Association="Self.FK_AsientoContable_Cuenta">
+      <End Role="Cuenta" EntitySet="Cuenta" />
+      <End Role="AsientoContable" EntitySet="AsientoContable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AsientoContable_Cuenta1" Association="Self.FK_AsientoContable_Cuenta1">
+      <End Role="Cuenta" EntitySet="Cuenta" />
+      <End Role="AsientoContable" EntitySet="AsientoContable" />
+    </AssociationSet>
     <AssociationSet Name="FK_Empleado_Departamento" Association="Self.FK_Empleado_Departamento">
       <End Role="Departamento" EntitySet="Departamento" />
       <End Role="Empleado" EntitySet="Empleado" />
@@ -105,6 +220,14 @@
     <AssociationSet Name="FK_Empleado_Puesto" Association="Self.FK_Empleado_Puesto">
       <End Role="Puesto" EntitySet="Puesto" />
       <End Role="Empleado" EntitySet="Empleado" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TipoNomina_Empleado" Association="Self.FK_TipoNomina_Empleado">
+      <End Role="Empleado" EntitySet="Empleado" />
+      <End Role="TipoNomina" EntitySet="TipoNomina" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Transaccion_Empleado" Association="Self.FK_Transaccion_Empleado">
+      <End Role="Empleado" EntitySet="Empleado" />
+      <End Role="Transaccion" EntitySet="Transaccion" />
     </AssociationSet>
   </EntityContainer>
 </Schema>
