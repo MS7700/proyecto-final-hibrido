@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import odataProvider, { OdataDataProvider } from "@ms7700/ra-data-odata-server-forked";
 import { Admin, Resource, ListGuesser,EditGuesser,ShowGuesser,Loading } from 'react-admin';
@@ -16,17 +15,22 @@ import authProvider from './authProvider';
 function App() {
   const [dataProvider, setDataProvider] = useState<OdataDataProvider>();
   useEffect(() => {
-    if(sessionStorage.getItem("token")){
+    console.log("useEffect token:" + sessionStorage.getItem("token"));
+    if(sessionStorage.getItem("token") !== "null"){
+      console.log("Inner token");
         odataProvider("https://localhost:44340/", () => {
           return Promise.resolve()
               .then((token) => ({
                   headers: {
                       Authorization: "Basic " + sessionStorage.getItem('token'),
+                      "Access-Control-Allow-Headers": "Authorization","Access-Control-Allow-Origin": "*", 
+                      "Access-Control-Allow-Methods": "GET, POST, DELETE'"
                   },
               }));
       }).then((provider) => setDataProvider(provider));
         return () => {};
     }else{
+      console.log("Outter token");
         odataProvider(
           "https://localhost:44340/"
         ).then((p) => setDataProvider(p));

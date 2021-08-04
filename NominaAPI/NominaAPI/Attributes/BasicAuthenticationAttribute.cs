@@ -63,7 +63,10 @@ namespace NominaAPI.Attributes
                 // decoding authToken we get decode value in 'Username:Password' format  
                 var decodeauthToken = System.Text.Encoding.UTF8.GetString(
                     Convert.FromBase64String(authToken));
-
+                if (authToken.Equals("null"))
+                {
+                    return;
+                }
                 // spliting decodeauthToken using ':'   
                 var arrUserNameandPassword = decodeauthToken.Split(':');
                 string username = arrUserNameandPassword[0];

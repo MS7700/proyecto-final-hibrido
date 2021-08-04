@@ -35,8 +35,8 @@ namespace NominaAPI.Controllers
 
         // GET: odata/Empleado
         [EnableQuery]
-        [BasicAuthentication]
-        [BasicAuthorize(Roles = "cliente")]
+        //[BasicAuthentication]
+        //[BasicAuthorize(Roles = "cliente")]
         public IQueryable<Empleado> Get()
         {
             return db.Empleado;
@@ -44,8 +44,8 @@ namespace NominaAPI.Controllers
 
         // GET: odata/Empleado(5)
         [EnableQuery]
-        [BasicAuthentication]
-        [BasicAuthorize(Roles = "cliente")]
+        //[BasicAuthentication]
+        //[BasicAuthorize(Roles = "cliente")]
         public SingleResult<Empleado> Get([FromODataUri] int key)
         {
             return SingleResult.Create(db.Empleado.Where(empleado => empleado.id == key));
