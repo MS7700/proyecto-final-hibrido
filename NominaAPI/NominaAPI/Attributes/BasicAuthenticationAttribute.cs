@@ -89,10 +89,6 @@ namespace NominaAPI.Attributes
                         HttpContext.Current.User = principal;
                     }
 
-
-                    // setting current principle  
-                    //Thread.CurrentPrincipal = new GenericPrincipal(
-                    //       new GenericIdentity(arrUserNameandPassword[0]), get);
                 }
                 else
                 {
