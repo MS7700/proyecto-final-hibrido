@@ -18,7 +18,7 @@ namespace NominaAPI.Attributes
             // In this method we can handle our database logic here...  
 
             //Buscar usuario y contraseña en base de datos
-            return username == "user" && password == "pass";
+            return username == "user" && password == "pass" || username == "usuario" && password == "12345";
         }
         //This method is used to return the User Details
 
@@ -29,6 +29,10 @@ namespace NominaAPI.Attributes
            if(username == "user" && password == "pass")
             {
                 return "admin";
+            }
+            else if(username == "usuario" && password == "12345")
+            {
+                return "cliente";
             }
             else
             {
@@ -50,6 +54,7 @@ namespace NominaAPI.Attributes
         //}
         public override void OnAuthorization(HttpActionContext actionContext)
         {
+            bool intro = actionContext.Request.RequestUri.LocalPath == "/$metadata" || actionContext.Request.RequestUri.LocalPath == "/";
             if (actionContext.Request.Headers.Authorization != null)
             {
                 var authToken = actionContext.Request.Headers
@@ -64,7 +69,7 @@ namespace NominaAPI.Attributes
                 string username = arrUserNameandPassword[0];
                 string password = arrUserNameandPassword[1];
                 // at 0th postion of array we get username and at 1st we get password  
-                if (IsAuthorizedUser(username, password))
+                if (IsAuthorizedUser(username, password) || actionContext.Request.RequestUri.LocalPath == "/$metadata" || actionContext.Request.RequestUri.LocalPath == "/")
                 {
                     //Este será tipo usuario
                     var UserDetails = GetUsuario(username, password);
@@ -92,7 +97,7 @@ namespace NominaAPI.Attributes
                         .CreateResponse(HttpStatusCode.Unauthorized);
                 }
             }
-            else
+            else if(!(intro))
             {
                 actionContext.Response = actionContext.Request
                     .CreateResponse(HttpStatusCode.Unauthorized);

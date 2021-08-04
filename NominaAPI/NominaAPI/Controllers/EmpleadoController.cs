@@ -35,6 +35,8 @@ namespace NominaAPI.Controllers
 
         // GET: odata/Empleado
         [EnableQuery]
+        [BasicAuthentication]
+        [BasicAuthorize(Roles = "cliente")]
         public IQueryable<Empleado> Get()
         {
             return db.Empleado;
@@ -42,6 +44,8 @@ namespace NominaAPI.Controllers
 
         // GET: odata/Empleado(5)
         [EnableQuery]
+        [BasicAuthentication]
+        [BasicAuthorize(Roles = "cliente")]
         public SingleResult<Empleado> Get([FromODataUri] int key)
         {
             return SingleResult.Create(db.Empleado.Where(empleado => empleado.id == key));
@@ -149,6 +153,7 @@ namespace NominaAPI.Controllers
 
         // GET: odata/Empleado(5)/Departamento
         [EnableQuery]
+        //[BasicAuthorize(Roles = "cliente")]
         public SingleResult<Departamento> GetDepartamento([FromODataUri] int key)
         {
             return SingleResult.Create(db.Empleado.Where(m => m.id == key).Select(m => m.Departamento));
@@ -156,6 +161,7 @@ namespace NominaAPI.Controllers
 
         // GET: odata/Empleado(5)/Nomina
         [EnableQuery]
+        //[BasicAuthorize(Roles = "cliente")]
         public SingleResult<Nomina> GetNomina([FromODataUri] int key)
         {
             return SingleResult.Create(db.Empleado.Where(m => m.id == key).Select(m => m.Nomina));
@@ -163,6 +169,7 @@ namespace NominaAPI.Controllers
 
         // GET: odata/Empleado(5)/Puesto
         [EnableQuery]
+        //[BasicAuthorize(Roles = "cliente")]
         public SingleResult<Puesto> GetPuesto([FromODataUri] int key)
         {
             return SingleResult.Create(db.Empleado.Where(m => m.id == key).Select(m => m.Puesto));

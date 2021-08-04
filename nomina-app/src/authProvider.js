@@ -28,12 +28,16 @@ export default {
 
  const authProvider = {
     login: ({ username, password }) =>  {
-        localStorage.setItem('username', username);
-        localStorage.setItem('password', password);
-        const request = new Request("https://localhost:44340/", {
-            method: 'POST',
-            body: JSON.stringify({ username, password }),
-            headers: new Headers({ 'Content-Type': 'application/json' }),
+        console.log("Usuario:" + username);
+        console.log("Contrasena:" + password);
+        var token = window.btoa(username + ':' + password);
+        console.log("Header:" + JSON.stringify({ 'Content-Type': 'application/json', 'Authorization' : 'Basic ' + window.btoa(username + ':' + password) }));
+        sessionStorage.setItem('username', username);
+        sessionStorage.setItem('password', password);
+        sessionStorage.setItem('token',token);
+        const request = new Request("https://localhost:44340/Empleado", {
+            method: 'GET',
+            headers: new Headers({ 'Content-Type': 'application/json', 'Authorization' : 'Basic ' + token }),
         });
         return fetch(request)
             .then(response => {
@@ -48,20 +52,66 @@ export default {
             .catch(() => {
                 throw new Error('Network error')
             });
+           /*
+            const request = new XMLHttpRequest();
+            request.open('GET', "https://localhost:44340/", false, username,password)
+            request.onreadystatechange = function() {
+                    // D some business logics here if you receive return
+               if(request.readyState === 4 && request.status === 200) {
+                   console.log(request.responseText);
+               }
+            }
+            return request.send()
+            .then(response => {
+                if (response.status < 200 || response.status >= 300) {
+                    throw new Error(response.statusText);
+                }
+                return response.json();
+            })
+            .then(auth => {
+                localStorage.setItem('auth', JSON.stringify(auth));
+            })
+            .catch(() => {
+                throw new Error('Network error')
+            });
+            */
     },
     logout: () => {
-        localStorage.removeItem('username');
+        console.log("Login out: " + localStorage.getItem("token"));
+        sessionStorage.removeItem('token');
         return Promise.resolve();
     },
     checkError: ({ status }) => {
         if (status === 401 || status === 403) {
-            localStorage.removeItem('username');
+            //localStorage.removeItem('token');
+            console.log("Error: " + localStorage.getItem("token"));
             return Promise.reject();
         }
         return Promise.resolve();
     },
-    checkAuth: (...params) => {
-        return Promise.resolve();
+    checkAuth: () => {
+        console.log("Check token: " + localStorage.getItem("token"));
+        if(sessionStorage.getItem("token")){
+            const request = new Request("https://localhost:44340/Empleado", {
+            method: 'GET',
+            headers: new Headers({ 'Content-Type': 'application/json', 'Authorization' : 'Basic ' + localStorage.getItem("token") }),});
+            return fetch(request)
+            .then(response => {
+                if (response.status < 200 || response.status >= 300) {
+                    throw new Error(response.statusText);
+                }
+                return response.json();
+            })
+            .then(auth => {
+                sessionStorage.setItem('auth', JSON.stringify(auth));
+            })
+            .catch(() => {
+                throw new Error('Network error')
+            });    
+        }else{
+            return Promise.reject();
+        }
+        
     },
     getPermissions: () => {
         return Promise.resolve();

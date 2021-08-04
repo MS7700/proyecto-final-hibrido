@@ -16,17 +16,61 @@ import authProvider from './authProvider';
 function App() {
   const [dataProvider, setDataProvider] = useState<OdataDataProvider>();
   useEffect(() => {
+    if(sessionStorage.getItem("token")){
+        odataProvider("https://localhost:44340/", () => {
+          return Promise.resolve()
+              .then((token) => ({
+                  headers: {
+                      Authorization: "Basic " + sessionStorage.getItem('token'),
+                  },
+              }));
+      }).then((provider) => setDataProvider(provider));
+        return () => {};
+    }else{
+        odataProvider(
+          "https://localhost:44340/"
+        ).then((p) => setDataProvider(p));
+        return () => {};
+    }
+  }, []);
+
+  /*
+  if(sessionStorage.getItem("token")){
+    useEffect(() => {
+      odataProvider("https://localhost:44340/", () => {
+        return Promise.resolve()
+            .then((token) => ({
+                headers: {
+                    Authorization: "Basic " + sessionStorage.getItem('token'),
+                },
+            }));
+    }).then((provider) => setDataProvider(provider));
+      return () => {};
+    }, []);
+  }else{
+      useEffect(() => {
+        odataProvider(
+          "https://localhost:44340/"
+        ).then((p) => setDataProvider(p));
+        return () => {};
+      }, []);
+    }
+    */
+  /*
+  sessionStorage.setItem('token',"dXNlcjpwYXNz");
+  useEffect(() => {
     odataProvider("https://localhost:44340/", () => {
       return Promise.resolve()
           .then((token) => ({
               headers: {
-                  Authorization: "Basic dXNlcjpwYXNz",
+                  Authorization: "Basic " + sessionStorage.getItem('token'),
               },
           }));
   }).then((provider) => setDataProvider(provider));
     return () => {};
   }, []);
-  /*
+  
+ 
   useEffect(() => {
     odataProvider(
       "https://localhost:44340/"
