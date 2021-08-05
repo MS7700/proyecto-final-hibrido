@@ -368,4 +368,3 @@ C:\Users\manue\Documents\GitHub\proyecto-final-hibrido\NominaAPI\NominaAPI\obj\D
 C:\Users\manue\Documents\GitHub\proyecto-final-hibrido\NominaAPI\NominaAPI\obj\Debug\NominaAPI.csproj.CopyComplete
 C:\Users\manue\Documents\GitHub\proyecto-final-hibrido\NominaAPI\NominaAPI\obj\Debug\NominaAPI.dll
 C:\Users\manue\Documents\GitHub\proyecto-final-hibrido\NominaAPI\NominaAPI\obj\Debug\NominaAPI.pdb
-C:\Users\mslopez\source\repos\proyecto-final-hibrido\NominaAPI\NominaAPI\obj\Debug\NominaAPI.csprojAssemblyReference.cache

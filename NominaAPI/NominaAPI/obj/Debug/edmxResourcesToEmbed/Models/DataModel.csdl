@@ -17,7 +17,7 @@
       <End Role="Puesto" EntitySet="Puesto" />
       <End Role="Empleado" EntitySet="Empleado" />
     </AssociationSet>
-    <EntitySet Name="Login" EntityType="Proyecto_Fin_Hibrido2Model.Login" />
+    <EntitySet Name="Usuario" EntityType="Proyecto_Fin_Hibrido2Model.Usuario" />
   </EntityContainer>
   <EntityType Name="Departamento">
     <Key>
@@ -94,12 +94,12 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="Login">
+  <EntityType Name="Usuario">
     <Key>
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Usuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Roles" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />

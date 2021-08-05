@@ -12,10 +12,10 @@ namespace NominaAPI.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Login
+    public partial class Usuario
     {
         public int id { get; set; }
-        public string Usuario { get; set; }
+        public string UserName { get; set; }
         public string Password { get; set; }
         public string Roles { get; set; }
         public string Email { get; set; }

@@ -18,16 +18,16 @@ namespace NominaAPI.Attributes
         private Proyecto_Fin_Hibrido2Entities1 db = new Proyecto_Fin_Hibrido2Entities1();
         private bool IsAuthorizedUser(string username, string password)
         {
-            return db.Login.Any(l => l.Usuario.Equals(username) && l.Password.Equals(password));
+            return db.Usuario.Any(l => l.UserName.Equals(username) && l.Password.Equals(password));
             // In this method we can handle our database logic here...  
             //Buscar usuario y contraseña en base de datos
         }
         //This method is used to return the User Details
 
             //Este deberá de ser sustituido para que devuelva el usuario
-        private Login GetUsuario(string username, string password)
+        private Usuario GetUsuario(string username, string password)
         {
-           return db.Login.FirstOrDefault(l => l.Usuario.Equals(username) && l.Password.Equals(password));
+           return db.Usuario.FirstOrDefault(l => l.UserName.Equals(username) && l.Password.Equals(password));
         }
 
         //Modelo para sustituir la función autorización
@@ -71,7 +71,7 @@ namespace NominaAPI.Attributes
                     identity.AddClaim(new Claim("Nombre", UserDetails.Nombre));
                     identity.AddClaim(new Claim("Apellido", UserDetails.Apellido));
                     identity.AddClaim(new Claim("Email", UserDetails.Email));
-                    identity.AddClaim(new Claim(ClaimTypes.Name, UserDetails.Usuario));
+                    identity.AddClaim(new Claim(ClaimTypes.Name, UserDetails.UserName));
                     identity.AddClaim(new Claim("id", Convert.ToString(UserDetails.id)));
                     //IPrincipal principal = new GenericPrincipal(identity, UserDetails.Roles.Split(','));
                     IPrincipal principal = new GenericPrincipal(identity, UserDetails.Roles.Split(','));

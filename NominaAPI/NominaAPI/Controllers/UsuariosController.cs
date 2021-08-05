@@ -12,9 +12,9 @@ using System.Web.Http.OData.Routing;
 using Microsoft.AspNet.OData;
 using System.Threading.Tasks;
 using NominaAPI.Models;
-using NominaAPI.Attributes;
 using Microsoft.AspNet.OData.Routing;
 using System.Security.Claims;
+using NominaAPI.Attributes;
 
 namespace NominaAPI.Controllers
 {
@@ -25,10 +25,10 @@ namespace NominaAPI.Controllers
     using System.Web.Http.OData.Extensions;
     using NominaAPI.Models;
     ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-    builder.EntitySet<Login>("Login");
+    builder.EntitySet<Usuario>("Usuarios");
     config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
     */
-    public class LoginController : ODataController
+    public class UsuariosController : ODataController
     {
         private Proyecto_Fin_Hibrido2Entities1 db = new Proyecto_Fin_Hibrido2Entities1();
 
@@ -36,12 +36,12 @@ namespace NominaAPI.Controllers
         [ODataRoute("Autenticar")]
         public IHttpActionResult Autenticar()
         {
-            
+
             if (RequestContext.Principal.Identity.IsAuthenticated)
             {
                 int id = int.Parse(ClaimsPrincipal.Current.Identities.First().Claims.Where(c => c.Type.Equals("id")).FirstOrDefault().Value);
-                Login l = new Login();
-                l = db.Login.Find(id);
+                Usuario l = new Usuario();
+                l = db.Usuario.Find(id);
                 l.Password = "XXXXXXXXXX";
                 return Ok(l);
             }
@@ -51,28 +51,27 @@ namespace NominaAPI.Controllers
             }
         }
 
-
-        // GET: odata/Login
+        // GET: odata/Usuarios
         [EnableQuery]
-        public IQueryable<Login> Get()
+        public IQueryable<Usuario> Get()
         {
-            List<Login> encriptado = db.Login.ToList();
+            List<Usuario> encriptado = db.Usuario.ToList();
             encriptado.ForEach(p => p.Password = "XXXXXXXXX");
             return encriptado.AsQueryable();
         }
 
-        // GET: odata/Login(5)
+        // GET: odata/Usuarios(5)
         [EnableQuery]
-        public SingleResult<Login> Get([FromODataUri] int key)
+        public SingleResult<Usuario> Get([FromODataUri] int key)
         {
-            List<Login> encriptado = db.Login.Where(login => login.id == key).ToList();
+            List<Usuario> encriptado = db.Usuario.Where(usuario => usuario.id == key).ToList();
             encriptado.ForEach(p => p.Password = "XXXXXXXXX");
             return SingleResult.Create(encriptado.AsQueryable());
         }
 
-        // PUT: odata/Login(5)
-        [BasicAuthorize(Roles="admin")]
-        public async Task<IHttpActionResult> Put([FromODataUri] int key, Login update)
+        // PUT: odata/Usuarios(5)
+        [BasicAuthorize(Roles = "admin")]
+        public async Task<IHttpActionResult> Put([FromODataUri] int key, Usuario update)
         {
             
             if (!ModelState.IsValid)
@@ -90,7 +89,7 @@ namespace NominaAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!LoginExists(key))
+                if (!UsuarioExists(key))
                 {
                     return NotFound();
                 }
@@ -103,25 +102,25 @@ namespace NominaAPI.Controllers
 
         }
 
-        // POST: odata/Login
+        // POST: odata/Usuarios
         [BasicAuthorize(Roles = "admin")]
-        public async Task<IHttpActionResult> Post(Login login)
+        public async Task<IHttpActionResult> Post(Usuario usuario)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Login.Add(login);
+            db.Usuario.Add(usuario);
             await db.SaveChangesAsync();
 
-            return Created(login);
+            return Created(usuario);
         }
 
-        // PATCH: odata/Login(5)
+        // PATCH: odata/Usuarios(5)
         [AcceptVerbs("PATCH", "MERGE")]
         [BasicAuthorize(Roles = "admin")]
-        public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<Login> patch)
+        public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<Usuario> patch)
         {
             
 
@@ -130,14 +129,14 @@ namespace NominaAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            Login login = await db.Login.FindAsync(key);
+            Usuario usuario = await db.Usuario.FindAsync(key);
 
-            if (login == null)
+            if (usuario == null)
             {
                 return NotFound();
             }
 
-            patch.Patch(login);
+            patch.Patch(usuario);
 
             try
             {
@@ -145,7 +144,7 @@ namespace NominaAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!LoginExists(key))
+                if (!UsuarioExists(key))
                 {
                     return NotFound();
                 }
@@ -155,20 +154,20 @@ namespace NominaAPI.Controllers
                 }
             }
 
-            return Updated(login);
+            return Updated(usuario);
         }
 
-        // DELETE: odata/Login(5)
+        // DELETE: odata/Usuarios(5)
         [BasicAuthorize(Roles = "admin")]
         public async Task<IHttpActionResult> Delete([FromODataUri] int key)
         {
-            Login login = await db.Login.FindAsync(key);
-            if (login == null)
+            Usuario usuario = await db.Usuario.FindAsync(key);
+            if (usuario == null)
             {
                 return NotFound();
             }
 
-            db.Login.Remove(login);
+            db.Usuario.Remove(usuario);
             await db.SaveChangesAsync();
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -183,9 +182,9 @@ namespace NominaAPI.Controllers
             base.Dispose(disposing);
         }
 
-        private bool LoginExists(int key)
+        private bool UsuarioExists(int key)
         {
-            return db.Login.Any(e => e.id == key);
+            return db.Usuario.Any(e => e.id == key);
         }
     }
 }

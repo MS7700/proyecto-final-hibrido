@@ -43,6 +43,7 @@ function App() {
         <Resource name="Puesto" list={PuestoList} edit={PuestoEdit} create={PuestoCreate} />
         <Resource name="Departamento" list={DepartamentoList} edit={DepartamentoEdit} create={DepartamentoCreate} />
         <Resource name="Nomina" list={NominaList} edit={NominaEdit} create={NominaCreate} />
+        <Resource name="Usuario" list={ListGuesser} edit={EditGuesser} />
     </Admin>
   ) : (
     <Loading loadingPrimary="Cargando..." loadingSecondary="Espere un momento"></Loading>

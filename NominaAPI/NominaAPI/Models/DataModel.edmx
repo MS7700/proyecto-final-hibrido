@@ -24,19 +24,6 @@
           <Property Name="PuestoID" Type="int" Nullable="false" />
           <Property Name="NominaID" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="Login">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Usuario" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Roles" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Apellido" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Estado" Type="bit" Nullable="false" />
-        </EntityType>
         <EntityType Name="Nomina">
           <Key>
             <PropertyRef Name="id" />
@@ -50,6 +37,19 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Roles" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Apellido" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_Empleado_Departamento">
           <End Role="Departamento" Type="Self.Departamento" Multiplicity="1" />
@@ -90,9 +90,9 @@
         <EntityContainer Name="Proyecto_Fin_Hibrido2ModelStoreContainer">
           <EntitySet Name="Departamento" EntityType="Self.Departamento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empleado" EntityType="Self.Empleado" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Nomina" EntityType="Self.Nomina" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Puesto" EntityType="Self.Puesto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Empleado_Departamento" Association="Self.FK_Empleado_Departamento">
             <End Role="Departamento" EntitySet="Departamento" />
             <End Role="Empleado" EntitySet="Empleado" />
@@ -127,7 +127,7 @@
             <End Role="Puesto" EntitySet="Puesto" />
             <End Role="Empleado" EntitySet="Empleado" />
           </AssociationSet>
-          <EntitySet Name="Login" EntityType="Proyecto_Fin_Hibrido2Model.Login" />
+          <EntitySet Name="Usuario" EntityType="Proyecto_Fin_Hibrido2Model.Usuario" />
         </EntityContainer>
         <EntityType Name="Departamento">
           <Key>
@@ -204,12 +204,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Login">
+        <EntityType Name="Usuario">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Usuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Roles" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -260,16 +260,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Login">
-            <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.Login">
-              <MappingFragment StoreEntitySet="Login">
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="Apellido" ColumnName="Apellido" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Roles" ColumnName="Roles" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
