@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from './logo.svg';
 import './App.css';
 import odataProvider, { OdataDataProvider } from "@ms7700/ra-data-odata-server-forked";
 import { Admin, Resource, ListGuesser,EditGuesser,ShowGuesser,Loading } from 'react-admin';
@@ -11,13 +12,10 @@ import { NominaList, NominaEdit, NominaCreate } from './entity/nomina';
 import { EmpleadoList, EmpleadoEdit, EmpleadoCreate} from './entity/empleado';
 import authProvider from './authProvider';
 
-
 function App() {
   const [dataProvider, setDataProvider] = useState<OdataDataProvider>();
   useEffect(() => {
-    console.log("useEffect token:" + sessionStorage.getItem("token"));
-    if(sessionStorage.getItem("token") !== "null"){
-      console.log("Inner token");
+    if(sessionStorage.getItem("token") != "null"){
         odataProvider("https://localhost:44340/", () => {
           return Promise.resolve()
               .then((token) => ({
@@ -30,7 +28,6 @@ function App() {
       }).then((provider) => setDataProvider(provider));
         return () => {};
     }else{
-      console.log("Outter token");
         odataProvider(
           "https://localhost:44340/"
         ).then((p) => setDataProvider(p));
@@ -38,50 +35,7 @@ function App() {
     }
   }, []);
 
-  /*
-  if(sessionStorage.getItem("token")){
-    useEffect(() => {
-      odataProvider("https://localhost:44340/", () => {
-        return Promise.resolve()
-            .then((token) => ({
-                headers: {
-                    Authorization: "Basic " + sessionStorage.getItem('token'),
-                },
-            }));
-    }).then((provider) => setDataProvider(provider));
-      return () => {};
-    }, []);
-  }else{
-      useEffect(() => {
-        odataProvider(
-          "https://localhost:44340/"
-        ).then((p) => setDataProvider(p));
-        return () => {};
-      }, []);
-    }
-    */
-  /*
-  sessionStorage.setItem('token',"dXNlcjpwYXNz");
-  useEffect(() => {
-    odataProvider("https://localhost:44340/", () => {
-      return Promise.resolve()
-          .then((token) => ({
-              headers: {
-                  Authorization: "Basic " + sessionStorage.getItem('token'),
-              },
-          }));
-  }).then((provider) => setDataProvider(provider));
-    return () => {};
-  }, []);
-  
- 
-  useEffect(() => {
-    odataProvider(
-      "https://localhost:44340/"
-    ).then((p) => setDataProvider(p));
-    return () => {};
-  }, []);
-  */
+
   return dataProvider ? (
     //@ts-ignore
     <Admin dataProvider={dataProvider} authProvider={authProvider}>
@@ -91,30 +45,9 @@ function App() {
         <Resource name="Nomina" list={NominaList} edit={NominaEdit} create={NominaCreate} />
     </Admin>
   ) : (
-    <Loading></Loading>
+    <Loading loadingPrimary="Cargando..." loadingSecondary="Espere un momento"></Loading>
   );
 }
 
-/*
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-*/
+
 export default App;

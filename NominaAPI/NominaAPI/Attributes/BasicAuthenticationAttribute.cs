@@ -1,8 +1,10 @@
-﻿using System;
+﻿using NominaAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading;
 using System.Web;
@@ -13,31 +15,19 @@ namespace NominaAPI.Attributes
 {
     public class BasicAuthenticationAttribute : AuthorizationFilterAttribute
     {
-        private static bool IsAuthorizedUser(string username, string password)
+        private Proyecto_Fin_Hibrido2Entities1 db = new Proyecto_Fin_Hibrido2Entities1();
+        private bool IsAuthorizedUser(string username, string password)
         {
+            return db.Login.Any(l => l.Usuario.Equals(username) && l.Password.Equals(password));
             // In this method we can handle our database logic here...  
-
             //Buscar usuario y contraseña en base de datos
-            return username == "user" && password == "pass" || username == "usuario" && password == "12345";
         }
         //This method is used to return the User Details
 
             //Este deberá de ser sustituido para que devuelva el usuario
-        private static string GetUsuario(string username, string password)
+        private Login GetUsuario(string username, string password)
         {
-           
-           if(username == "user" && password == "pass")
-            {
-                return "admin";
-            }
-            else if(username == "usuario" && password == "12345")
-            {
-                return "cliente";
-            }
-            else
-            {
-                return "";
-            }
+           return db.Login.FirstOrDefault(l => l.Usuario.Equals(username) && l.Password.Equals(password));
         }
 
         //Modelo para sustituir la función autorización
@@ -78,11 +68,13 @@ namespace NominaAPI.Attributes
                     var UserDetails = GetUsuario(username, password);
                     var identity = new GenericIdentity(username);
                     //Estos se usará para con los datos del usuario
-                    //identity.AddClaim(new Claim("Email", UserDetails.Email));
-                    //identity.AddClaim(new Claim(ClaimTypes.Name, UserDetails.UserName));
-                    //identity.AddClaim(new Claim("ID", Convert.ToString(UserDetails.ID)));
+                    identity.AddClaim(new Claim("Nombre", UserDetails.Nombre));
+                    identity.AddClaim(new Claim("Apellido", UserDetails.Apellido));
+                    identity.AddClaim(new Claim("Email", UserDetails.Email));
+                    identity.AddClaim(new Claim(ClaimTypes.Name, UserDetails.Usuario));
+                    identity.AddClaim(new Claim("id", Convert.ToString(UserDetails.id)));
                     //IPrincipal principal = new GenericPrincipal(identity, UserDetails.Roles.Split(','));
-                    IPrincipal principal = new GenericPrincipal(identity, UserDetails.Split(','));
+                    IPrincipal principal = new GenericPrincipal(identity, UserDetails.Roles.Split(','));
                     Thread.CurrentPrincipal = principal;
                     if (HttpContext.Current != null)
                     {

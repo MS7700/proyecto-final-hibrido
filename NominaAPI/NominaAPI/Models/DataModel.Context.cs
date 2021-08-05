@@ -29,7 +29,6 @@ namespace NominaAPI.Models
         public virtual DbSet<Empleado> Empleado { get; set; }
         public virtual DbSet<Nomina> Nomina { get; set; }
         public virtual DbSet<Puesto> Puesto { get; set; }
-        public virtual DbSet<TipoDeduccion> TipoDeduccion { get; set; }
-        public virtual DbSet<TipoIngreso> TipoIngreso { get; set; }
+        public virtual DbSet<Login> Login { get; set; }
     }
 }

@@ -5,8 +5,6 @@
     <EntitySet Name="Empleado" EntityType="Proyecto_Fin_Hibrido2Model.Empleado" />
     <EntitySet Name="Nomina" EntityType="Proyecto_Fin_Hibrido2Model.Nomina" />
     <EntitySet Name="Puesto" EntityType="Proyecto_Fin_Hibrido2Model.Puesto" />
-    <EntitySet Name="TipoDeduccion" EntityType="Proyecto_Fin_Hibrido2Model.TipoDeduccion" />
-    <EntitySet Name="TipoIngreso" EntityType="Proyecto_Fin_Hibrido2Model.TipoIngreso" />
     <AssociationSet Name="FK_Empleado_Departamento" Association="Proyecto_Fin_Hibrido2Model.FK_Empleado_Departamento">
       <End Role="Departamento" EntitySet="Departamento" />
       <End Role="Empleado" EntitySet="Empleado" />
@@ -19,6 +17,7 @@
       <End Role="Puesto" EntitySet="Puesto" />
       <End Role="Empleado" EntitySet="Empleado" />
     </AssociationSet>
+    <EntitySet Name="Login" EntityType="Proyecto_Fin_Hibrido2Model.Login" />
   </EntityContainer>
   <EntityType Name="Departamento">
     <Key>
@@ -59,24 +58,6 @@
     <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Empleado" Relationship="Proyecto_Fin_Hibrido2Model.FK_Empleado_Puesto" FromRole="Puesto" ToRole="Empleado" />
   </EntityType>
-  <EntityType Name="TipoDeduccion">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="DependeSalario" Type="Boolean" Nullable="false" />
-    <Property Name="Estado" Type="Boolean" Nullable="false" />
-  </EntityType>
-  <EntityType Name="TipoIngreso">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="DependeSalario" Type="Boolean" Nullable="false" />
-    <Property Name="Estado" Type="Boolean" Nullable="false" />
-  </EntityType>
   <Association Name="FK_Empleado_Departamento">
     <End Type="Proyecto_Fin_Hibrido2Model.Departamento" Role="Departamento" Multiplicity="1" />
     <End Type="Proyecto_Fin_Hibrido2Model.Empleado" Role="Empleado" Multiplicity="*" />
@@ -113,4 +94,17 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="Login">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Usuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Roles" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Apellido" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+  </EntityType>
 </Schema>

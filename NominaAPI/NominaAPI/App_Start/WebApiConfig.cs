@@ -24,6 +24,10 @@ namespace NominaAPI
             builder.EntitySet<Empleado>("Empleado");
             builder.EntitySet<Departamento>("Departamento");
             builder.EntitySet<Nomina>("Nomina");
+            builder.EntitySet<Login>("Login");
+            builder.Action("Autenticar").ReturnsFromEntitySet<Login>("Login");
+            //builder.Action("Autenticar").Parameter<string>("token");
+            //builder.Action("Autenticar");
             config.MapODataServiceRoute("ODataRoute", null, builder.GetEdmModel());
             config.Select().Expand().Filter().OrderBy().MaxTop(null).Count();
 

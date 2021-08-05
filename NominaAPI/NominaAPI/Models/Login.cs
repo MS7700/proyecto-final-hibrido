@@ -12,11 +12,15 @@ namespace NominaAPI.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TipoDeduccion
+    public partial class Login
     {
         public int id { get; set; }
+        public string Usuario { get; set; }
+        public string Password { get; set; }
+        public string Roles { get; set; }
+        public string Email { get; set; }
         public string Nombre { get; set; }
-        public bool DependeSalario { get; set; }
+        public string Apellido { get; set; }
         public bool Estado { get; set; }
     }
 }
