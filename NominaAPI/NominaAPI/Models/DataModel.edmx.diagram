@@ -13,6 +13,12 @@
         <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_Empleado_Nomina" />
         <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_Empleado_Puesto" />
         <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.Usuario" Width="1.5" PointX="3.375" PointY="4.75" />
+        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.TipoDeduccion" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.TipoIngreso" Width="1.5" PointX="5.375" PointY="3.75" />
+        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.Transaccion" Width="1.5" PointX="7.625" PointY="1.875" />
+        <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_Transaccion_Empleado" />
+        <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_Transaccion_TipoDeduccion" />
+        <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_Transaccion_TipoIngreso" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

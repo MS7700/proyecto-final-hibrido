@@ -15,10 +15,15 @@ namespace NominaAPI.Attributes
 {
     public class BasicAuthenticationAttribute : AuthorizationFilterAttribute
     {
-        private Proyecto_Fin_Hibrido2Entities1 db = new Proyecto_Fin_Hibrido2Entities1();
+        //private Proyecto_Fin_Hibrido2Entities1 db = new Proyecto_Fin_Hibrido2Entities1();
         private bool IsAuthorizedUser(string username, string password)
         {
-            return db.Usuario.Any(l => l.UserName.Equals(username) && l.Password.Equals(password));
+            using (var db = new Proyecto_Fin_Hibrido2Entities1())
+            {
+                return db.Usuario.Any(l => l.UserName.Equals(username) && l.Password.Equals(password));
+            }
+
+            
             // In this method we can handle our database logic here...  
             //Buscar usuario y contraseña en base de datos
         }
@@ -27,7 +32,11 @@ namespace NominaAPI.Attributes
             //Este deberá de ser sustituido para que devuelva el usuario
         private Usuario GetUsuario(string username, string password)
         {
-           return db.Usuario.FirstOrDefault(l => l.UserName.Equals(username) && l.Password.Equals(password));
+            using (var db = new Proyecto_Fin_Hibrido2Entities1())
+            {
+                return db.Usuario.FirstOrDefault(l => l.UserName.Equals(username) && l.Password.Equals(password));
+            }
+            
         }
 
         //Modelo para sustituir la función autorización

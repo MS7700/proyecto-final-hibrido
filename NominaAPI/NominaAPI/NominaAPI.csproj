@@ -283,6 +283,9 @@
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\NominaController.cs" />
     <Compile Include="Controllers\PuestoController.cs" />
+    <Compile Include="Controllers\TipoDeduccionController.cs" />
+    <Compile Include="Controllers\TipoIngresoController.cs" />
+    <Compile Include="Controllers\TransaccionController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -312,6 +315,15 @@
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Puesto.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TipoDeduccion.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TipoIngreso.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Transaccion.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Usuario.cs">

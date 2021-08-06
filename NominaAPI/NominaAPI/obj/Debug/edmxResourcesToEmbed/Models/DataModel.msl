@@ -52,5 +52,43 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="TipoDeduccion">
+      <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.TipoDeduccion">
+        <MappingFragment StoreEntitySet="TipoDeduccion">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="Porcentual" ColumnName="Porcentual" />
+          <ScalarProperty Name="Automatico" ColumnName="Automatico" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TipoIngreso">
+      <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.TipoIngreso">
+        <MappingFragment StoreEntitySet="TipoIngreso">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+          <ScalarProperty Name="Porcentual" ColumnName="Porcentual" />
+          <ScalarProperty Name="Automatico" ColumnName="Automatico" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Transaccion">
+      <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.Transaccion">
+        <MappingFragment StoreEntitySet="Transaccion">
+          <ScalarProperty Name="Contabilizado" ColumnName="Contabilizado" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="TipoDeduccionID" ColumnName="TipoDeduccionID" />
+          <ScalarProperty Name="TipoIngresoID" ColumnName="TipoIngresoID" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="EmpleadoID" ColumnName="EmpleadoID" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

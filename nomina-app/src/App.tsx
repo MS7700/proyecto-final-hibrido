@@ -6,12 +6,15 @@ import { Admin, Resource, ListGuesser,EditGuesser,ShowGuesser,Loading } from 're
 import { useEffect, useState } from "react";
 import { IngresoList, IngresoEdit, IngresoCreate } from './entity/ingreso';
 import { DeduccionList, DeduccionEdit, DeduccionCreate } from './entity/deduccion';
+import { TransaccionList, TransaccionEdit, TransaccionCreate } from './entity/transaccion';
 import { DepartamentoList, DepartamentoEdit, DepartamentoCreate } from './entity/departamento';
 import { PuestoList, PuestoEdit, PuestoCreate } from './entity/puesto';
 import { NominaList, NominaEdit, NominaCreate } from './entity/nomina';
 import { EmpleadoList, EmpleadoEdit, EmpleadoCreate} from './entity/empleado';
 import { UsuarioList, UsuarioEdit, UsuarioCreate} from './entity/usuario';
 import authProvider from './authProvider';
+import theme from './theme';
+
 
 function App() {
   const [dataProvider, setDataProvider] = useState<OdataDataProvider>();
@@ -38,13 +41,16 @@ function App() {
 
   return dataProvider ? (
     //@ts-ignore
-      <Admin title="Nómina APP" dataProvider={dataProvider} authProvider={authProvider}>
+      <Admin theme={theme} title="Nómina APP" dataProvider={dataProvider} authProvider={authProvider}>
       {
         permissions => [
           <Resource name="Empleado" list={EmpleadoList} edit={EmpleadoEdit} create={EmpleadoCreate} />,
           <Resource name="Puesto" list={PuestoList} edit={PuestoEdit} create={PuestoCreate} />,
           <Resource name="Departamento" list={DepartamentoList} edit={DepartamentoEdit} create={DepartamentoCreate} />,
           <Resource name="Nomina" list={NominaList} edit={NominaEdit} create={NominaCreate} />,
+          <Resource name="TipoDeduccion" list={DeduccionList} edit={DeduccionEdit} create={DeduccionCreate} />,
+          <Resource name="TipoIngreso" list={IngresoList} edit={IngresoEdit} create={IngresoCreate} />,
+          <Resource name="Transaccion" list={TransaccionList} edit={TransaccionEdit} create={TransaccionCreate} />,
           permissions.includes("admin") ? <Resource name="Usuario" list={UsuarioList} edit={UsuarioEdit} create={UsuarioCreate} /> : null
         ]
       }

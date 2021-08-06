@@ -25,6 +25,9 @@ namespace NominaAPI
             builder.EntitySet<Departamento>("Departamento");
             builder.EntitySet<Nomina>("Nomina");
             builder.EntitySet<Usuario>("Usuario");
+            builder.EntitySet<TipoIngreso>("TipoIngreso");
+            builder.EntitySet<TipoDeduccion>("TipoDeduccion");
+            builder.EntitySet<Transaccion>("Transaccion");
             builder.Action("Autenticar").ReturnsFromEntitySet<Usuario>("Usuario");
             
             config.MapODataServiceRoute("ODataRoute", null, builder.GetEdmModel());
