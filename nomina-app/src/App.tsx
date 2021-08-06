@@ -10,12 +10,13 @@ import { DepartamentoList, DepartamentoEdit, DepartamentoCreate } from './entity
 import { PuestoList, PuestoEdit, PuestoCreate } from './entity/puesto';
 import { NominaList, NominaEdit, NominaCreate } from './entity/nomina';
 import { EmpleadoList, EmpleadoEdit, EmpleadoCreate} from './entity/empleado';
+import { UsuarioList, UsuarioEdit, UsuarioCreate} from './entity/usuario';
 import authProvider from './authProvider';
 
 function App() {
   const [dataProvider, setDataProvider] = useState<OdataDataProvider>();
   useEffect(() => {
-    if(sessionStorage.getItem("token") != "null"){
+    if(sessionStorage.getItem("token") !== "null"){
         odataProvider("https://localhost:44340/", () => {
           return Promise.resolve()
               .then((token) => ({
@@ -35,15 +36,18 @@ function App() {
     }
   }, []);
 
-
   return dataProvider ? (
     //@ts-ignore
-    <Admin dataProvider={dataProvider} authProvider={authProvider}>
-      <Resource name="Empleado" list={EmpleadoList} edit={EmpleadoEdit} create={EmpleadoCreate} />
-        <Resource name="Puesto" list={PuestoList} edit={PuestoEdit} create={PuestoCreate} />
-        <Resource name="Departamento" list={DepartamentoList} edit={DepartamentoEdit} create={DepartamentoCreate} />
-        <Resource name="Nomina" list={NominaList} edit={NominaEdit} create={NominaCreate} />
-        <Resource name="Usuario" list={ListGuesser} edit={EditGuesser} />
+      <Admin title="Nómina APP" dataProvider={dataProvider} authProvider={authProvider}>
+      {
+        permissions => [
+          <Resource name="Empleado" list={EmpleadoList} edit={EmpleadoEdit} create={EmpleadoCreate} />,
+          <Resource name="Puesto" list={PuestoList} edit={PuestoEdit} create={PuestoCreate} />,
+          <Resource name="Departamento" list={DepartamentoList} edit={DepartamentoEdit} create={DepartamentoCreate} />,
+          <Resource name="Nomina" list={NominaList} edit={NominaEdit} create={NominaCreate} />,
+          permissions.includes("admin") ? <Resource name="Usuario" list={UsuarioList} edit={UsuarioEdit} create={UsuarioCreate} /> : null
+        ]
+      }
     </Admin>
   ) : (
     <Loading loadingPrimary="Cargando..." loadingSecondary="Espere un momento"></Loading>

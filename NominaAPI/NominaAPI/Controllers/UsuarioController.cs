@@ -28,7 +28,7 @@ namespace NominaAPI.Controllers
     builder.EntitySet<Usuario>("Usuarios");
     config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
     */
-    public class UsuariosController : ODataController
+    public class UsuarioController : ODataController
     {
         private Proyecto_Fin_Hibrido2Entities1 db = new Proyecto_Fin_Hibrido2Entities1();
 

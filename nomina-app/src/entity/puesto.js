@@ -1,5 +1,5 @@
 import * as React from "react";
-import { List, Datagrid, TextField, BooleanField, Edit, Create, TextInput, SimpleForm, BooleanInput, NumberInput } from 'react-admin';
+import { List, Datagrid, TextField,  Edit, Create, TextInput, SimpleForm,  NumberInput } from 'react-admin';
 
 
 const postFilters = [

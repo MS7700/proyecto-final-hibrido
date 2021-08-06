@@ -71,7 +71,7 @@ namespace NominaAPI.Attributes
                     identity.AddClaim(new Claim("Nombre", UserDetails.Nombre));
                     identity.AddClaim(new Claim("Apellido", UserDetails.Apellido));
                     identity.AddClaim(new Claim("Email", UserDetails.Email));
-                    identity.AddClaim(new Claim(ClaimTypes.Name, UserDetails.UserName));
+                    identity.AddClaim(new Claim("Usuario", UserDetails.UserName));
                     identity.AddClaim(new Claim("id", Convert.ToString(UserDetails.id)));
                     //IPrincipal principal = new GenericPrincipal(identity, UserDetails.Roles.Split(','));
                     IPrincipal principal = new GenericPrincipal(identity, UserDetails.Roles.Split(','));
