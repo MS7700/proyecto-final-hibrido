@@ -1,7 +1,24 @@
 
-import { List, Datagrid, TextField, BooleanField, Edit, Create,  SimpleForm, NumberField,ReferenceField,NumberInput,ReferenceInput,SelectInput,DateField,DateInput, FormDataConsumer,RadioButtonGroupInput,Toolbar   } from 'react-admin';
+import { List, Datagrid, TextField, BooleanField, Edit, Create,  SimpleForm, 
+    NumberField,ReferenceField,NumberInput,ReferenceInput,SelectInput,DateField,
+    DateInput, FormDataConsumer,RadioButtonGroupInput,Toolbar,SaveButton   } from 'react-admin';
 import { useGetOne } from 'react-admin';
 import { useForm } from 'react-final-form';
+import * as React from "react";
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
+
+const MySaveButton = ({props}) =>(
+    <SaveButton {...props}
+        redirect={false}
+    />
+);
+
+const CustomToolbar = props => (
+    <Toolbar {...props} >
+        <MySaveButton />
+    </Toolbar>
+);
 
 
 export const TransaccionList = props => (
@@ -123,7 +140,7 @@ const transform = data => {
 export const TransaccionCreate = props => {
     
     return (<Create {...props} transform={transform}>
-        <SimpleForm>
+        <SimpleForm  redirect={false}>
             <ReferenceInput label="Empleado"  source="EmpleadoID" reference="Empleado"  >
                 <SelectInput label="Empleado"  optionText="Nombre" />
             </ReferenceInput>
