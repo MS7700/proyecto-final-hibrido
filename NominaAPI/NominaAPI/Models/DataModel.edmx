@@ -43,6 +43,7 @@
           <Property Name="DepartamentoID" Type="int" Nullable="false" />
           <Property Name="PuestoID" Type="int" Nullable="false" />
           <Property Name="TipoNominaID" Type="int" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Nomina">
           <Key>
@@ -476,6 +477,7 @@
           <NavigationProperty Name="TipoNomina" Relationship="Proyecto_Fin_Hibrido2Model.FK_Empleado_TipoNomina" FromRole="Empleado" ToRole="TipoNomina" />
           <NavigationProperty Name="NominaResumen" Relationship="Proyecto_Fin_Hibrido2Model.FK_NominaResumen_Empleado" FromRole="Empleado" ToRole="NominaResumen" />
           <NavigationProperty Name="Transaccion" Relationship="Proyecto_Fin_Hibrido2Model.FK_Transaccion_Empleado" FromRole="Empleado" ToRole="Transaccion" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Nomina">
           <Key>
@@ -778,6 +780,7 @@
           <EntitySetMapping Name="Empleado">
             <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.Empleado">
               <MappingFragment StoreEntitySet="Empleado">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="TipoNominaID" ColumnName="TipoNominaID" />
                 <ScalarProperty Name="PuestoID" ColumnName="PuestoID" />
                 <ScalarProperty Name="DepartamentoID" ColumnName="DepartamentoID" />

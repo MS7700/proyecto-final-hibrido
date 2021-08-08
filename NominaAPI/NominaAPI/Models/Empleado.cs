@@ -43,6 +43,8 @@ public partial class Empleado
 
     public int TipoNominaID { get; set; }
 
+    public bool Estado { get; set; }
+
 
 
     public virtual Departamento Departamento { get; set; }

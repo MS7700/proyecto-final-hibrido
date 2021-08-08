@@ -34,6 +34,7 @@
     <EntitySetMapping Name="Empleado">
       <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.Empleado">
         <MappingFragment StoreEntitySet="Empleado">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
           <ScalarProperty Name="TipoNominaID" ColumnName="TipoNominaID" />
           <ScalarProperty Name="PuestoID" ColumnName="PuestoID" />
           <ScalarProperty Name="DepartamentoID" ColumnName="DepartamentoID" />

@@ -103,7 +103,7 @@ namespace NominaAPI.Controllers
             db.Nomina.Add(nomina);
 
             nominaResumen.NominaID = nomina.id;
-            foreach (var e in db.Empleado.Where(a => a.TipoNominaID == nomina.TipoNominaID).ToList()) {
+            foreach (var e in db.Empleado.Where(a => a.TipoNominaID == nomina.TipoNominaID && a.Estado == true).ToList()) {
 
                 nominaResumen.EmpleadoID = e.id;
                 nominaResumen.SueldoBruto = e.Salario;
@@ -111,9 +111,7 @@ namespace NominaAPI.Controllers
                 db.NominaResumen.Add(nominaResumen);
 
             }
-                     //(e => e.EmpleadoID == nomina.TipoNominaID)
 
-         //   nominaResumen = 
             await db.SaveChangesAsync();
 
 
@@ -212,13 +210,5 @@ namespace NominaAPI.Controllers
         {
             return db.Nomina.Any(e => e.id == key);
         }
-
-        [EnableQuery]
-        private IQueryable<Transaccion> BuscarSueldo(System.DateTime date, int TNid) {
-
-            return db.Empleado.Where(e => e.TipoNominaID == TNid).SelectMany(m => m.Transaccion);              // && date db.Transaccion.Where(t => t.Fecha == date));
-        
-        }
-
     }
 }

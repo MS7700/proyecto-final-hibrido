@@ -38,6 +38,7 @@
     <Property Name="DepartamentoID" Type="int" Nullable="false" />
     <Property Name="PuestoID" Type="int" Nullable="false" />
     <Property Name="TipoNominaID" Type="int" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Nomina">
     <Key>

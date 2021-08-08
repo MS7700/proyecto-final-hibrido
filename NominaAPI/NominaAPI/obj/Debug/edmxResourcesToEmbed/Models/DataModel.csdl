@@ -115,6 +115,7 @@
     <NavigationProperty Name="TipoNomina" Relationship="Proyecto_Fin_Hibrido2Model.FK_Empleado_TipoNomina" FromRole="Empleado" ToRole="TipoNomina" />
     <NavigationProperty Name="NominaResumen" Relationship="Proyecto_Fin_Hibrido2Model.FK_NominaResumen_Empleado" FromRole="Empleado" ToRole="NominaResumen" />
     <NavigationProperty Name="Transaccion" Relationship="Proyecto_Fin_Hibrido2Model.FK_Transaccion_Empleado" FromRole="Empleado" ToRole="Transaccion" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="Nomina">
     <Key>
