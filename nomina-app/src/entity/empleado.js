@@ -7,7 +7,7 @@ const postFilters = [
     <NumberInput label="Salario"  source="Salario" />,
     <ReferenceInput  source="DepartamentoID" reference="Departamento"><SelectInput label="Departamento"  optionText="Descripcion" /></ReferenceInput>,
     <ReferenceInput source="PuestoID" reference="Puesto"><SelectInput label="Puesto"  optionText="Descripcion" /></ReferenceInput>,
-    <ReferenceInput source="NominaID" reference="Nomina"><SelectInput label="Nomina"  optionText="Descripcion" /></ReferenceInput>
+    <ReferenceInput source="TipoNominaID" reference="TipoNomina"><SelectInput label="Nomina"  optionText="Descripcion" /></ReferenceInput>
 ];
 
 export const EmpleadoList = props => (
@@ -19,7 +19,7 @@ export const EmpleadoList = props => (
             <NumberField source="Salario" />
             <ReferenceField source="DepartamentoID" reference="Departamento"><TextField source="Descripcion" /></ReferenceField>
             <ReferenceField source="PuestoID" reference="Puesto"><TextField source="Descripcion" /></ReferenceField>
-            <ReferenceField source="NominaID" reference="Nomina"><TextField source="Descripcion" /></ReferenceField>
+            <ReferenceField source="TipoNominaID" reference="TipoNomina"><TextField source="Descripcion" /></ReferenceField>
         </Datagrid>
     </List>
 );
@@ -33,7 +33,7 @@ export const EmpleadoEdit = props => (
             <NumberInput source="Salario" />
             <ReferenceInput source="DepartamentoID" reference="Departamento"><SelectInput optionText="Descripcion" /></ReferenceInput>
             <ReferenceInput source="PuestoID" reference="Puesto"><SelectInput optionText="Descripcion" /></ReferenceInput>
-            <ReferenceInput source="NominaID" reference="Nomina"><SelectInput optionText="Descripcion" /></ReferenceInput>
+            <ReferenceInput source="TipoNominaID" reference="TipoNomina"><SelectInput optionText="Descripcion" /></ReferenceInput>
         </SimpleForm>
     </Edit>
 );
@@ -46,7 +46,7 @@ export const EmpleadoCreate = props => (
             <NumberInput source="Salario" />
             <ReferenceInput source="DepartamentoID" reference="Departamento"><SelectInput optionText="Descripcion" /></ReferenceInput>
             <ReferenceInput source="PuestoID" reference="Puesto"><SelectInput optionText="Descripcion" /></ReferenceInput>
-            <ReferenceInput source="NominaID" reference="Nomina"><SelectInput optionText="Descripcion" /></ReferenceInput>
+            <ReferenceInput source="TipoNominaID" reference="TipoNomina"><SelectInput optionText="Descripcion" /></ReferenceInput>
         </SimpleForm>
     </Create>
 );
