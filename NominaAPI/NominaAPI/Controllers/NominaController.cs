@@ -11,21 +11,36 @@ using System.Web.Http.ModelBinding;
 using System.Web.Http.OData.Routing;
 using Microsoft.AspNet.OData;
 using System.Threading.Tasks;
+
 using NominaAPI.Models;
+
 
 namespace NominaAPI.Controllers
 {
+
+
     /*
-    Puede que la clase WebApiConfig requiera cambios adicionales para agregar una ruta para este controlador. Combine estas instrucciones en el método Register de la clase WebApiConfig según corresponda. Tenga en cuenta que las direcciones URL de OData distinguen mayúsculas de minúsculas.
+    The WebApiConfig class may require additional changes to add a route for this controller. Merge these statements into the Register method of the WebApiConfig class as applicable. Note that OData URLs are case sensitive.
 
     using System.Web.Http.OData.Builder;
+
     using System.Web.Http.OData.Extensions;
+
+
     using NominaAPI.Models;
+
     ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
     builder.EntitySet<Nomina>("Nomina");
-    builder.EntitySet<Empleado>("Empleado"); 
+
+    builder.EntitySet<TipoNomina>("TipoNomina"); 
+
+    builder.EntitySet<NominaResumen>("NominaResumen"); 
+
+
     config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
+
     */
+
     public class NominaController : ODataController
     {
         private Proyecto_Fin_Hibrido2Entities1 db = new Proyecto_Fin_Hibrido2Entities1();
@@ -79,13 +94,28 @@ namespace NominaAPI.Controllers
         // POST: odata/Nomina
         public async Task<IHttpActionResult> Post(Nomina nomina)
         {
+            NominaResumen nominaResumen = new NominaResumen();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             db.Nomina.Add(nomina);
+
+            nominaResumen.NominaID = nomina.id;
+            foreach (var e in db.Empleado.Where(a => a.TipoNominaID == nomina.TipoNominaID).ToList()) {
+
+                nominaResumen.EmpleadoID = e.id;
+                nominaResumen.SueldoBruto = e.Salario;
+                nominaResumen.SueldoDevengado = 0;
+                db.NominaResumen.Add(nominaResumen);
+
+            }
+                     //(e => e.EmpleadoID == nomina.TipoNominaID)
+
+         //   nominaResumen = 
             await db.SaveChangesAsync();
+
 
             return Created(nomina);
         }
@@ -144,12 +174,30 @@ namespace NominaAPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // GET: odata/Nomina(5)/Empleado
+
+        // GET: odata/Nomina(5)/TipoNomina
         [EnableQuery]
-        public IQueryable<Empleado> GetEmpleado([FromODataUri] int key)
+
+        public SingleResult<TipoNomina> GetTipoNomina([FromODataUri] int key)
+
         {
-            return db.Nomina.Where(m => m.id == key).SelectMany(m => m.Empleado);
+
+            return SingleResult.Create(db.Nomina.Where(m => m.id == key).Select(m => m.TipoNomina));
+
         }
+
+
+        // GET: odata/Nomina(5)/NominaResumen
+        [EnableQuery]
+
+        public IQueryable<NominaResumen> GetNominaResumen([FromODataUri] int key)
+
+        {
+
+            return db.Nomina.Where(m => m.id == key).SelectMany(m => m.NominaResumen);
+
+        }
+
 
         protected override void Dispose(bool disposing)
         {
@@ -164,5 +212,13 @@ namespace NominaAPI.Controllers
         {
             return db.Nomina.Any(e => e.id == key);
         }
+
+        [EnableQuery]
+        private IQueryable<Transaccion> BuscarSueldo(System.DateTime date, int TNid) {
+
+            return db.Empleado.Where(e => e.TipoNominaID == TNid).SelectMany(m => m.Transaccion);              // && date db.Transaccion.Where(t => t.Fecha == date));
+        
+        }
+
     }
 }

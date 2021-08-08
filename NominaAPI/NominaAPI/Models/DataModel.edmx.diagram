@@ -4,25 +4,33 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1080b575423547a5ab4de4331a4703f4" Name="Diagram1" ZoomLevel="55">
-        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.AsientoContable" Width="1.5" PointX="10" PointY="1.875" />
-        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.Cuenta" Width="1.5" PointX="7.75" PointY="2.375" />
-        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.Departamento" Width="1.5" PointX="0.75" PointY="3.875" />
-        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.Empleado" Width="1.5" PointX="3" PointY="3" />
-        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.Login" Width="1.5" PointX="2.75" PointY="8.625" />
-        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.Nomina" Width="1.5" PointX="0.75" PointY="7.125" />
-        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.Puesto" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.TipoDeduccion" Width="1.5" PointX="7.75" PointY="5.625" />
-        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.TipoIngreso" Width="1.5" PointX="4.75" PointY="8.625" />
-        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.TipoNomina" Width="1.5" PointX="5.25" PointY="2" />
-        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.Transaccion" Width="1.5" PointX="5.25" PointY="4.75" />
+      <Diagram DiagramId="1080b575423547a5ab4de4331a4703f4" Name="Diagram1" ZoomLevel="108">
+        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.AsientoContable" Width="1.5" PointX="3" PointY="12" />
+        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.Cuenta" Width="1.5" PointX="0.75" PointY="12.5" />
+        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.Departamento" Width="1.5" PointX="3.75" PointY="8.5" />
+        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.Empleado" Width="1.5" PointX="6" PointY="4.5" />
+        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.Nomina" Width="1.5" PointX="3" PointY="5" />
+        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.NominaDetalle" Width="1.5" PointX="13.5" PointY="4.875" />
+        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.NominaResumen" Width="1.5" PointX="8.25" PointY="4.875" />
+        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.Puesto" Width="1.5" PointX="3.75" PointY="2.25" />
+        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.TipoDeduccion" Width="1.5" PointX="9" PointY="8.5" />
+        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.TipoIngreso" Width="1.5" PointX="9" PointY="1.5" />
+        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.TipoNomina" Width="1.5" PointX="0.75" PointY="5.25" />
+        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.Transaccion" Width="1.5" PointX="11.25" PointY="4.5" />
         <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta" />
         <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta1" />
         <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_Empleado_Departamento" />
-        <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_Empleado_Nomina" />
         <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_Empleado_Puesto" />
-        <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_TipoNomina_Empleado" />
+        <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_Empleado_TipoNomina" />
+        <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_NominaResumen_Empleado" />
         <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_Transaccion_Empleado" />
+        <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_Nomina_TipoNomina" />
+        <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_NominaResumen_Nomina" />
+        <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_NominaDetalle_Nomina" />
+        <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_NominaDetalle_Transaccion" />
+        <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_Transaccion_TipoDeduccion" />
+        <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_Transaccion_TipoIngreso" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

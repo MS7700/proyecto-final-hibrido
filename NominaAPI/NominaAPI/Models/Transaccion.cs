@@ -18,25 +18,42 @@ using System;
 public partial class Transaccion
 {
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+    public Transaccion()
+    {
+
+        this.NominaDetalle = new HashSet<NominaDetalle>();
+
+    }
+
+
     public int id { get; set; }
 
     public int EmpleadoID { get; set; }
 
-    public System.DateTime fecha { get; set; }
+    public System.DateTime Fecha { get; set; }
 
-    public bool IoD { get; set; }
+    public string Tipo { get; set; }
 
-    public string TipoIngreso { get; set; }
+    public Nullable<int> TipoIngresoID { get; set; }
 
-    public string TipoDeduccion { get; set; }
-
-    public bool Contabilizado { get; set; }
+    public Nullable<int> TipoDeduccionID { get; set; }
 
     public double Monto { get; set; }
+
+    public bool Contabilizado { get; set; }
 
 
 
     public virtual Empleado Empleado { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<NominaDetalle> NominaDetalle { get; set; }
+
+    public virtual TipoDeduccion TipoDeduccion { get; set; }
+
+    public virtual TipoIngreso TipoIngreso { get; set; }
 
 }
 

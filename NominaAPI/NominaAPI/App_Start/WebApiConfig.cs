@@ -27,7 +27,6 @@ namespace NominaAPI
             builder.EntitySet<Cuenta>("Cuenta");
             builder.EntitySet<TipoNomina>("TipoNomina");
             builder.EntitySet<Transaccion>("Transaccion");
-            builder.EntitySet<Login>("Login");
             builder.EntitySet<TipoDeduccion>("TipoDeduccion");
             builder.EntitySet<TipoIngreso>("TipoIngreso");
 

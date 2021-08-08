@@ -18,17 +18,32 @@ using System;
 public partial class TipoIngreso
 {
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+    public TipoIngreso()
+    {
+
+        this.Transaccion = new HashSet<Transaccion>();
+
+    }
+
+
     public int id { get; set; }
 
     public string Nombre { get; set; }
 
-    public bool DependeSalario { get; set; }
-
-    public bool Estado { get; set; }
-
     public bool Automatico { get; set; }
 
     public bool Porcentual { get; set; }
+
+    public Nullable<double> Cantidad { get; set; }
+
+    public bool Estado { get; set; }
+
+
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<Transaccion> Transaccion { get; set; }
 
 }
 

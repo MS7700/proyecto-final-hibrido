@@ -15,35 +15,37 @@ namespace NominaAPI.Models
 using System;
     using System.Collections.Generic;
     
-public partial class TipoDeduccion
+public partial class NominaResumen
 {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public TipoDeduccion()
+    public NominaResumen()
     {
 
-        this.Transaccion = new HashSet<Transaccion>();
+        this.NominaDetalle = new HashSet<NominaDetalle>();
 
     }
 
 
     public int id { get; set; }
 
-    public string Nombre { get; set; }
+    public int NominaID { get; set; }
 
-    public bool Automatico { get; set; }
+    public int EmpleadoID { get; set; }
 
-    public bool Porcentual { get; set; }
+    public double SueldoBruto { get; set; }
 
-    public Nullable<double> Cantidad { get; set; }
-
-    public bool Estado { get; set; }
+    public double SueldoDevengado { get; set; }
 
 
+
+    public virtual Empleado Empleado { get; set; }
+
+    public virtual Nomina Nomina { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<Transaccion> Transaccion { get; set; }
+    public virtual ICollection<NominaDetalle> NominaDetalle { get; set; }
 
 }
 

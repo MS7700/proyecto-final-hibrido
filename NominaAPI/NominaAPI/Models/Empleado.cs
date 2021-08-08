@@ -22,7 +22,7 @@ public partial class Empleado
     public Empleado()
     {
 
-        this.TipoNomina = new HashSet<TipoNomina>();
+        this.NominaResumen = new HashSet<NominaResumen>();
 
         this.Transaccion = new HashSet<Transaccion>();
 
@@ -41,19 +41,19 @@ public partial class Empleado
 
     public int PuestoID { get; set; }
 
-    public int NominaID { get; set; }
+    public int TipoNominaID { get; set; }
 
 
 
     public virtual Departamento Departamento { get; set; }
 
-    public virtual Nomina Nomina { get; set; }
-
     public virtual Puesto Puesto { get; set; }
+
+    public virtual TipoNomina TipoNomina { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<TipoNomina> TipoNomina { get; set; }
+    public virtual ICollection<NominaResumen> NominaResumen { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 

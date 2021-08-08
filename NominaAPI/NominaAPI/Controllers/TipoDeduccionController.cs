@@ -1,4 +1,28 @@
-﻿using System;
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -31,6 +55,8 @@ namespace NominaAPI.Controllers
 
     ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
     builder.EntitySet<TipoDeduccion>("TipoDeduccion");
+
+    builder.EntitySet<Transaccion>("Transaccion"); 
 
 
     config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
@@ -155,6 +181,18 @@ namespace NominaAPI.Controllers
             await db.SaveChangesAsync();
 
             return StatusCode(HttpStatusCode.NoContent);
+        }
+
+
+        // GET: odata/TipoDeduccion(5)/Transaccion
+        [EnableQuery]
+
+        public IQueryable<Transaccion> GetTransaccion([FromODataUri] int key)
+
+        {
+
+            return db.TipoDeduccion.Where(m => m.id == key).SelectMany(m => m.Transaccion);
+
         }
 
 

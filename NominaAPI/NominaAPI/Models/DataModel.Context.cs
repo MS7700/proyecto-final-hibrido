@@ -40,11 +40,15 @@ public partial class Proyecto_Fin_Hibrido2Entities1 : DbContext
 
     public virtual DbSet<Empleado> Empleado { get; set; }
 
-    public virtual DbSet<Login> Login { get; set; }
-
     public virtual DbSet<Nomina> Nomina { get; set; }
 
+    public virtual DbSet<NominaDetalle> NominaDetalle { get; set; }
+
+    public virtual DbSet<NominaResumen> NominaResumen { get; set; }
+
     public virtual DbSet<Puesto> Puesto { get; set; }
+
+    public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
 
     public virtual DbSet<TipoDeduccion> TipoDeduccion { get; set; }
 

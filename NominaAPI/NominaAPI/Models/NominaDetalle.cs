@@ -15,30 +15,26 @@ namespace NominaAPI.Models
 using System;
     using System.Collections.Generic;
     
-public partial class AsientoContable
+public partial class NominaDetalle
 {
 
     public int id { get; set; }
 
-    public System.DateTime Fecha { get; set; }
+    public int NominaResumenID { get; set; }
+
+    public int TransaccionID { get; set; }
+
+    public string Tipo { get; set; }
 
     public string Descripcion { get; set; }
 
-    public int Cuentadb { get; set; }
-
-    public int Cuentacr { get; set; }
-
     public double Monto { get; set; }
 
-    public bool Contabilizado { get; set; }
-
-    public string Estado { get; set; }
 
 
+    public virtual NominaResumen NominaResumen { get; set; }
 
-    public virtual Cuenta Cuenta { get; set; }
-
-    public virtual Cuenta Cuenta1 { get; set; }
+    public virtual Transaccion Transaccion { get; set; }
 
 }
 

@@ -1,4 +1,28 @@
-﻿using System;
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -33,6 +57,8 @@ namespace NominaAPI.Controllers
     builder.EntitySet<TipoNomina>("TipoNomina");
 
     builder.EntitySet<Empleado>("Empleado"); 
+
+    builder.EntitySet<Nomina>("Nomina"); 
 
 
     config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
@@ -99,24 +125,7 @@ namespace NominaAPI.Controllers
 
             db.TipoNomina.Add(tipoNomina);
 
-
-            try
-            {
-
-                db.SaveChanges();
-
-            }
-            catch (DbUpdateException)
-            {
-                if (TipoNominaExists(tipoNomina.id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await db.SaveChangesAsync();
 
 
             return Created(tipoNomina);
@@ -180,11 +189,23 @@ namespace NominaAPI.Controllers
         // GET: odata/TipoNomina(5)/Empleado
         [EnableQuery]
 
-        public SingleResult<Empleado> GetEmpleado([FromODataUri] int key)
+        public IQueryable<Empleado> GetEmpleado([FromODataUri] int key)
 
         {
 
-            return SingleResult.Create(db.TipoNomina.Where(m => m.id == key).Select(m => m.Empleado));
+            return db.TipoNomina.Where(m => m.id == key).SelectMany(m => m.Empleado);
+
+        }
+
+
+        // GET: odata/TipoNomina(5)/Nomina
+        [EnableQuery]
+
+        public IQueryable<Nomina> GetNomina([FromODataUri] int key)
+
+        {
+
+            return db.TipoNomina.Where(m => m.id == key).SelectMany(m => m.Nomina);
 
         }
 

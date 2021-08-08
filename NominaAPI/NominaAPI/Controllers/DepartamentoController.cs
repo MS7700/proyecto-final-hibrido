@@ -1,4 +1,28 @@
-﻿using System;
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -11,21 +35,34 @@ using System.Web.Http.ModelBinding;
 using System.Web.Http.OData.Routing;
 using Microsoft.AspNet.OData;
 using System.Threading.Tasks;
+
 using NominaAPI.Models;
+
 
 namespace NominaAPI.Controllers
 {
+
+
     /*
-    Puede que la clase WebApiConfig requiera cambios adicionales para agregar una ruta para este controlador. Combine estas instrucciones en el método Register de la clase WebApiConfig según corresponda. Tenga en cuenta que las direcciones URL de OData distinguen mayúsculas de minúsculas.
+    The WebApiConfig class may require additional changes to add a route for this controller. Merge these statements into the Register method of the WebApiConfig class as applicable. Note that OData URLs are case sensitive.
 
     using System.Web.Http.OData.Builder;
+
     using System.Web.Http.OData.Extensions;
+
+
     using NominaAPI.Models;
+
     ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
     builder.EntitySet<Departamento>("Departamento");
+
     builder.EntitySet<Empleado>("Empleado"); 
+
+
     config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
+
     */
+
     public class DepartamentoController : ODataController
     {
         private Proyecto_Fin_Hibrido2Entities1 db = new Proyecto_Fin_Hibrido2Entities1();
@@ -85,7 +122,9 @@ namespace NominaAPI.Controllers
             }
 
             db.Departamento.Add(departamento);
+
             await db.SaveChangesAsync();
+
 
             return Created(departamento);
         }
@@ -144,12 +183,18 @@ namespace NominaAPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+
         // GET: odata/Departamento(5)/Empleado
         [EnableQuery]
+
         public IQueryable<Empleado> GetEmpleado([FromODataUri] int key)
+
         {
+
             return db.Departamento.Where(m => m.id == key).SelectMany(m => m.Empleado);
+
         }
+
 
         protected override void Dispose(bool disposing)
         {

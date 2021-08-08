@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="Proyecto_Fin_Hibrido2ModelStoreContainer" CdmEntityContainer="Proyecto_Fin_Hibrido2Entities1">
+  <EntityContainerMapping StorageEntityContainer="StoreContainer" CdmEntityContainer="Proyecto_Fin_Hibrido2Entities1">
     <EntitySetMapping Name="AsientoContable">
       <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.AsientoContable">
         <MappingFragment StoreEntitySet="AsientoContable">
-          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
           <ScalarProperty Name="Estado" ColumnName="Estado" />
           <ScalarProperty Name="Contabilizado" ColumnName="Contabilizado" />
           <ScalarProperty Name="Monto" ColumnName="Monto" />
           <ScalarProperty Name="Cuentacr" ColumnName="Cuentacr" />
           <ScalarProperty Name="Cuentadb" ColumnName="Cuentadb" />
           <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
           <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -34,7 +34,7 @@
     <EntitySetMapping Name="Empleado">
       <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.Empleado">
         <MappingFragment StoreEntitySet="Empleado">
-          <ScalarProperty Name="NominaID" ColumnName="NominaID" />
+          <ScalarProperty Name="TipoNominaID" ColumnName="TipoNominaID" />
           <ScalarProperty Name="PuestoID" ColumnName="PuestoID" />
           <ScalarProperty Name="DepartamentoID" ColumnName="DepartamentoID" />
           <ScalarProperty Name="Salario" ColumnName="Salario" />
@@ -44,19 +44,36 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Login">
-      <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.Login">
-        <MappingFragment StoreEntitySet="Login">
-          <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
-          <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+    <EntitySetMapping Name="Nomina">
+      <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.Nomina">
+        <MappingFragment StoreEntitySet="Nomina">
+          <ScalarProperty Name="Contabilizado" ColumnName="Contabilizado" />
+          <ScalarProperty Name="TipoNominaID" ColumnName="TipoNominaID" />
+          <ScalarProperty Name="Periodo" ColumnName="Periodo" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
           <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Nomina">
-      <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.Nomina">
-        <MappingFragment StoreEntitySet="Nomina">
+    <EntitySetMapping Name="NominaDetalle">
+      <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.NominaDetalle">
+        <MappingFragment StoreEntitySet="NominaDetalle">
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
           <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="TransaccionID" ColumnName="TransaccionID" />
+          <ScalarProperty Name="NominaResumenID" ColumnName="NominaResumenID" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NominaResumen">
+      <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.NominaResumen">
+        <MappingFragment StoreEntitySet="NominaResumen">
+          <ScalarProperty Name="SueldoDevengado" ColumnName="SueldoDevengado" />
+          <ScalarProperty Name="SueldoBruto" ColumnName="SueldoBruto" />
+          <ScalarProperty Name="EmpleadoID" ColumnName="EmpleadoID" />
+          <ScalarProperty Name="NominaID" ColumnName="NominaID" />
           <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -69,13 +86,24 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="definition" ColumnName="definition" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="TipoDeduccion">
       <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.TipoDeduccion">
         <MappingFragment StoreEntitySet="TipoDeduccion">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
           <ScalarProperty Name="Porcentual" ColumnName="Porcentual" />
           <ScalarProperty Name="Automatico" ColumnName="Automatico" />
-          <ScalarProperty Name="Estado" ColumnName="Estado" />
-          <ScalarProperty Name="DependeSalario" ColumnName="DependeSalario" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
@@ -84,10 +112,10 @@
     <EntitySetMapping Name="TipoIngreso">
       <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.TipoIngreso">
         <MappingFragment StoreEntitySet="TipoIngreso">
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
           <ScalarProperty Name="Porcentual" ColumnName="Porcentual" />
           <ScalarProperty Name="Automatico" ColumnName="Automatico" />
-          <ScalarProperty Name="Estado" ColumnName="Estado" />
-          <ScalarProperty Name="DependeSalario" ColumnName="DependeSalario" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
@@ -96,9 +124,7 @@
     <EntitySetMapping Name="TipoNomina">
       <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.TipoNomina">
         <MappingFragment StoreEntitySet="TipoNomina">
-          <ScalarProperty Name="EmpleadoID" ColumnName="EmpleadoID" />
-          <ScalarProperty Name="Periodo" ColumnName="Periodo" />
-          <ScalarProperty Name="TipoNomina1" ColumnName="TipoNomina" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
           <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -106,12 +132,12 @@
     <EntitySetMapping Name="Transaccion">
       <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.Transaccion">
         <MappingFragment StoreEntitySet="Transaccion">
-          <ScalarProperty Name="Monto" ColumnName="Monto" />
           <ScalarProperty Name="Contabilizado" ColumnName="Contabilizado" />
-          <ScalarProperty Name="TipoDeduccion" ColumnName="TipoDeduccion" />
-          <ScalarProperty Name="TipoIngreso" ColumnName="TipoIngreso" />
-          <ScalarProperty Name="IoD" ColumnName="IoD" />
-          <ScalarProperty Name="fecha" ColumnName="fecha" />
+          <ScalarProperty Name="Monto" ColumnName="Monto" />
+          <ScalarProperty Name="TipoDeduccionID" ColumnName="TipoDeduccionID" />
+          <ScalarProperty Name="TipoIngresoID" ColumnName="TipoIngresoID" />
+          <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
           <ScalarProperty Name="EmpleadoID" ColumnName="EmpleadoID" />
           <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>

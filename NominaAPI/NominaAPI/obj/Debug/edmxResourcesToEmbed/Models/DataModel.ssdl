@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="Proyecto_Fin_Hibrido2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="AsientoContable">
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Fecha" Type="date" Nullable="false" />
     <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Cuentadb" Type="int" Nullable="false" />
     <Property Name="Cuentacr" Type="int" Nullable="false" />
     <Property Name="Monto" Type="float" Nullable="false" />
     <Property Name="Contabilizado" Type="bit" Nullable="false" />
     <Property Name="Estado" Type="char" MaxLength="1" Nullable="false" />
-    <Property Name="Fecha" Type="date" Nullable="false" />
   </EntityType>
   <EntityType Name="Cuenta">
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Descripcion" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="Departamento">
@@ -37,22 +37,38 @@
     <Property Name="Salario" Type="float" Nullable="false" />
     <Property Name="DepartamentoID" Type="int" Nullable="false" />
     <Property Name="PuestoID" Type="int" Nullable="false" />
-    <Property Name="NominaID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Login">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Usuario" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="Contrasena" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="TipoNominaID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Nomina">
     <Key>
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Fecha" Type="date" Nullable="false" />
+    <Property Name="Periodo" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="TipoNominaID" Type="int" Nullable="false" />
+    <Property Name="Contabilizado" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="NominaDetalle">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NominaResumenID" Type="int" Nullable="false" />
+    <Property Name="TransaccionID" Type="int" Nullable="false" />
+    <Property Name="Tipo" Type="varchar" MaxLength="9" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Monto" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="NominaResumen">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NominaID" Type="int" Nullable="false" />
+    <Property Name="EmpleadoID" Type="int" Nullable="false" />
+    <Property Name="SueldoBruto" Type="float" Nullable="false" />
+    <Property Name="SueldoDevengado" Type="float" Nullable="false" />
   </EntityType>
   <EntityType Name="Puesto">
     <Key>
@@ -61,36 +77,44 @@
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
   </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
   <EntityType Name="TipoDeduccion">
     <Key>
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="DependeSalario" Type="bit" Nullable="false" />
-    <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="Automatico" Type="bit" Nullable="false" />
     <Property Name="Porcentual" Type="bit" Nullable="false" />
+    <Property Name="Cantidad" Type="float" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="TipoIngreso">
     <Key>
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="DependeSalario" Type="bit" Nullable="false" />
-    <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Automatico" Type="bit" Nullable="false" />
     <Property Name="Porcentual" Type="bit" Nullable="false" />
+    <Property Name="Cantidad" Type="float" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="TipoNomina">
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" Nullable="false" />
-    <Property Name="TipoNomina" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="Periodo" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="EmpleadoID" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="Transaccion">
     <Key>
@@ -98,12 +122,12 @@
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="EmpleadoID" Type="int" Nullable="false" />
-    <Property Name="fecha" Type="date" Nullable="false" />
-    <Property Name="IoD" Type="bit" Nullable="false" />
-    <Property Name="TipoIngreso" Type="varchar" MaxLength="20" />
-    <Property Name="TipoDeduccion" Type="varchar" MaxLength="20" />
-    <Property Name="Contabilizado" Type="bit" Nullable="false" />
+    <Property Name="Fecha" Type="date" Nullable="false" />
+    <Property Name="Tipo" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="TipoIngresoID" Type="int" />
+    <Property Name="TipoDeduccionID" Type="int" />
     <Property Name="Monto" Type="float" Nullable="false" />
+    <Property Name="Contabilizado" Type="bit" Nullable="false" />
   </EntityType>
   <Association Name="FK_AsientoContable_Cuenta">
     <End Role="Cuenta" Type="Self.Cuenta" Multiplicity="1" />
@@ -141,18 +165,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Empleado_Nomina">
-    <End Role="Nomina" Type="Self.Nomina" Multiplicity="1" />
-    <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Nomina">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Empleado">
-        <PropertyRef Name="NominaID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Empleado_Puesto">
     <End Role="Puesto" Type="Self.Puesto" Multiplicity="1" />
     <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
@@ -165,15 +177,75 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_TipoNomina_Empleado">
+  <Association Name="FK_Empleado_TipoNomina">
+    <End Role="TipoNomina" Type="Self.TipoNomina" Multiplicity="1" />
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoNomina">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Empleado">
+        <PropertyRef Name="TipoNominaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Nomina_TipoNomina">
+    <End Role="TipoNomina" Type="Self.TipoNomina" Multiplicity="1" />
+    <End Role="Nomina" Type="Self.Nomina" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoNomina">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Nomina">
+        <PropertyRef Name="TipoNominaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NominaDetalle_Nomina">
+    <End Role="NominaResumen" Type="Self.NominaResumen" Multiplicity="1" />
+    <End Role="NominaDetalle" Type="Self.NominaDetalle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NominaResumen">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="NominaDetalle">
+        <PropertyRef Name="NominaResumenID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NominaDetalle_Transaccion">
+    <End Role="Transaccion" Type="Self.Transaccion" Multiplicity="1" />
+    <End Role="NominaDetalle" Type="Self.NominaDetalle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Transaccion">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="NominaDetalle">
+        <PropertyRef Name="TransaccionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NominaResumen_Empleado">
     <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
-    <End Role="TipoNomina" Type="Self.TipoNomina" Multiplicity="*" />
+    <End Role="NominaResumen" Type="Self.NominaResumen" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Empleado">
         <PropertyRef Name="id" />
       </Principal>
-      <Dependent Role="TipoNomina">
+      <Dependent Role="NominaResumen">
         <PropertyRef Name="EmpleadoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NominaResumen_Nomina">
+    <End Role="Nomina" Type="Self.Nomina" Multiplicity="1" />
+    <End Role="NominaResumen" Type="Self.NominaResumen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Nomina">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="NominaResumen">
+        <PropertyRef Name="NominaID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -189,14 +261,40 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="Proyecto_Fin_Hibrido2ModelStoreContainer">
+  <Association Name="FK_Transaccion_TipoDeduccion">
+    <End Role="TipoDeduccion" Type="Self.TipoDeduccion" Multiplicity="0..1" />
+    <End Role="Transaccion" Type="Self.Transaccion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoDeduccion">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Transaccion">
+        <PropertyRef Name="TipoDeduccionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Transaccion_TipoIngreso">
+    <End Role="TipoIngreso" Type="Self.TipoIngreso" Multiplicity="0..1" />
+    <End Role="Transaccion" Type="Self.Transaccion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoIngreso">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Transaccion">
+        <PropertyRef Name="TipoIngresoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="StoreContainer">
     <EntitySet Name="AsientoContable" EntityType="Self.AsientoContable" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Cuenta" EntityType="Self.Cuenta" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Departamento" EntityType="Self.Departamento" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Empleado" EntityType="Self.Empleado" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Nomina" EntityType="Self.Nomina" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NominaDetalle" EntityType="Self.NominaDetalle" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NominaResumen" EntityType="Self.NominaResumen" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Puesto" EntityType="Self.Puesto" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoDeduccion" EntityType="Self.TipoDeduccion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoIngreso" EntityType="Self.TipoIngreso" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoNomina" EntityType="Self.TipoNomina" Schema="dbo" store:Type="Tables" />
@@ -213,20 +311,44 @@
       <End Role="Departamento" EntitySet="Departamento" />
       <End Role="Empleado" EntitySet="Empleado" />
     </AssociationSet>
-    <AssociationSet Name="FK_Empleado_Nomina" Association="Self.FK_Empleado_Nomina">
-      <End Role="Nomina" EntitySet="Nomina" />
-      <End Role="Empleado" EntitySet="Empleado" />
-    </AssociationSet>
     <AssociationSet Name="FK_Empleado_Puesto" Association="Self.FK_Empleado_Puesto">
       <End Role="Puesto" EntitySet="Puesto" />
       <End Role="Empleado" EntitySet="Empleado" />
     </AssociationSet>
-    <AssociationSet Name="FK_TipoNomina_Empleado" Association="Self.FK_TipoNomina_Empleado">
-      <End Role="Empleado" EntitySet="Empleado" />
+    <AssociationSet Name="FK_Empleado_TipoNomina" Association="Self.FK_Empleado_TipoNomina">
       <End Role="TipoNomina" EntitySet="TipoNomina" />
+      <End Role="Empleado" EntitySet="Empleado" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Nomina_TipoNomina" Association="Self.FK_Nomina_TipoNomina">
+      <End Role="TipoNomina" EntitySet="TipoNomina" />
+      <End Role="Nomina" EntitySet="Nomina" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NominaDetalle_Nomina" Association="Self.FK_NominaDetalle_Nomina">
+      <End Role="NominaResumen" EntitySet="NominaResumen" />
+      <End Role="NominaDetalle" EntitySet="NominaDetalle" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NominaDetalle_Transaccion" Association="Self.FK_NominaDetalle_Transaccion">
+      <End Role="Transaccion" EntitySet="Transaccion" />
+      <End Role="NominaDetalle" EntitySet="NominaDetalle" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NominaResumen_Empleado" Association="Self.FK_NominaResumen_Empleado">
+      <End Role="Empleado" EntitySet="Empleado" />
+      <End Role="NominaResumen" EntitySet="NominaResumen" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NominaResumen_Nomina" Association="Self.FK_NominaResumen_Nomina">
+      <End Role="Nomina" EntitySet="Nomina" />
+      <End Role="NominaResumen" EntitySet="NominaResumen" />
     </AssociationSet>
     <AssociationSet Name="FK_Transaccion_Empleado" Association="Self.FK_Transaccion_Empleado">
       <End Role="Empleado" EntitySet="Empleado" />
+      <End Role="Transaccion" EntitySet="Transaccion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Transaccion_TipoDeduccion" Association="Self.FK_Transaccion_TipoDeduccion">
+      <End Role="TipoDeduccion" EntitySet="TipoDeduccion" />
+      <End Role="Transaccion" EntitySet="Transaccion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Transaccion_TipoIngreso" Association="Self.FK_Transaccion_TipoIngreso">
+      <End Role="TipoIngreso" EntitySet="TipoIngreso" />
       <End Role="Transaccion" EntitySet="Transaccion" />
     </AssociationSet>
   </EntityContainer>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -33,6 +34,12 @@ namespace NominaAPI.Controllers
     builder.EntitySet<Transaccion>("Transaccion");
 
     builder.EntitySet<Empleado>("Empleado"); 
+
+    builder.EntitySet<NominaDetalle>("NominaDetalle"); 
+
+    builder.EntitySet<TipoDeduccion>("TipoDeduccion"); 
+
+    builder.EntitySet<TipoIngreso>("TipoIngreso"); 
 
 
     config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
@@ -168,6 +175,42 @@ namespace NominaAPI.Controllers
         {
 
             return SingleResult.Create(db.Transaccion.Where(m => m.id == key).Select(m => m.Empleado));
+
+        }
+
+
+        // GET: odata/Transaccion(5)/NominaDetalle
+        [EnableQuery]
+
+        public IQueryable<NominaDetalle> GetNominaDetalle([FromODataUri] int key)
+
+        {
+
+            return db.Transaccion.Where(m => m.id == key).SelectMany(m => m.NominaDetalle);
+
+        }
+
+
+        // GET: odata/Transaccion(5)/TipoDeduccion
+        [EnableQuery]
+
+        public SingleResult<TipoDeduccion> GetTipoDeduccion([FromODataUri] int key)
+
+        {
+
+            return SingleResult.Create(db.Transaccion.Where(m => m.id == key).Select(m => m.TipoDeduccion));
+
+        }
+
+
+        // GET: odata/Transaccion(5)/TipoIngreso
+        [EnableQuery]
+
+        public SingleResult<TipoIngreso> GetTipoIngreso([FromODataUri] int key)
+
+        {
+
+            return SingleResult.Create(db.Transaccion.Where(m => m.id == key).Select(m => m.TipoIngreso));
 
         }
 

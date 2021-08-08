@@ -1,4 +1,27 @@
 ﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -100,24 +123,7 @@ namespace NominaAPI.Controllers
 
             db.Cuenta.Add(cuenta);
 
-
-            try
-            {
-
-                db.SaveChanges();
-
-            }
-            catch (DbUpdateException)
-            {
-                if (CuentaExists(cuenta.id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await db.SaveChangesAsync();
 
 
             return Created(cuenta);

@@ -1,4 +1,27 @@
 ﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -31,35 +54,39 @@ namespace NominaAPI.Controllers
     using NominaAPI.Models;
 
     ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-    builder.EntitySet<AsientoContable>("AsientoContable");
+    builder.EntitySet<NominaResumen>("NominaResumen");
 
-    builder.EntitySet<Cuenta>("Cuenta"); 
+    builder.EntitySet<Empleado>("Empleado"); 
+
+    builder.EntitySet<Nomina>("Nomina"); 
+
+    builder.EntitySet<NominaDetalle>("NominaDetalle"); 
 
 
     config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
 
     */
 
-    public class AsientoContableController : ODataController
+    public class NominaResumenController : ODataController
     {
         private Proyecto_Fin_Hibrido2Entities1 db = new Proyecto_Fin_Hibrido2Entities1();
 
-        // GET: odata/AsientoContable
+        // GET: odata/NominaResumen
         [EnableQuery]
-        public IQueryable<AsientoContable> Get()
+        public IQueryable<NominaResumen> Get()
         {
-            return db.AsientoContable;
+            return db.NominaResumen;
         }
 
-        // GET: odata/AsientoContable(5)
+        // GET: odata/NominaResumen(5)
         [EnableQuery]
-        public SingleResult<AsientoContable> Get([FromODataUri] int key)
+        public SingleResult<NominaResumen> Get([FromODataUri] int key)
         {
-            return SingleResult.Create(db.AsientoContable.Where(asientoContable => asientoContable.id == key));
+            return SingleResult.Create(db.NominaResumen.Where(nominaResumen => nominaResumen.id == key));
         }
 
-        // PUT: odata/AsientoContable(5)
-        public async Task<IHttpActionResult> Put([FromODataUri] int key, AsientoContable update)
+        // PUT: odata/NominaResumen(5)
+        public async Task<IHttpActionResult> Put([FromODataUri] int key, NominaResumen update)
         {
             
             if (!ModelState.IsValid)
@@ -77,7 +104,7 @@ namespace NominaAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AsientoContableExists(key))
+                if (!NominaResumenExists(key))
                 {
                     return NotFound();
                 }
@@ -90,25 +117,25 @@ namespace NominaAPI.Controllers
 
         }
 
-        // POST: odata/AsientoContable
-        public async Task<IHttpActionResult> Post(AsientoContable asientoContable)
+        // POST: odata/NominaResumen
+        public async Task<IHttpActionResult> Post(NominaResumen nominaResumen)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.AsientoContable.Add(asientoContable);
+            db.NominaResumen.Add(nominaResumen);
 
             await db.SaveChangesAsync();
 
 
-            return Created(asientoContable);
+            return Created(nominaResumen);
         }
 
-        // PATCH: odata/AsientoContable(5)
+        // PATCH: odata/NominaResumen(5)
         [AcceptVerbs("PATCH", "MERGE")]
-        public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<AsientoContable> patch)
+        public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<NominaResumen> patch)
         {
             
 
@@ -117,14 +144,14 @@ namespace NominaAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            AsientoContable asientoContable = await db.AsientoContable.FindAsync(key);
+            NominaResumen nominaResumen = await db.NominaResumen.FindAsync(key);
 
-            if (asientoContable == null)
+            if (nominaResumen == null)
             {
                 return NotFound();
             }
 
-            patch.Patch(asientoContable);
+            patch.Patch(nominaResumen);
 
             try
             {
@@ -132,7 +159,7 @@ namespace NominaAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AsientoContableExists(key))
+                if (!NominaResumenExists(key))
                 {
                     return NotFound();
                 }
@@ -142,45 +169,57 @@ namespace NominaAPI.Controllers
                 }
             }
 
-            return Updated(asientoContable);
+            return Updated(nominaResumen);
         }
 
-        // DELETE: odata/AsientoContable(5)
+        // DELETE: odata/NominaResumen(5)
         public async Task<IHttpActionResult> Delete([FromODataUri] int key)
         {
-            AsientoContable asientoContable = await db.AsientoContable.FindAsync(key);
-            if (asientoContable == null)
+            NominaResumen nominaResumen = await db.NominaResumen.FindAsync(key);
+            if (nominaResumen == null)
             {
                 return NotFound();
             }
 
-            db.AsientoContable.Remove(asientoContable);
+            db.NominaResumen.Remove(nominaResumen);
             await db.SaveChangesAsync();
 
             return StatusCode(HttpStatusCode.NoContent);
         }
 
 
-        // GET: odata/AsientoContable(5)/Cuenta
+        // GET: odata/NominaResumen(5)/Empleado
         [EnableQuery]
 
-        public SingleResult<Cuenta> GetCuenta([FromODataUri] int key)
+        public SingleResult<Empleado> GetEmpleado([FromODataUri] int key)
 
         {
 
-            return SingleResult.Create(db.AsientoContable.Where(m => m.id == key).Select(m => m.Cuenta));
+            return SingleResult.Create(db.NominaResumen.Where(m => m.id == key).Select(m => m.Empleado));
 
         }
 
 
-        // GET: odata/AsientoContable(5)/Cuenta1
+        // GET: odata/NominaResumen(5)/Nomina
         [EnableQuery]
 
-        public SingleResult<Cuenta> GetCuenta1([FromODataUri] int key)
+        public SingleResult<Nomina> GetNomina([FromODataUri] int key)
 
         {
 
-            return SingleResult.Create(db.AsientoContable.Where(m => m.id == key).Select(m => m.Cuenta1));
+            return SingleResult.Create(db.NominaResumen.Where(m => m.id == key).Select(m => m.Nomina));
+
+        }
+
+
+        // GET: odata/NominaResumen(5)/NominaDetalle
+        [EnableQuery]
+
+        public IQueryable<NominaDetalle> GetNominaDetalle([FromODataUri] int key)
+
+        {
+
+            return db.NominaResumen.Where(m => m.id == key).SelectMany(m => m.NominaDetalle);
 
         }
 
@@ -194,9 +233,9 @@ namespace NominaAPI.Controllers
             base.Dispose(disposing);
         }
 
-        private bool AsientoContableExists(int key)
+        private bool NominaResumenExists(int key)
         {
-            return db.AsientoContable.Any(e => e.id == key);
+            return db.NominaResumen.Any(e => e.id == key);
         }
     }
 }

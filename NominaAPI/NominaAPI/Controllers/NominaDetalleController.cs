@@ -1,4 +1,28 @@
-﻿using System;
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -30,33 +54,37 @@ namespace NominaAPI.Controllers
     using NominaAPI.Models;
 
     ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-    builder.EntitySet<Login>("Login");
+    builder.EntitySet<NominaDetalle>("NominaDetalle");
+
+    builder.EntitySet<NominaResumen>("NominaResumen"); 
+
+    builder.EntitySet<Transaccion>("Transaccion"); 
 
 
     config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
 
     */
 
-    public class LoginController : ODataController
+    public class NominaDetalleController : ODataController
     {
         private Proyecto_Fin_Hibrido2Entities1 db = new Proyecto_Fin_Hibrido2Entities1();
 
-        // GET: odata/Login
+        // GET: odata/NominaDetalle
         [EnableQuery]
-        public IQueryable<Login> Get()
+        public IQueryable<NominaDetalle> Get()
         {
-            return db.Login;
+            return db.NominaDetalle;
         }
 
-        // GET: odata/Login(5)
+        // GET: odata/NominaDetalle(5)
         [EnableQuery]
-        public SingleResult<Login> Get([FromODataUri] int key)
+        public SingleResult<NominaDetalle> Get([FromODataUri] int key)
         {
-            return SingleResult.Create(db.Login.Where(login => login.id == key));
+            return SingleResult.Create(db.NominaDetalle.Where(nominaDetalle => nominaDetalle.id == key));
         }
 
-        // PUT: odata/Login(5)
-        public async Task<IHttpActionResult> Put([FromODataUri] int key, Login update)
+        // PUT: odata/NominaDetalle(5)
+        public async Task<IHttpActionResult> Put([FromODataUri] int key, NominaDetalle update)
         {
             
             if (!ModelState.IsValid)
@@ -74,7 +102,7 @@ namespace NominaAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!LoginExists(key))
+                if (!NominaDetalleExists(key))
                 {
                     return NotFound();
                 }
@@ -87,25 +115,25 @@ namespace NominaAPI.Controllers
 
         }
 
-        // POST: odata/Login
-        public async Task<IHttpActionResult> Post(Login login)
+        // POST: odata/NominaDetalle
+        public async Task<IHttpActionResult> Post(NominaDetalle nominaDetalle)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Login.Add(login);
+            db.NominaDetalle.Add(nominaDetalle);
 
             await db.SaveChangesAsync();
 
 
-            return Created(login);
+            return Created(nominaDetalle);
         }
 
-        // PATCH: odata/Login(5)
+        // PATCH: odata/NominaDetalle(5)
         [AcceptVerbs("PATCH", "MERGE")]
-        public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<Login> patch)
+        public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<NominaDetalle> patch)
         {
             
 
@@ -114,14 +142,14 @@ namespace NominaAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            Login login = await db.Login.FindAsync(key);
+            NominaDetalle nominaDetalle = await db.NominaDetalle.FindAsync(key);
 
-            if (login == null)
+            if (nominaDetalle == null)
             {
                 return NotFound();
             }
 
-            patch.Patch(login);
+            patch.Patch(nominaDetalle);
 
             try
             {
@@ -129,7 +157,7 @@ namespace NominaAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!LoginExists(key))
+                if (!NominaDetalleExists(key))
                 {
                     return NotFound();
                 }
@@ -139,22 +167,46 @@ namespace NominaAPI.Controllers
                 }
             }
 
-            return Updated(login);
+            return Updated(nominaDetalle);
         }
 
-        // DELETE: odata/Login(5)
+        // DELETE: odata/NominaDetalle(5)
         public async Task<IHttpActionResult> Delete([FromODataUri] int key)
         {
-            Login login = await db.Login.FindAsync(key);
-            if (login == null)
+            NominaDetalle nominaDetalle = await db.NominaDetalle.FindAsync(key);
+            if (nominaDetalle == null)
             {
                 return NotFound();
             }
 
-            db.Login.Remove(login);
+            db.NominaDetalle.Remove(nominaDetalle);
             await db.SaveChangesAsync();
 
             return StatusCode(HttpStatusCode.NoContent);
+        }
+
+
+        // GET: odata/NominaDetalle(5)/NominaResumen
+        [EnableQuery]
+
+        public SingleResult<NominaResumen> GetNominaResumen([FromODataUri] int key)
+
+        {
+
+            return SingleResult.Create(db.NominaDetalle.Where(m => m.id == key).Select(m => m.NominaResumen));
+
+        }
+
+
+        // GET: odata/NominaDetalle(5)/Transaccion
+        [EnableQuery]
+
+        public SingleResult<Transaccion> GetTransaccion([FromODataUri] int key)
+
+        {
+
+            return SingleResult.Create(db.NominaDetalle.Where(m => m.id == key).Select(m => m.Transaccion));
+
         }
 
 
@@ -167,9 +219,9 @@ namespace NominaAPI.Controllers
             base.Dispose(disposing);
         }
 
-        private bool LoginExists(int key)
+        private bool NominaDetalleExists(int key)
         {
-            return db.Login.Any(e => e.id == key);
+            return db.NominaDetalle.Any(e => e.id == key);
         }
     }
 }

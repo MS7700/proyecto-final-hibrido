@@ -22,20 +22,28 @@ public partial class Nomina
     public Nomina()
     {
 
-        this.Empleado = new HashSet<Empleado>();
+        this.NominaResumen = new HashSet<NominaResumen>();
 
     }
 
 
     public int id { get; set; }
 
-    public string Descripcion { get; set; }
+    public System.DateTime Fecha { get; set; }
+
+    public string Periodo { get; set; }
+
+    public int TipoNominaID { get; set; }
+
+    public bool Contabilizado { get; set; }
 
 
+
+    public virtual TipoNomina TipoNomina { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<Empleado> Empleado { get; set; }
+    public virtual ICollection<NominaResumen> NominaResumen { get; set; }
 
 }
 

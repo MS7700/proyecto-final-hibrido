@@ -1,4 +1,28 @@
-﻿using System;
+﻿
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -11,23 +35,42 @@ using System.Web.Http.ModelBinding;
 using System.Web.Http.OData.Routing;
 using Microsoft.AspNet.OData;
 using System.Threading.Tasks;
+
 using NominaAPI.Models;
+
 
 namespace NominaAPI.Controllers
 {
+
+
     /*
-    Puede que la clase WebApiConfig requiera cambios adicionales para agregar una ruta para este controlador. Combine estas instrucciones en el método Register de la clase WebApiConfig según corresponda. Tenga en cuenta que las direcciones URL de OData distinguen mayúsculas de minúsculas.
+    The WebApiConfig class may require additional changes to add a route for this controller. Merge these statements into the Register method of the WebApiConfig class as applicable. Note that OData URLs are case sensitive.
 
     using System.Web.Http.OData.Builder;
+
     using System.Web.Http.OData.Extensions;
+
+
     using NominaAPI.Models;
+
     ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
     builder.EntitySet<Empleado>("Empleado");
+
     builder.EntitySet<Departamento>("Departamento"); 
-    builder.EntitySet<Nomina>("Nomina"); 
+
     builder.EntitySet<Puesto>("Puesto"); 
+
+    builder.EntitySet<TipoNomina>("TipoNomina"); 
+
+    builder.EntitySet<NominaResumen>("NominaResumen"); 
+
+    builder.EntitySet<Transaccion>("Transaccion"); 
+
+
     config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
+
     */
+
     public class EmpleadoController : ODataController
     {
         private Proyecto_Fin_Hibrido2Entities1 db = new Proyecto_Fin_Hibrido2Entities1();
@@ -87,7 +130,9 @@ namespace NominaAPI.Controllers
             }
 
             db.Empleado.Add(empleado);
+
             await db.SaveChangesAsync();
+
 
             return Created(empleado);
         }
@@ -146,26 +191,66 @@ namespace NominaAPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+
         // GET: odata/Empleado(5)/Departamento
         [EnableQuery]
+
         public SingleResult<Departamento> GetDepartamento([FromODataUri] int key)
+
         {
+
             return SingleResult.Create(db.Empleado.Where(m => m.id == key).Select(m => m.Departamento));
+
         }
 
-        // GET: odata/Empleado(5)/Nomina
-        [EnableQuery]
-        public SingleResult<Nomina> GetNomina([FromODataUri] int key)
-        {
-            return SingleResult.Create(db.Empleado.Where(m => m.id == key).Select(m => m.Nomina));
-        }
 
         // GET: odata/Empleado(5)/Puesto
         [EnableQuery]
+
         public SingleResult<Puesto> GetPuesto([FromODataUri] int key)
+
         {
+
             return SingleResult.Create(db.Empleado.Where(m => m.id == key).Select(m => m.Puesto));
+
         }
+
+
+        // GET: odata/Empleado(5)/TipoNomina
+        [EnableQuery]
+
+        public SingleResult<TipoNomina> GetTipoNomina([FromODataUri] int key)
+
+        {
+
+            return SingleResult.Create(db.Empleado.Where(m => m.id == key).Select(m => m.TipoNomina));
+
+        }
+
+
+        // GET: odata/Empleado(5)/NominaResumen
+        [EnableQuery]
+
+        public IQueryable<NominaResumen> GetNominaResumen([FromODataUri] int key)
+
+        {
+
+            return db.Empleado.Where(m => m.id == key).SelectMany(m => m.NominaResumen);
+
+        }
+
+
+        // GET: odata/Empleado(5)/Transaccion
+        [EnableQuery]
+
+        public IQueryable<Transaccion> GetTransaccion([FromODataUri] int key)
+
+        {
+
+            return db.Empleado.Where(m => m.id == key).SelectMany(m => m.Transaccion);
+
+        }
+
 
         protected override void Dispose(bool disposing)
         {
