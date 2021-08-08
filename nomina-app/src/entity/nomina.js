@@ -1,5 +1,7 @@
 import * as React from "react";
-import { List, Datagrid, TextField, BooleanField, Edit, Create, TextInput, SimpleForm, BooleanInput } from 'react-admin';
+import { List, Datagrid, TextField, BooleanField, Edit, Create,  SimpleForm, 
+    NumberField,ReferenceField,NumberInput,ReferenceInput,SelectInput,DateField,
+    DateInput, FormDataConsumer,RadioButtonGroupInput,Toolbar,SaveButton   } from 'react-admin';
 
 
 export const NominaList = props => (
@@ -23,7 +25,11 @@ export const NominaEdit = props => (
 export const NominaCreate = props => (
     <Create {...props}>
         <SimpleForm>
-            <TextInput source="Descripcion" />
+        <DateInput source="Fecha" />
+        
+            <ReferenceInput label="Tipo Nomina" source="TipoNominaID" reference="TipoNomina" >
+                <SelectInput label="Tipo Nomina"  optionText="Descripcion" />
+            </ReferenceInput>
         </SimpleForm>
     </Create>
 );
