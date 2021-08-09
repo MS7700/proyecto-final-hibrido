@@ -331,9 +331,6 @@
     <Compile Include="Models\Puesto.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagrams.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TipoDeduccion.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>

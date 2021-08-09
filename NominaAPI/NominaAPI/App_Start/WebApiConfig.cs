@@ -29,6 +29,8 @@ namespace NominaAPI
             builder.EntitySet<Transaccion>("Transaccion");
             builder.EntitySet<TipoDeduccion>("TipoDeduccion");
             builder.EntitySet<TipoIngreso>("TipoIngreso");
+            builder.EntitySet<NominaResumen>("NominaResumen");
+            builder.EntitySet<NominaDetalle>("NominaDetalle");
 
             config.MapODataServiceRoute("ODataRoute", null, builder.GetEdmModel());
             config.Select().Expand().Filter().OrderBy().MaxTop(null).Count();

@@ -9,7 +9,6 @@
     <EntitySet Name="NominaDetalle" EntityType="Proyecto_Fin_Hibrido2Model.NominaDetalle" />
     <EntitySet Name="NominaResumen" EntityType="Proyecto_Fin_Hibrido2Model.NominaResumen" />
     <EntitySet Name="Puesto" EntityType="Proyecto_Fin_Hibrido2Model.Puesto" />
-    <EntitySet Name="sysdiagrams" EntityType="Proyecto_Fin_Hibrido2Model.sysdiagrams" />
     <EntitySet Name="TipoDeduccion" EntityType="Proyecto_Fin_Hibrido2Model.TipoDeduccion" />
     <EntitySet Name="TipoIngreso" EntityType="Proyecto_Fin_Hibrido2Model.TipoIngreso" />
     <EntitySet Name="TipoNomina" EntityType="Proyecto_Fin_Hibrido2Model.TipoNomina" />
@@ -81,6 +80,7 @@
     <Property Name="Estado" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
     <NavigationProperty Name="Cuenta" Relationship="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta" FromRole="AsientoContable" ToRole="Cuenta" />
     <NavigationProperty Name="Cuenta1" Relationship="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta1" FromRole="AsientoContable" ToRole="Cuenta" />
+    <Property Name="Auxiliar" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="Cuenta">
     <Key>
@@ -110,12 +110,12 @@
     <Property Name="DepartamentoID" Type="Int32" Nullable="false" />
     <Property Name="PuestoID" Type="Int32" Nullable="false" />
     <Property Name="TipoNominaID" Type="Int32" Nullable="false" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Departamento" Relationship="Proyecto_Fin_Hibrido2Model.FK_Empleado_Departamento" FromRole="Empleado" ToRole="Departamento" />
     <NavigationProperty Name="Puesto" Relationship="Proyecto_Fin_Hibrido2Model.FK_Empleado_Puesto" FromRole="Empleado" ToRole="Puesto" />
     <NavigationProperty Name="TipoNomina" Relationship="Proyecto_Fin_Hibrido2Model.FK_Empleado_TipoNomina" FromRole="Empleado" ToRole="TipoNomina" />
     <NavigationProperty Name="NominaResumen" Relationship="Proyecto_Fin_Hibrido2Model.FK_NominaResumen_Empleado" FromRole="Empleado" ToRole="NominaResumen" />
     <NavigationProperty Name="Transaccion" Relationship="Proyecto_Fin_Hibrido2Model.FK_Transaccion_Empleado" FromRole="Empleado" ToRole="Transaccion" />
-    <Property Name="Estado" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="Nomina">
     <Key>
@@ -137,7 +137,7 @@
     <Property Name="NominaResumenID" Type="Int32" Nullable="false" />
     <Property Name="TransaccionID" Type="Int32" Nullable="false" />
     <Property Name="Tipo" Type="String" Nullable="false" MaxLength="9" FixedLength="false" Unicode="false" />
-    <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Descripción" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Monto" Type="Double" Nullable="false" />
     <NavigationProperty Name="NominaResumen" Relationship="Proyecto_Fin_Hibrido2Model.FK_NominaDetalle_Nomina" FromRole="NominaDetalle" ToRole="NominaResumen" />
     <NavigationProperty Name="Transaccion" Relationship="Proyecto_Fin_Hibrido2Model.FK_NominaDetalle_Transaccion" FromRole="NominaDetalle" ToRole="Transaccion" />
@@ -162,16 +162,6 @@
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Empleado" Relationship="Proyecto_Fin_Hibrido2Model.FK_Empleado_Puesto" FromRole="Puesto" ToRole="Empleado" />
-  </EntityType>
-  <EntityType Name="sysdiagrams">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="principal_id" Type="Int32" Nullable="false" />
-    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="version" Type="Int32" />
-    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
   </EntityType>
   <EntityType Name="TipoDeduccion">
     <Key>
@@ -213,7 +203,7 @@
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="EmpleadoID" Type="Int32" Nullable="false" />
     <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="Tipo" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="Tipo" Type="String" Nullable="false" MaxLength="9" FixedLength="false" Unicode="false" />
     <Property Name="TipoIngresoID" Type="Int32" />
     <Property Name="TipoDeduccionID" Type="Int32" />
     <Property Name="Monto" Type="Double" Nullable="false" />

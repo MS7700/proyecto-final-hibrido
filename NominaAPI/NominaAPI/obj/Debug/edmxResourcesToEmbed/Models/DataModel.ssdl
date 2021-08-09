@@ -7,6 +7,7 @@
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Fecha" Type="date" Nullable="false" />
     <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Auxiliar" Type="int" Nullable="false" />
     <Property Name="Cuentadb" Type="int" Nullable="false" />
     <Property Name="Cuentacr" Type="int" Nullable="false" />
     <Property Name="Monto" Type="float" Nullable="false" />
@@ -17,7 +18,7 @@
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="Descripcion" Type="nvarchar" MaxLength="50" Nullable="false" />
   </EntityType>
   <EntityType Name="Departamento">
@@ -58,7 +59,7 @@
     <Property Name="NominaResumenID" Type="int" Nullable="false" />
     <Property Name="TransaccionID" Type="int" Nullable="false" />
     <Property Name="Tipo" Type="varchar" MaxLength="9" Nullable="false" />
-    <Property Name="Descripcion" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Descripción" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Monto" Type="float" Nullable="false" />
   </EntityType>
   <EntityType Name="NominaResumen">
@@ -77,16 +78,6 @@
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
-  </EntityType>
-  <EntityType Name="sysdiagrams">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-    <Property Name="principal_id" Type="int" Nullable="false" />
-    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="version" Type="int" />
-    <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
   <EntityType Name="TipoDeduccion">
     <Key>
@@ -124,7 +115,7 @@
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="EmpleadoID" Type="int" Nullable="false" />
     <Property Name="Fecha" Type="date" Nullable="false" />
-    <Property Name="Tipo" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="Tipo" Type="varchar" MaxLength="9" Nullable="false" />
     <Property Name="TipoIngresoID" Type="int" />
     <Property Name="TipoDeduccionID" Type="int" />
     <Property Name="Monto" Type="float" Nullable="false" />
@@ -295,7 +286,6 @@
     <EntitySet Name="NominaDetalle" EntityType="Self.NominaDetalle" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="NominaResumen" EntityType="Self.NominaResumen" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Puesto" EntityType="Self.Puesto" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoDeduccion" EntityType="Self.TipoDeduccion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoIngreso" EntityType="Self.TipoIngreso" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoNomina" EntityType="Self.TipoNomina" Schema="dbo" store:Type="Tables" />

@@ -1,24 +1,24 @@
 import { List, Datagrid, TextField, BooleanField, Edit, Create,  SimpleForm, 
     NumberField,ReferenceField,NumberInput,ReferenceInput,SelectInput,DateField,
-    DateInput, FormDataConsumer,RadioButtonGroupInput,Toolbar,SaveButton   } from 'react-admin';
+    DateInput, FormDataConsumer,RadioButtonGroupInput,Toolbar,BooleanInput   } from 'react-admin';
 import { useGetOne } from 'react-admin';
 import { useForm } from 'react-final-form';
 
-const MySaveButton = ({props}) =>(
-    <SaveButton {...props}
-        redirect={false}
-    />
-);
+const tipos = [{id:"Ingreso",name:"Ingreso"},{id:"Deducción",name:"Deducción"}];
 
-const CustomToolbar = props => (
-    <Toolbar {...props} >
-        <MySaveButton />
-    </Toolbar>
-);
-
+const Filters = [
+    <NumberInput label="ID" source="id" />,
+    <ReferenceInput label="Empleado"  source="EmpleadoID" reference="Empleado"  ><SelectInput label="Empleado"  optionText="Nombre" /></ReferenceInput>,
+    <DateInput source="Fecha" />,
+    <RadioButtonGroupInput label="Tipo" source="Tipo" choices={tipos} />,
+    <ReferenceInput label="Tipo de Ingreso"  source="TipoIngresoID" reference="TipoIngreso"  ><SelectInput label="Tipo de Ingreso"  optionText="Nombre" /></ReferenceInput>,
+    <ReferenceInput label="Tipo de Deducción"  source="TipoDeduccionID" reference="TipoDeduccion"  ><SelectInput label="Tipo de Deducción"  optionText="Nombre" /></ReferenceInput>,
+    <NumberInput source="Monto" />,
+    <BooleanInput source="Contabilizado" />,
+];
 
 export const TransaccionList = props => (
-    <List {...props}>
+    <List {...props} filters={Filters} sort={{ field: 'Fecha', order: 'DESC' }}>
         <Datagrid rowClick="edit">
             <TextField source="id" />
             <ReferenceField label="Empleado" source="EmpleadoID" reference="Empleado" >
@@ -60,7 +60,7 @@ export const TransaccionEdit = props => (
     </Edit>
 );
 
-const tipos = [{id:"Ingreso",name:"Ingreso"},{id:"Deducción",name:"Deducción"}];
+
 
 const GetData = (id,recurso) => {
     const { data, loading, error } = useGetOne(recurso, id);

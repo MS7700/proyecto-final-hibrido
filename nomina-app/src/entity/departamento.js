@@ -1,12 +1,16 @@
 import * as React from "react";
-import { List, Datagrid, TextField, BooleanField, Edit, Create, TextInput, SimpleForm, BooleanInput } from 'react-admin';
+import { List, Datagrid, TextField, BooleanField, Edit, Create, TextInput, SimpleForm, BooleanInput,NumberInput } from 'react-admin';
 
+const Filters = [
+    <NumberInput label="ID" source="id" />,
+    <TextInput label="Departamento"  source="Descripcion" />
+];
 
 export const DepartamentoList = props => (
-    <List {...props}>
+    <List {...props} filters={Filters}>
         <Datagrid rowClick="edit">
             <TextField source="id" />
-            <TextField source="Descripcion" />
+            <TextField label="Departamento" source="Descripcion" />
         </Datagrid>
     </List>
 );
@@ -15,7 +19,7 @@ export const DepartamentoEdit = props => (
     <Edit {...props}>
         <SimpleForm>
             <TextInput disabled source="id" />
-            <TextInput source="Descripcion" />
+            <TextInput label="Departamento" source="Descripcion" />
         </SimpleForm>
     </Edit>
 );
@@ -23,7 +27,7 @@ export const DepartamentoEdit = props => (
 export const DepartamentoCreate = props => (
     <Create {...props}>
         <SimpleForm>
-            <TextInput source="Descripcion" />
+            <TextInput label="Departamento" source="Descripcion" />
         </SimpleForm>
     </Create>
 );
