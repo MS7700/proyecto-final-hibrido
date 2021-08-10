@@ -17,7 +17,6 @@ import { useDispatch } from "react-redux";
 import SendIcon from "@material-ui/icons/Send";
 import { makeStyles } from "@material-ui/core/styles";
 
-
 import { useGetOne } from "react-admin";
 import { useForm } from "react-final-form";
 
@@ -33,7 +32,6 @@ const useStyles = makeStyles({
   button: {
     fontWeight: "bold",
     color: "green",
-    // This is JSS syntax to target a deeper element using css selector, here the svg icon for this button
     "& svg": { color: "green" },
   },
 });
@@ -78,10 +76,9 @@ export const EnviarButton = ({ record }) => {
   );
 };
 
-
-
 //Transacciones
 const GetData = (id, recurso) => {
+    // eslint-disable-next-line
   const { data, loading, error } = useGetOne(recurso, id);
   return data ? data : undefined;
 };

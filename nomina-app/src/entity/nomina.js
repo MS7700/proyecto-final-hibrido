@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   List,
   Datagrid,
@@ -22,9 +23,76 @@ import {
   Tab,
   ReferenceManyField,
   ExportButton,
+  downloadCSV,
+  Button,
 } from "react-admin";
 import { ShowSplitter } from "ra-compact-ui";
 import Typography from "@material-ui/core/Typography";
+
+import { unparse } from "papaparse";
+
+
+  const ExportNominaButton = ({ record }) => {
+  /*
+  const dispatch = useDispatch();
+  const redirect = useRedirect();
+  const notify = useNotify();
+  */
+  const [loading, setLoading] = useState(false);
+  const handleClick = () => {
+    var table=[];
+    delete record['@odata.context'];
+    table.push(record);
+    console.log(record);
+    console.log(table);
+    console.log([
+      {
+        "Column 1": "foo",
+        "Column 2": "bar"
+      }
+    ]);
+    const csv = unparse([
+      record
+    ]) + '\n' + unparse([
+      record
+    ]);
+    console.log(csv);
+    downloadCSV(csv,'nomina');
+    /*
+    setLoading(true);
+    dispatch(fetchStart()); // start the global loading indicator
+    const Record = { ...record };
+    fetch(
+      `https://localhost:44340/AsientoContable(${record.id})/Contabilidad.EnviarAsiento`,
+      { method: "POST", body: Record }
+    )
+      .then(() => {
+        notify("Asiento enviado a contabilidad");
+        redirect("/AsientoContable");
+      })
+      .catch((e) => {
+        notify(
+          "Error: El asiento no pudo ser enviado correctamente",
+          "warning"
+        );
+      })
+      .finally(() => {
+        setLoading(false);
+        dispatch(fetchEnd()); // stop the global loading indicator
+      });
+      */
+  };
+  
+  return (
+    <Button
+      label="Exportar"
+      onClick={handleClick}
+      disabled={loading}
+    />
+  );
+};
+
+
 
 const Validations = (values) => {
   const errors = {};
@@ -86,6 +154,7 @@ const AsideInfo = (props) => (
     </ReferenceField>
     <BooleanField source="Contabilizado" />
     <DeleteButton />
+    <ExportNominaButton />
   </SimpleShowLayout>
 );
 
