@@ -14,7 +14,7 @@ using Microsoft.AspNet.OData;
 using System.Threading.Tasks;
 
 using NominaAPI.Models;
-
+using Microsoft.AspNet.OData.Routing;
 
 namespace NominaAPI.Controllers
 {
@@ -90,6 +90,48 @@ namespace NominaAPI.Controllers
 
         }
 
+        [HttpPost]
+        public async Task<IHttpActionResult> EnviarAsiento([FromODataUri] int key)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            AsientoContable asientoContable = await db.AsientoContable.FindAsync(key);
+            if (asientoContable.Contabilizado)
+            {
+                return BadRequest("El asiento ya está contabilizado");
+            }
+            //Unir con API contabilidad
+
+
+            //Si es existoso, cambiar Contabilizado a true
+            asientoContable.Contabilizado = true;
+            await db.SaveChangesAsync();
+
+
+            return Ok(asientoContable);
+        }
+
+
+        /*
+        [HttpPost]
+        [ODataRoute("EnviarAsiento")]
+        public async Task<IHttpActionResult> EnviarAsiento(AsientoContable asientoContable)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.AsientoContable.Add(asientoContable);
+
+            await db.SaveChangesAsync();
+
+
+            return Created(asientoContable);
+        }
+        */
         // POST: odata/AsientoContable
         public async Task<IHttpActionResult> Post(AsientoContable asientoContable)
         {

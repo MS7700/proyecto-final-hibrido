@@ -31,6 +31,8 @@ namespace NominaAPI
             builder.EntitySet<TipoIngreso>("TipoIngreso");
             builder.EntitySet<NominaResumen>("NominaResumen");
             builder.EntitySet<NominaDetalle>("NominaDetalle");
+            builder.Namespace = "Contabilidad";
+            builder.EntityType<AsientoContable>().Action("EnviarAsiento").ReturnsFromEntitySet<AsientoContable>("AsientoContable");
 
             config.MapODataServiceRoute("ODataRoute", null, builder.GetEdmModel());
             config.Select().Expand().Filter().OrderBy().MaxTop(null).Count();

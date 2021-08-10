@@ -62,6 +62,7 @@ namespace NominaAPI.Controllers
             return SingleResult.Create(db.NominaResumen.Where(nominaResumen => nominaResumen.id == key));
         }
 
+        /*
         // PUT: odata/NominaResumen(5)
         public async Task<IHttpActionResult> Put([FromODataUri] int key, NominaResumen update)
         {
@@ -163,7 +164,7 @@ namespace NominaAPI.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
-
+        */
 
         // GET: odata/NominaResumen(5)/Empleado
         [EnableQuery]

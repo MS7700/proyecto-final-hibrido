@@ -551,7 +551,7 @@ C:\Users\mslopez\source\repos\proyecto-final-hibrido\NominaAPI\NominaAPI\bin\es\
 C:\Users\mslopez\source\repos\proyecto-final-hibrido\NominaAPI\NominaAPI\bin\es\System.Web.WebPages.resources.dll
 C:\Users\mslopez\source\repos\proyecto-final-hibrido\NominaAPI\NominaAPI\bin\es\System.Web.WebPages.Deployment.resources.dll
 C:\Users\mslopez\source\repos\proyecto-final-hibrido\NominaAPI\NominaAPI\bin\es\System.Web.WebPages.Razor.resources.dll
-C:\Users\mslopez\source\repos\proyecto-final-hibrido\NominaAPI\NominaAPI\obj\Debug\NominaAPI.csprojAssemblyReference.cache
 C:\Users\mslopez\source\repos\proyecto-final-hibrido\NominaAPI\NominaAPI\obj\Debug\NominaAPI.csproj.CopyComplete
 C:\Users\mslopez\source\repos\proyecto-final-hibrido\NominaAPI\NominaAPI\obj\Debug\NominaAPI.dll
 C:\Users\mslopez\source\repos\proyecto-final-hibrido\NominaAPI\NominaAPI\obj\Debug\NominaAPI.pdb
+C:\Users\mslopez\source\repos\proyecto-final-hibrido\NominaAPI\NominaAPI\obj\Debug\NominaAPI.csprojAssemblyReference.cache

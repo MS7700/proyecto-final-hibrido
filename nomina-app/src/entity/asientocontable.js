@@ -1,6 +1,13 @@
 import { List, Datagrid, TextField, BooleanField, Create,  SimpleForm, 
     NumberField,ReferenceField, DateField,
-    DateInput,TextInput,Show,SimpleShowLayout,NumberInput,BooleanInput   } from 'react-admin';
+    DateInput,TextInput,Show,NumberInput,BooleanInput,DeleteButton, ShowButton   } from 'react-admin';
+
+import { makeStyles } from '@material-ui/core/styles';
+
+import { EnviarDeleteActions } from '../components';
+
+import { BoxedShowLayout,RaBox} from 'ra-compact-ui';
+
 
     const Filters = [
         <NumberInput label="ID" source="id" />,
@@ -24,12 +31,30 @@ export const AsientoContableList = props => (
             <NumberField source="Monto" />
             <BooleanField source="Contabilizado" />
             <TextField source="Estado" />
+            <ShowButton />
+            <DeleteButton />
         </Datagrid>
     </List>
 );
 
+const useStyles = makeStyles({
+    button: {
+        fontWeight: 'bold',
+        color: 'green',
+        // This is JSS syntax to target a deeper element using css selector, here the svg icon for this button
+        '& svg': { color: 'green' }
+    },
+    ContainerBox: {
+        marginRight: "20%",
+    },
+    detailsBox: {
+        marginRight: "50px",
+    },
+});
+
+/*
 export const AsientoContableShow = props => (
-    <Show {...props}>
+    <Show {...props} actions={<AsientoShowActions />}>
         <SimpleShowLayout>
             <TextField source="id" />
             <DateField source="Fecha" />
@@ -43,6 +68,39 @@ export const AsientoContableShow = props => (
         </SimpleShowLayout>
     </Show>
 );
+*/
+export const AsientoContableShow = props => {
+    const classes = useStyles();
+    return (
+    <Show {...props} actions={<EnviarDeleteActions />}>
+        <BoxedShowLayout>
+            <RaBox flexWrap="wrap" display="flex" className={classes.ContainerBox}>
+                <RaBox flex="1 1 20%" className={classes.detailsBox} >
+                    <RaBox display="flex" justifyContent="space-between">
+                        <TextField source="id" />
+                        <DateField source="Fecha" />
+                    </RaBox>
+                    <RaBox display="flex" justifyContent="space-between">
+                        <TextField label="Descripción" source="Descripcion" />
+                        <NumberField source="Auxiliar" />
+                    </RaBox>
+                </RaBox>
+                <RaBox flex="1 1 35%" className={classes.detailsBox} >
+                <RaBox  display="flex" justifyContent="space-between">
+                    <ReferenceField label="Cuenta débito" source="Cuentadb" reference="Cuenta"><TextField source="Descripcion" /></ReferenceField>
+                    <ReferenceField label="Cuenta crédito" source="Cuentacr" reference="Cuenta"><TextField source="Descripcion" /></ReferenceField>
+                </RaBox>
+                    <RaBox display="flex" justifyContent="space-between">
+                        <NumberField source="Monto" />
+                        <BooleanField source="Contabilizado" />
+                        <TextField source="Estado" />
+                    </RaBox>
+                </RaBox>
+            </RaBox>
+        </BoxedShowLayout>
+    </Show>
+);
+}
 
 export const AsientoContableCreate = props => (
     <Create {...props}>

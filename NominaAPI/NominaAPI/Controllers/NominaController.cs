@@ -59,7 +59,7 @@ namespace NominaAPI.Controllers
         {
             return SingleResult.Create(db.Nomina.Where(nomina => nomina.id == key));
         }
-
+        /*
         // PUT: odata/Nomina(5)
         public async Task<IHttpActionResult> Put([FromODataUri] int key, Nomina update)
         {
@@ -91,7 +91,7 @@ namespace NominaAPI.Controllers
             return Updated(update);
 
         }
-
+        */
         // POST: odata/Nomina
         public async Task<IHttpActionResult> Post(Nomina nomina)
         {
@@ -156,7 +156,7 @@ namespace NominaAPI.Controllers
 
             return Created(nomina);
         }
-
+        /*
         // PATCH: odata/Nomina(5)
         [AcceptVerbs("PATCH", "MERGE")]
         public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<Nomina> patch)
@@ -195,7 +195,7 @@ namespace NominaAPI.Controllers
 
             return Updated(nomina);
         }
-
+        */
         // DELETE: odata/Nomina(5)
         public async Task<IHttpActionResult> Delete([FromODataUri] int key)
         {
