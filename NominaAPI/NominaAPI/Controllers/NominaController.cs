@@ -204,6 +204,10 @@ namespace NominaAPI.Controllers
             {
                 return NotFound();
             }
+            if (nomina.Contabilizado)
+            {
+                return BadRequest("Esta nómina ya está contabilizada, no se puede eliminar");
+            }
 
             db.Nomina.Remove(nomina);
             await db.SaveChangesAsync();
