@@ -100,22 +100,24 @@ namespace NominaAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
+            string prueba = "0";
             var date = nomina.Fecha;
             int year = date.Year;
             int month = date.Month;
             int day = date.Day;
+
+            if (month < 10)
+            {
+                prueba = prueba + month.ToString();
+            }
+            else{
+                prueba = month.ToString();
+            }
             System.Diagnostics.Debug.WriteLine(nomina.id + " " + nomina.TipoNominaID + " " + nomina.Fecha + " " + nomina.Contabilizado);
-
-
-            if (nomina.TipoNominaID == 1) { //Quincenal
-                nomina.Periodo = string.Format("{0}-{1}", year, month);
+                //Arreglar formato
+                nomina.Periodo = string.Format("{0}" + prueba, year);
                 System.Diagnostics.Debug.WriteLine(nomina.Periodo);
-            }
-            if (nomina.TipoNominaID == 2)
-            { //Mensual
-                nomina.Periodo = string.Format("{0}-{1}", year, month);
-                System.Diagnostics.Debug.WriteLine(nomina.Periodo);
-            }
+
             db.Nomina.Add(nomina);
 
             try
