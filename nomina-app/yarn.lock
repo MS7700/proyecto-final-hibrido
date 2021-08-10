@@ -1143,6 +1143,11 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@blackbox-vision/ra-language-spanish@^3.16.2":
+  version "3.16.2"
+  resolved "https://registry.yarnpkg.com/@blackbox-vision/ra-language-spanish/-/ra-language-spanish-3.16.2.tgz#108bdeb7304072c70f89a9c37db15c6c30bb8acc"
+  integrity sha512-40aYN3NsUjEKHtqpn1UL4DBIeIVEhytVmjWXZJI6E01YIy8M4/i4PZ+euAn7CNQQx6hYt2g/U/SAni6V+wWO9A==
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.4.tgz#f864ae85004d0fcab6f50be9141c4da368d1656a"
@@ -1471,6 +1476,14 @@
     "@babel/runtime" "^7.4.4"
     prop-types "^15.7.2"
     react-is "^16.8.0 || ^17.0.0"
+
+"@ms7700/ra-data-odata-server-forked@^2.1.5":
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/@ms7700/ra-data-odata-server-forked/-/ra-data-odata-server-forked-2.1.5.tgz#7a9cf92adb29bce20112f788616a1070ec53f57a"
+  integrity sha512-Hi7UhSpTxZNkC2uiIndkLXYic7GEHcVJPAYMbbsThd3WLSulfKO7RD0UNJWPgBaySUYQEDXFrwChKNbJ0NjSRA==
+  dependencies:
+    fast-xml-parser "^3.19.0"
+    odata-client "^0.6.14"
 
 "@nodelib/fs.scandir@2.1.4":
   version "2.1.4"
@@ -3407,6 +3420,11 @@ class-utils@^0.3.5:
     define-property "^0.2.5"
     isobject "^3.0.0"
     static-extend "^0.1.1"
+
+classnames@^2.2.6:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.1.tgz#dfcfa3891e306ec1dad105d0e88f4417b8535e8e"
+  integrity sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==
 
 classnames@~2.2.5:
   version "2.2.6"
@@ -9369,6 +9387,14 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.2.tgz#abf64491e6ecf0f38a6502403d4cda04f372dfd3"
   integrity sha512-dB15eXv3p2jDlbOiNLyMabYg1/sXvppd8DP2J3EOCQ0AkuSXCW2tP7mnVouVLJKgUMY6yP0kcQDVpLCN13h4Xg==
 
+ra-compact-ui@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/ra-compact-ui/-/ra-compact-ui-1.1.1.tgz#a3f94ddb0d093d21e3da9f3f6ac8d6e24e5ae403"
+  integrity sha512-yMX0948oNmbXKV8I/QowKxtE10tdeXikT+306X0oyff03pWHpPmOVE1jGG59aFyDXFjfFxOOrZwY7I8eELcQ9A==
+  dependencies:
+    classnames "^2.2.6"
+    prop-types "^15.7.2"
+
 ra-core@^3.17.1:
   version "3.17.1"
   resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-3.17.1.tgz#b02de6f40b1bba4904b305965bf6d22a39949bcc"
@@ -9382,13 +9408,6 @@ ra-core@^3.17.1:
     prop-types "^15.6.1"
     query-string "^5.1.1"
     reselect "~3.0.0"
-
-"ra-data-odata-server@https://github.com/MS7700/ra-data-odata-server":
-  version "2.1.0"
-  resolved "https://github.com/MS7700/ra-data-odata-server#85bdd9c9b6f245a89d576ddfb62219b18b0a0ddd"
-  dependencies:
-    fast-xml-parser "^3.19.0"
-    odata-client "^0.6.14"
 
 ra-i18n-polyglot@^3.17.1:
   version "3.17.1"

@@ -4,12 +4,12 @@
     <EntitySetMapping Name="AsientoContable">
       <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.AsientoContable">
         <MappingFragment StoreEntitySet="AsientoContable">
-          <ScalarProperty Name="Auxiliar" ColumnName="Auxiliar" />
           <ScalarProperty Name="Estado" ColumnName="Estado" />
           <ScalarProperty Name="Contabilizado" ColumnName="Contabilizado" />
           <ScalarProperty Name="Monto" ColumnName="Monto" />
           <ScalarProperty Name="Cuentacr" ColumnName="Cuentacr" />
           <ScalarProperty Name="Cuentadb" ColumnName="Cuentadb" />
+          <ScalarProperty Name="Auxiliar" ColumnName="Auxiliar" />
           <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
           <ScalarProperty Name="Fecha" ColumnName="Fecha" />
           <ScalarProperty Name="id" ColumnName="id" />

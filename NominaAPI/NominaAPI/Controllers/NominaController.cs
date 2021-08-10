@@ -13,7 +13,8 @@ using Microsoft.AspNet.OData;
 using System.Threading.Tasks;
 
 using NominaAPI.Models;
-
+using System.Data.Entity.Validation;
+using System.Data.Entity.Core;
 
 namespace NominaAPI.Controllers
 {
@@ -62,7 +63,7 @@ namespace NominaAPI.Controllers
         // PUT: odata/Nomina(5)
         public async Task<IHttpActionResult> Put([FromODataUri] int key, Nomina update)
         {
-            
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -99,20 +100,39 @@ namespace NominaAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
+            System.Diagnostics.Debug.WriteLine(nomina.id + " " + nomina.TipoNominaID + " " + nomina.Fecha + " " + nomina.Contabilizado);
+
+            //Valores de prueba
+            nomina.TipoNominaID = 1;
+            nomina.Contabilizado = true;
+            nomina.Periodo = "2021";
 
             db.Nomina.Add(nomina);
+            try
+            {
+                nominaResumen.NominaID = nomina.id;
+                foreach (var e in db.Empleado.Where(a => a.TipoNominaID == nomina.TipoNominaID && a.Estado == true).ToList())
+                {
+                    System.Diagnostics.Debug.WriteLine(e.id + " " + e.Salario);
+                    nominaResumen.EmpleadoID = e.id;
+                    nominaResumen.SueldoBruto = e.Salario;
+                    nominaResumen.SueldoDevengado = BuscarDevengado(e.id, e.Salario, nomina.Fecha);
+                    db.NominaResumen.Add(nominaResumen);
 
-            nominaResumen.NominaID = nomina.id;
-            foreach (var e in db.Empleado.Where(a => a.TipoNominaID == nomina.TipoNominaID && a.Estado == true).ToList()) {
+                    await db.SaveChangesAsync();
+                    await CrearNominaDetalleAsync(nominaResumen.id, e.id);
+                }
+            
+            }
+            catch (EntityException ex)
+            {
 
-                nominaResumen.EmpleadoID = e.id;
-                nominaResumen.SueldoBruto = e.Salario;
-                nominaResumen.SueldoDevengado = 0;
-                db.NominaResumen.Add(nominaResumen);
+                System.Diagnostics.Debug.WriteLine(ex); // or return View("ConnectionFailed"); // create this view
 
             }
 
-            await db.SaveChangesAsync();
+
+            //   await db.SaveChangesAsync();
 
 
             return Created(nomina);
@@ -122,7 +142,7 @@ namespace NominaAPI.Controllers
         [AcceptVerbs("PATCH", "MERGE")]
         public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<Nomina> patch)
         {
-            
+
 
             if (!ModelState.IsValid)
             {
@@ -210,5 +230,83 @@ namespace NominaAPI.Controllers
         {
             return db.Nomina.Any(e => e.id == key);
         }
+
+        //Función donde se busca y calcula el sueldo devengado de cada empleado.
+        private double BuscarDevengado(int id, double sueldo, DateTime fecha) {
+            double deduccion = 0;
+            double ingreso = 0;
+
+            foreach (var e in db.Transaccion.Where(a => a.EmpleadoID == id 
+                                                   && a.Fecha == fecha 
+                                                   && a.TipoIngresoID != null))   
+            {
+                ingreso += e.Monto;
+                e.Contabilizado = true;
+            }
+
+            foreach (var e in db.Transaccion.Where(a => a.EmpleadoID == id 
+                                                   && a.Fecha == fecha 
+                                                   && a.TipoDeduccionID != null)) 
+            { 
+                deduccion += e.Monto;
+                e.Contabilizado = true;
+            }
+
+            return (sueldo + ingreso) - deduccion;
+        }
+
+        private async Task CrearNominaDetalleAsync(int id, int Emid) {
+            NominaDetalle nominaDetalle = new NominaDetalle();
+
+            nominaDetalle.NominaResumenID = id;
+
+            foreach (var e in db.Transaccion.Where(a => a.EmpleadoID == Emid).ToList()) {
+
+                if (e.TipoIngresoID != null)
+                {
+
+                    foreach (var f in db.TipoIngreso.Where(a => a.id == e.TipoIngresoID).ToList()) {
+                        nominaDetalle.Descripción = f.Nombre;
+                        System.Diagnostics.Debug.WriteLine(nominaDetalle.Descripción);
+                        }
+                    nominaDetalle.Tipo = "Ingreso";
+                   
+                    
+                }
+                else {
+
+                    nominaDetalle.Tipo = "Deducción";
+                   foreach (var f in db.TipoDeduccion.Where(a => a.id == e.TipoDeduccionID).ToList())
+                    {
+                        nominaDetalle.Descripción = f.Nombre;
+                        System.Diagnostics.Debug.WriteLine(nominaDetalle.Descripción);
+                    }
+                }
+
+                nominaDetalle.TransaccionID = e.id;
+                nominaDetalle.Monto = e.Monto;
+                db.NominaDetalle.Add(nominaDetalle);
+
+                await db.SaveChangesAsync();
+            }
+            
+        }
     }
 }
+
+
+
+/* try
+               {
+                   await db.SaveChangesAsync();
+               }
+               catch (DbEntityValidationException ex)
+               {
+                   foreach (var entityValidationErrors in ex.EntityValidationErrors)
+                   {
+                       foreach (var validationError in entityValidationErrors.ValidationErrors)
+                       {
+                           System.Diagnostics.Debug.WriteLine("Property: " + validationError.PropertyName + " Error: " + validationError.ErrorMessage);
+                       }
+                   }
+               }*/

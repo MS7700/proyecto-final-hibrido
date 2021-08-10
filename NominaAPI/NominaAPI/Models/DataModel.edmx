@@ -23,7 +23,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="int" Nullable="false" />
           <Property Name="Descripcion" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Departamento">
@@ -425,6 +425,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Auxiliar" Type="Int32" Nullable="false" />
           <Property Name="Cuentadb" Type="Int32" Nullable="false" />
           <Property Name="Cuentacr" Type="Int32" Nullable="false" />
           <Property Name="Monto" Type="Double" Nullable="false" />
@@ -432,13 +433,12 @@
           <Property Name="Estado" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="Cuenta" Relationship="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta" FromRole="AsientoContable" ToRole="Cuenta" />
           <NavigationProperty Name="Cuenta1" Relationship="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta1" FromRole="AsientoContable" ToRole="Cuenta" />
-          <Property Name="Auxiliar" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Cuenta">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AsientoContable" Relationship="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta" FromRole="Cuenta" ToRole="AsientoContable" />
           <NavigationProperty Name="AsientoContable1" Relationship="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta1" FromRole="Cuenta" ToRole="AsientoContable" />
@@ -730,12 +730,12 @@
           <EntitySetMapping Name="AsientoContable">
             <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.AsientoContable">
               <MappingFragment StoreEntitySet="AsientoContable">
-                <ScalarProperty Name="Auxiliar" ColumnName="Auxiliar" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="Contabilizado" ColumnName="Contabilizado" />
                 <ScalarProperty Name="Monto" ColumnName="Monto" />
                 <ScalarProperty Name="Cuentacr" ColumnName="Cuentacr" />
                 <ScalarProperty Name="Cuentadb" ColumnName="Cuentadb" />
+                <ScalarProperty Name="Auxiliar" ColumnName="Auxiliar" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="id" ColumnName="id" />
