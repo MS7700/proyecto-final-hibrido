@@ -100,14 +100,24 @@ namespace NominaAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var date = nomina.Fecha;
+            int year = date.Year;
+            int month = date.Month;
+            int day = date.Day;
             System.Diagnostics.Debug.WriteLine(nomina.id + " " + nomina.TipoNominaID + " " + nomina.Fecha + " " + nomina.Contabilizado);
 
-            //Valores de prueba
-            nomina.TipoNominaID = 1;
-            nomina.Contabilizado = true;
-            nomina.Periodo = "2021";
 
+            if (nomina.TipoNominaID == 1) { //Quincenal
+                nomina.Periodo = string.Format("{0}-{1}", year, month);
+                System.Diagnostics.Debug.WriteLine(nomina.Periodo);
+            }
+            if (nomina.TipoNominaID == 2)
+            { //Mensual
+                nomina.Periodo = string.Format("{0}-{1}", year, month);
+                System.Diagnostics.Debug.WriteLine(nomina.Periodo);
+            }
             db.Nomina.Add(nomina);
+
             try
             {
                 nominaResumen.NominaID = nomina.id;
@@ -122,15 +132,20 @@ namespace NominaAPI.Controllers
                     await db.SaveChangesAsync();
                     await CrearNominaDetalleAsync(nominaResumen.id, e.id);
                 }
-            
+
             }
-            catch (EntityException ex)
+
+            catch (DbEntityValidationException ex)
             {
-
-                System.Diagnostics.Debug.WriteLine(ex); // or return View("ConnectionFailed"); // create this view
+                foreach (var entityValidationErrors in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in entityValidationErrors.ValidationErrors)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Property: " + validationError.PropertyName + " Error: " + validationError.ErrorMessage);
+                    }
+                }
 
             }
-
 
             //   await db.SaveChangesAsync();
 
