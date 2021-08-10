@@ -95,7 +95,7 @@ namespace NominaAPI.Controllers
         // POST: odata/Nomina
         public async Task<IHttpActionResult> Post(Nomina nomina)
         {
-            NominaResumen nominaResumen = new NominaResumen();
+            
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -122,9 +122,11 @@ namespace NominaAPI.Controllers
 
             try
             {
-                nominaResumen.NominaID = nomina.id;
+                
                 foreach (var e in db.Empleado.Where(a => a.TipoNominaID == nomina.TipoNominaID && a.Estado == true).ToList())
                 {
+                    NominaResumen nominaResumen = new NominaResumen();
+                    nominaResumen.NominaID = nomina.id;
                     System.Diagnostics.Debug.WriteLine(e.id + " " + e.Salario);
                     nominaResumen.EmpleadoID = e.id;
                     nominaResumen.SueldoBruto = e.Salario;
