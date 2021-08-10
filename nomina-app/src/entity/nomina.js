@@ -1,10 +1,8 @@
-import * as React from "react";
 import {
   List,
   Datagrid,
   TextField,
   BooleanField,
-  Edit,
   Create,
   SimpleForm,
   NumberField,
@@ -14,9 +12,6 @@ import {
   SelectInput,
   DateField,
   DateInput,
-  FormDataConsumer,
-  RadioButtonGroupInput,
-  Toolbar,
   ShowButton,
   TextInput,
   Show,
@@ -28,8 +23,19 @@ import {
   ReferenceManyField,
   ExportButton,
 } from "react-admin";
-import { RaBox, BoxedShowLayout, ShowSplitter,RaGrid } from "ra-compact-ui";
+import { ShowSplitter } from "ra-compact-ui";
 import Typography from "@material-ui/core/Typography";
+
+const Validations = (values) => {
+  const errors = {};
+  if (!values.Fecha) {
+    errors.Fecha = "La fecha es requerida.";
+  }
+  if (!values.TipoNominaID) {
+    errors.TipoNominaID = "El tipo de nómina es requerido.";
+  }
+  return errors;
+};
 
 const Filters = [
   <NumberInput label="ID" source="id" />,
@@ -64,12 +70,6 @@ export const NominaList = (props) => (
       <DeleteButton />
     </Datagrid>
   </List>
-);
-
-const ShowToolBar = ({ basePath, data, resource }) => (
-  <Toolbar>
-    <DeleteButton basePath={basePath} record={data} resource={resource} />
-  </Toolbar>
 );
 
 const AsideInfo = (props) => (
@@ -111,26 +111,22 @@ const DetalleTab = () => (
     target="NominaID"
   >
     <Datagrid>
-            <ReferenceField
-              label="Empleado"
-              source="EmpleadoID"
-              reference="Empleado"
-            >
-              <TextField source="Nombre" />
-            </ReferenceField>
-            <NumberField source="SueldoBruto" />
-            <NumberField source="SueldoDevengado" />
-          <ReferenceManyField
-            label="Detalle"
-            reference="NominaDetalle"
-            target="NominaResumenID"
-          >
-            <Datagrid>
-              <TextField source="Tipo" />
-              <TextField source="Descripción" />
-              <NumberField source="Monto" />
-            </Datagrid>
-          </ReferenceManyField>
+      <ReferenceField label="Empleado" source="EmpleadoID" reference="Empleado">
+        <TextField source="Nombre" />
+      </ReferenceField>
+      <NumberField source="SueldoBruto" />
+      <NumberField source="SueldoDevengado" />
+      <ReferenceManyField
+        label="Detalle"
+        reference="NominaDetalle"
+        target="NominaResumenID"
+      >
+        <Datagrid>
+          <TextField source="Tipo" />
+          <TextField source="Descripción" />
+          <NumberField source="Monto" />
+        </Datagrid>
+      </ReferenceManyField>
     </Datagrid>
   </ReferenceManyField>
 );
@@ -159,60 +155,9 @@ export const NominaShow = (props) => (
   </Show>
 );
 
-/*
-    export const NominaShow = props => (
-        <Show {...props}>
-            <TabbedShowLayout>
-                <Tab label="Enviar">
-                <BoxedShowLayout>
-                    <RaBox display="flex">
-                        <RaBox display="flex" flexGrow={3} justifyContent="space-between" >
-                            <DateField source="Fecha" />
-                            <TextField source="Periodo" />
-                            <ReferenceField label="Tipo de Nómina"  source="TipoNominaID" reference="TipoNomina"><TextField source="Descripcion" /></ReferenceField>
-                            <BooleanField source="Contabilizado" />
-                        </RaBox>
-                        <RaBox display="flex" flexDirection="column" flexGrow={1}>
-                            <TextField source="Fecha"/>
-                        </RaBox>
-                    </RaBox>
-                </BoxedShowLayout>
-                </Tab>
-                <Tab label="Resumido">
-                <ReferenceManyField label="Nómina Resumen" reference="NominaResumen" target="NominaID">
-                    <Datagrid>
-                    <TextField source="id" />
-                    <ReferenceField label="Nómina" source="NominaID" reference="Nomina"><TextField source="Periodo" /></ReferenceField>
-                    <ReferenceField label="Empleado" source="EmpleadoID" reference="Empleado"><TextField source="Nombre" /></ReferenceField>
-                    <NumberField source="SueldoBruto" />
-                    <NumberField source="SueldoDevengado" />
-                    </Datagrid>
-                </ReferenceManyField>
-                </Tab>
-                <Tab label="Detallado">
-                    <ReferenceManyField label="Nómina Resumen" reference="NominaResumen" target="NominaID">
-                        <Datagrid>
-                        <TextField source="id" />
-                        <ReferenceField label="Empleado" source="EmpleadoID" reference="Empleado"><TextField source="Nombre" /></ReferenceField>
-                        <NumberField source="SueldoBruto" />
-                        <NumberField source="SueldoDevengado" />
-                        <ReferenceManyField label="Nómina Detalle" reference="NominaDetalle" target="NominaResumenID">
-                            <Datagrid>
-                                <TextField source="Tipo" />
-                                <TextField source="Descripción" />
-                                <NumberField source="Monto" />
-                            </Datagrid>
-                        </ReferenceManyField>
-                        </Datagrid>
-                    </ReferenceManyField>
-                </Tab>
-            </TabbedShowLayout>
-        </Show>
-    );
-    */
 export const NominaCreate = (props) => (
   <Create {...props}>
-    <SimpleForm>
+    <SimpleForm validate={Validations}>
       <DateInput source="Fecha" />
       <ReferenceInput
         label="Tipo de Nómina"
