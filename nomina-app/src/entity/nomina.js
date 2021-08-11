@@ -25,74 +25,109 @@ import {
   ExportButton,
   downloadCSV,
   Button,
+  useGetMany,
+  useGetManyReference,
 } from "react-admin";
 import { ShowSplitter } from "ra-compact-ui";
 import Typography from "@material-ui/core/Typography";
 
 import { unparse } from "papaparse";
 
-
-  const ExportNominaButton = ({ record }) => {
+const ExportNominaButton = (props) => {
   /*
   const dispatch = useDispatch();
   const redirect = useRedirect();
   const notify = useNotify();
   */
+  const record = props.record;
   const [loading, setLoading] = useState(false);
-  const handleClick = () => {
-    var table=[];
-    delete record['@odata.context'];
-    table.push(record);
-    console.log(record);
-    console.log(table);
-    console.log([
-      {
-        "Column 1": "foo",
-        "Column 2": "bar"
-      }
-    ]);
-    const csv = unparse([
-      record
-    ]) + '\n' + unparse([
-      record
-    ]);
-    console.log(csv);
-    downloadCSV(csv,'nomina');
-    /*
-    setLoading(true);
-    dispatch(fetchStart()); // start the global loading indicator
-    const Record = { ...record };
-    fetch(
-      `https://localhost:44340/AsientoContable(${record.id})/Contabilidad.EnviarAsiento`,
-      { method: "POST", body: Record }
-    )
-      .then(() => {
-        notify("Asiento enviado a contabilidad");
-        redirect("/AsientoContable");
-      })
-      .catch((e) => {
-        notify(
-          "Error: El asiento no pudo ser enviado correctamente",
-          "warning"
-        );
-      })
-      .finally(() => {
-        setLoading(false);
-        dispatch(fetchEnd()); // stop the global loading indicator
-      });
-      */
-  };
-  
-  return (
-    <Button
-      label="Exportar"
-      onClick={handleClick}
-      disabled={loading}
-    />
+  const nominaResumenReference = useGetManyReference(
+    "NominaResumen",
+    "NominaID",
+    record.id,
+    {},
+    {},
+    {},
+    "Nomina"
   );
+  /*
+  const nominaDetalleReferenceTable = [];
+  const useGetNominaDetalleReference = n => [...Array(n)].map((_,i) => useGetManyReference(
+    "NominaResumen",
+    "NominaID",
+    i,
+    {},
+    {},
+    {},
+    "Nomina"
+  ));
+  */
+  const nominaDetalleReferenceTable = [];
+  const nominaDetalleTable = [];
+  nominaResumenReference.ids.map((id) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const nominadetallereference = useGetManyReference(
+      "NominaDetalle",
+      "NominaResumenID",
+      id,
+      {},
+      {},
+      {},
+      "NominaResumen"
+    );
+    nominaDetalleReferenceTable.push(
+      nominadetallereference
+    );
+    nominaDetalleTable.push(
+      nominadetallereference.data
+    );
+    return;
+  });
+  
+  let nominaResumen = nominaResumenReference.data;
+  const handleClick = () => {
+    //console.log(nominaDetalleReferenceTable);
+    //console.log(nominaDetalleTable);
+    delete record["@odata.context"];
+    let csv = unparse([record]) + "\n\n";
+    if (props.detallado) {
+        
+        var i = 0;
+        nominaResumenReference.ids.map((id) => {
+          delete record[id]["NominaID"];
+        const tableDetalle = [];
+        csv += unparse([nominaResumen[id]]) + "\n";
+        console.log([nominaResumen[id]]);
+         
+        nominaDetalleReferenceTable[i].ids.map(
+          (ndID) => {
+            //console.log(nominaDetalleTable[i][ndID]);
+            tableDetalle.push(nominaDetalleTable[i][ndID]);
+            return;
+          }
+        );
+        csv += unparse(tableDetalle) + "\n\n";
+       i++;
+        return;
+      });
+
+    } 
+    
+    else {
+      const tableResumen = [];
+      nominaResumenReference.ids.map((id) => {
+        delete record[id]["NominaID"];
+        return tableResumen.push(nominaResumen[id]);
+      });
+      csv += unparse(tableResumen) + "\n";
+    }
+
+    console.log(csv);
+    downloadCSV(csv, "nomina");
+  };
+
+  return <Button {...props} onClick={handleClick} disabled={loading} />;
 };
-
-
 
 const Validations = (values) => {
   const errors = {};
@@ -154,7 +189,8 @@ const AsideInfo = (props) => (
     </ReferenceField>
     <BooleanField source="Contabilizado" />
     <DeleteButton />
-    <ExportNominaButton />
+    <ExportNominaButton label="Exportar Detallado" detallado={true} />
+    <ExportNominaButton label="Exportar Resumido" detallado={false} />
   </SimpleShowLayout>
 );
 
