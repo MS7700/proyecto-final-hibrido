@@ -121,7 +121,7 @@ namespace NominaAPI.Controllers
                     db.NominaResumen.Add(nominaResumen);
 
                     await db.SaveChangesAsync();
-                    await CrearNominaDetalleAsync(nominaResumen.id, e.id);
+                    await CrearNominaDetalleAsync(nominaResumen.id, e.id,nomina.Fecha);
                 }
 
             }
@@ -279,12 +279,12 @@ namespace NominaAPI.Controllers
             return (sueldo + ingreso) - deduccion;
         }
 
-        private async Task CrearNominaDetalleAsync(int id, int Emid) {
+        private async Task CrearNominaDetalleAsync(int id, int Emid,DateTime fecha) {
             NominaDetalle nominaDetalle = new NominaDetalle();
 
             nominaDetalle.NominaResumenID = id;
 
-            foreach (var e in db.Transaccion.Where(a => a.EmpleadoID == Emid).ToList()) {
+            foreach (var e in db.Transaccion.Where(a => a.EmpleadoID == Emid && a.Fecha == fecha).ToList()) {
 
                 if (e.TipoIngresoID != null)
                 {
