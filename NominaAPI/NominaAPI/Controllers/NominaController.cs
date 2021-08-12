@@ -96,28 +96,16 @@ namespace NominaAPI.Controllers
         public async Task<IHttpActionResult> Post(Nomina nomina)
         {
             
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            string prueba = "0";
-            var date = nomina.Fecha;
-            int year = date.Year;
-            int month = date.Month;
-            int day = date.Day;
 
-            if (month < 10)
-            {
-                prueba = prueba + month.ToString();
-            }
-            else{
-                prueba = month.ToString();
-            }
-            System.Diagnostics.Debug.WriteLine(nomina.id + " " + nomina.TipoNominaID + " " + nomina.Fecha + " " + nomina.Contabilizado);
-                //Arreglar formato
-                nomina.Periodo = string.Format("{0}" + prueba, year);
-                System.Diagnostics.Debug.WriteLine(nomina.Periodo);
+            //Pasé todo el proceso del periodo en una función para que esta parte sea mas legible.
 
+            //Nota: Se asume que quincenal es id = 1, todos los demás tipos de nómina que se creen se guardará en formato mensual.
+            nomina.Periodo = AsignarPeriodo(nomina.Fecha, nomina.TipoNominaID);
             db.Nomina.Add(nomina);
 
             try
@@ -127,7 +115,6 @@ namespace NominaAPI.Controllers
                 {
                     NominaResumen nominaResumen = new NominaResumen();
                     nominaResumen.NominaID = nomina.id;
-                    System.Diagnostics.Debug.WriteLine(e.id + " " + e.Salario);
                     nominaResumen.EmpleadoID = e.id;
                     nominaResumen.SueldoBruto = e.Salario;
                     nominaResumen.SueldoDevengado = BuscarDevengado(e.id, e.Salario, nomina.Fecha);
@@ -208,7 +195,21 @@ namespace NominaAPI.Controllers
             {
                 return BadRequest("Esta nómina ya está contabilizada, no se puede eliminar");
             }
+            /*Convertir transacciones a no contabilizadas cuando se elimina la nómina. 
+             * 
+             * Muy probablemente haya otra forma mejor de hacerlo, pero de momento se me ocurrió esto y funcionar funciona.*/
+            foreach (var e in db.NominaResumen.Where(a => a.NominaID == nomina.id)) {
 
+                foreach (var f in db.NominaDetalle.Where(a => a.NominaResumenID == e.id)) {
+
+                    foreach (var g in db.Transaccion.Where(a => f.TransaccionID == a.id)) {
+
+                        g.Contabilizado = false;
+                    }
+                    
+                }
+
+            }
             db.Nomina.Remove(nomina);
             await db.SaveChangesAsync();
 
@@ -313,6 +314,41 @@ namespace NominaAPI.Controllers
                 await db.SaveChangesAsync();
             }
             
+        }
+        private string AsignarPeriodo(DateTime Fecha, int tipo) {
+
+            string prueba = "0";
+            var date = Fecha;
+            int year = date.Year;
+            int month = date.Month;
+            int day = date.Day;
+            int quincena;
+            if (month < 10)
+            {
+                prueba = prueba + month.ToString();
+            }
+            else
+            {
+                prueba = month.ToString();
+            }
+
+            if (day <= 15)
+            {
+                quincena = 1;
+            }
+            else
+            {
+                quincena = 2;
+            }
+            if (tipo == 1)
+            {
+                return string.Format("{0}" + prueba + "-" + quincena.ToString(), year);
+            }
+            else
+            {
+                return string.Format("{0}" + prueba, year);
+            }
+
         }
     }
 }

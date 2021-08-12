@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 
 using NominaAPI.Models;
 using Microsoft.AspNet.OData.Routing;
+using System.Data.Entity.Validation;
 
 namespace NominaAPI.Controllers
 {
@@ -139,10 +140,38 @@ namespace NominaAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
+            asientoContable.Estado = "R";
+            asientoContable.Auxiliar = 2;
+            asientoContable.Cuentacr = 70;
+            asientoContable.Cuentadb = 71;
+            
+
+            foreach (var nomina in db.Nomina.Where(a => a.Contabilizado == false && a.Fecha <= asientoContable.Fecha).ToList()) {
+
+                foreach (var nominaResumen in db.NominaResumen.Where(a => a.NominaID == nomina.id)) {
+
+                    asientoContable.Monto += nominaResumen.SueldoDevengado;
+                }
+                nomina.Contabilizado = true;
+
+            }
 
             db.AsientoContable.Add(asientoContable);
-
-            await db.SaveChangesAsync();
+           // await db.SaveChangesAsync();
+             try
+               {
+                   await db.SaveChangesAsync();
+               }
+               catch (DbEntityValidationException ex)
+               {
+                   foreach (var entityValidationErrors in ex.EntityValidationErrors)
+                   {
+                       foreach (var validationError in entityValidationErrors.ValidationErrors)
+                       {
+                           System.Diagnostics.Debug.WriteLine("Property: " + validationError.PropertyName + " Error: " + validationError.ErrorMessage);
+                       }
+                   }
+               }
 
 
             return Created(asientoContable);
@@ -194,6 +223,10 @@ namespace NominaAPI.Controllers
             if (asientoContable == null)
             {
                 return NotFound();
+            }
+
+            foreach (var e in db.Nomina.Where(a => a.Periodo.Substring(0,5) == asientoContable.Descripcion.Substring(0,5))) {
+                e.Contabilizado = false;
             }
 
             db.AsientoContable.Remove(asientoContable);

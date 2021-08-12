@@ -310,7 +310,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_NominaResumen_Nomina">
-    <End Type="Proyecto_Fin_Hibrido2Model.Nomina" Role="Nomina" Multiplicity="1" />
+    <End Type="Proyecto_Fin_Hibrido2Model.Nomina" Role="Nomina" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Type="Proyecto_Fin_Hibrido2Model.NominaResumen" Role="NominaResumen" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Nomina">
@@ -322,7 +324,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_NominaDetalle_Nomina">
-    <End Type="Proyecto_Fin_Hibrido2Model.NominaResumen" Role="NominaResumen" Multiplicity="1" />
+    <End Type="Proyecto_Fin_Hibrido2Model.NominaResumen" Role="NominaResumen" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Type="Proyecto_Fin_Hibrido2Model.NominaDetalle" Role="NominaDetalle" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="NominaResumen">

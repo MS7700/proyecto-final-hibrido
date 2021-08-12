@@ -194,7 +194,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_NominaDetalle_Nomina">
-    <End Role="NominaResumen" Type="Self.NominaResumen" Multiplicity="1" />
+    <End Role="NominaResumen" Type="Self.NominaResumen" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="NominaDetalle" Type="Self.NominaDetalle" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="NominaResumen">
@@ -230,7 +232,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_NominaResumen_Nomina">
-    <End Role="Nomina" Type="Self.Nomina" Multiplicity="1" />
+    <End Role="Nomina" Type="Self.Nomina" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="NominaResumen" Type="Self.NominaResumen" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Nomina">
