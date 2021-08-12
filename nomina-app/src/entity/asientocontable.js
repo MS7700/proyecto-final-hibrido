@@ -44,7 +44,7 @@ const Filters = [
 
 export const AsientoContableList = (props) => (
   <List {...props} filters={Filters} sort={{ field: "Fecha", order: "DESC" }}>
-    <Datagrid>
+    <Datagrid rowClick="show" >
       <TextField source="id" />
       <DateField source="Fecha" />
       <TextField label="Descripción" source="Descripcion" />
@@ -66,8 +66,6 @@ export const AsientoContableList = (props) => (
       <NumberField source="Monto" />
       <BooleanField source="Contabilizado" />
       <TextField source="Estado" />
-      <ShowButton />
-      <DeleteButton />
     </Datagrid>
   </List>
 );

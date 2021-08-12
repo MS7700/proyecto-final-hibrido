@@ -9,6 +9,8 @@ import {
   NumberInput,
   ReferenceInput,
   SelectInput,
+  downloadCSV,
+  useDataProvider,
 } from "react-admin";
 
 import { useState } from "react";
@@ -19,6 +21,10 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { useGetOne } from "react-admin";
 import { useForm } from "react-final-form";
+
+import { unparse } from "papaparse";
+
+import ExportIcon from '@material-ui/icons/GetApp';
 
 //Asientos contables
 export const EnviarDeleteActions = ({ basePath, data, resource }) => (
@@ -127,3 +133,119 @@ export const MontoInput = ({ EmpleadoID, tipoID, tipoResource }) => {
   }
   return <div></div>;
 };
+
+//Nomina
+export const ExportNominaButton = (props) => {
+  const dataProvider = useDataProvider();
+  const [loading, setLoading] = useState(false);
+  const notify = useNotify();
+  const handleClick = async () => {
+    setLoading(true);
+    if (!props.record) {
+      notify("No hay record de nómina");
+      setLoading(false);
+      return;
+    }
+    const record = JSON.parse(JSON.stringify(props.record));
+    console.log(record);
+    delete record["@odata.context"];
+    if (record.TipoNominaID) {
+      let tipo = await dataProvider.getOne("TipoNomina", { id: record.TipoNominaID });
+      if (tipo) {
+        record["TipoNomina"] = tipo.data.Descripcion;
+        delete record["TipoNominaID"];
+      }
+    }
+    console.log(record);
+    let csv = unparse([record], { delimiter: ";" }) + "\n\n";
+    if (props.detallado) {
+      let resumen = await dataProvider.getManyReference('NominaResumen',
+        {
+          target: 'NominaID',
+          id: record.id,
+          pagination: { page: 1, perPage: 100000 },
+          sort: { field: 'id', order: 'DESC' },
+          filter: {}
+        }
+      );
+      if (!resumen) {
+        notify("Resumen no recibido");
+        setLoading(false);
+        return;
+      }
+      // eslint-disable-next-line no-unused-vars
+      let resumenDepurado = await Promise.all(
+        resumen.data.map(async r => {
+          let empleado = await dataProvider.getOne("Empleado", { id: r.EmpleadoID });
+          let detalle = await dataProvider.getManyReference(
+            "NominaDetalle",
+            {
+              target: 'NominaResumenID',
+              id: r.id,
+              pagination: { page: 1, perPage: 100000 },
+              sort: { field: 'id', order: 'DESC' },
+              filter: {}
+            }
+          );
+          if (!detalle) {
+            return;
+          }
+          let detalleDepurado = await detalle.data.map(
+            d => {
+              delete d["id"];
+              delete d["NominaResumenID"];
+              delete d["TransaccionID"];
+              return d;
+            }
+          );
+          if (!empleado) {
+            return;
+          }
+          r.Empleado = empleado.data.Nombre;
+          delete r["EmpleadoID"];
+          delete r["NominaID"];
+          delete r["id"];
+          csv += unparse([r], { delimiter: ";" }) + "\n";
+          csv += unparse(detalleDepurado, { delimiter: ";" }) + "\n\n";
+          return r;
+        }
+        )
+      );
+      downloadCSV(csv, "nomina");
+      setLoading(false);
+
+    } else {
+      let resumen = await dataProvider.getManyReference('NominaResumen',
+        {
+          target: 'NominaID',
+          id: record.id,
+          pagination: { page: 1, perPage: 100000 },
+          sort: { field: 'id', order: 'DESC' },
+          filter: {}
+        }
+      );
+      if (!resumen) {
+        notify("Resumen no recibido");
+        setLoading(false);
+        return;
+      }
+      let resumenDepurado = await Promise.all(
+        resumen.data.map(async r => {
+          let empleado = await dataProvider.getOne("Empleado", { id: r.EmpleadoID });
+          r.Empleado = empleado.data.Nombre;
+          delete r["EmpleadoID"];
+          delete r["NominaID"];
+          delete r["id"];
+          return r;
+        }
+        )
+      );
+
+      csv += unparse(resumenDepurado, { delimiter: ";" });
+      downloadCSV(csv, "nomina");
+      setLoading(false);
+    }
+  }
+
+  return <Button children={<ExportIcon />} {...props} onClick={handleClick} disabled={loading} />;
+}
