@@ -33,7 +33,7 @@ namespace NominaAPI
             builder.EntitySet<NominaDetalle>("NominaDetalle");
             builder.Namespace = "Contabilidad";
             builder.EntityType<AsientoContable>().Action("EnviarAsiento").ReturnsFromEntitySet<AsientoContable>("AsientoContable");
-
+            config.SetTimeZoneInfo(TimeZoneInfo.Utc);
             config.MapODataServiceRoute("ODataRoute", null, builder.GetEdmModel());
             config.Select().Expand().Filter().OrderBy().MaxTop(null).Count();
             // Configuración y servicios de API web

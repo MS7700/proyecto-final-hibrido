@@ -42,6 +42,8 @@ const Validations = (values) => {
 const Filters = [
   <NumberInput label="ID" source="id" />,
   <TextInput label="Nombre" source="Nombre" />,
+  <DateInput source="FechaInicial" />,
+  <DateInput source="FechaFinal" />,
   <DateInput source="Fecha" />,
   <TextInput label="Periodo" source="Periodo" />,
   <ReferenceInput

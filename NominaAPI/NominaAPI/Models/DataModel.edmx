@@ -55,6 +55,7 @@
           <Property Name="Periodo" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="TipoNominaID" Type="int" Nullable="false" />
           <Property Name="Contabilizado" Type="bit" Nullable="false" />
+          <Property Name="AsientoContableID" Type="int" />
         </EntityType>
         <EntityType Name="NominaDetalle">
           <Key>
@@ -183,6 +184,18 @@
             </Principal>
             <Dependent Role="Empleado">
               <PropertyRef Name="TipoNominaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Nomina_AsientoContable">
+          <End Role="AsientoContable" Type="Self.AsientoContable" Multiplicity="0..1" />
+          <End Role="Nomina" Type="Self.Nomina" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AsientoContable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Nomina">
+              <PropertyRef Name="AsientoContableID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -319,6 +332,10 @@
             <End Role="TipoNomina" EntitySet="TipoNomina" />
             <End Role="Empleado" EntitySet="Empleado" />
           </AssociationSet>
+          <AssociationSet Name="FK_Nomina_AsientoContable" Association="Self.FK_Nomina_AsientoContable">
+            <End Role="AsientoContable" EntitySet="AsientoContable" />
+            <End Role="Nomina" EntitySet="Nomina" />
+          </AssociationSet>
           <AssociationSet Name="FK_Nomina_TipoNomina" Association="Self.FK_Nomina_TipoNomina">
             <End Role="TipoNomina" EntitySet="TipoNomina" />
             <End Role="Nomina" EntitySet="Nomina" />
@@ -421,6 +438,10 @@
             <End Role="TipoIngreso" EntitySet="TipoIngreso" />
             <End Role="Transaccion" EntitySet="Transaccion" />
           </AssociationSet>
+          <AssociationSet Name="FK_Nomina_AsientoContable" Association="Proyecto_Fin_Hibrido2Model.FK_Nomina_AsientoContable">
+            <End Role="AsientoContable" EntitySet="AsientoContable" />
+            <End Role="Nomina" EntitySet="Nomina" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="AsientoContable">
           <Key>
@@ -437,6 +458,7 @@
           <Property Name="Estado" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="Cuenta" Relationship="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta" FromRole="AsientoContable" ToRole="Cuenta" />
           <NavigationProperty Name="Cuenta1" Relationship="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta1" FromRole="AsientoContable" ToRole="Cuenta" />
+          <NavigationProperty Name="Nomina" Relationship="Proyecto_Fin_Hibrido2Model.FK_Nomina_AsientoContable" FromRole="AsientoContable" ToRole="Nomina" />
         </EntityType>
         <EntityType Name="Cuenta">
           <Key>
@@ -484,6 +506,8 @@
           <Property Name="Contabilizado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="TipoNomina" Relationship="Proyecto_Fin_Hibrido2Model.FK_Nomina_TipoNomina" FromRole="Nomina" ToRole="TipoNomina" />
           <NavigationProperty Name="NominaResumen" Relationship="Proyecto_Fin_Hibrido2Model.FK_NominaResumen_Nomina" FromRole="Nomina" ToRole="NominaResumen" />
+          <Property Name="AsientoContableID" Type="Int32" />
+          <NavigationProperty Name="AsientoContable" Relationship="Proyecto_Fin_Hibrido2Model.FK_Nomina_AsientoContable" FromRole="Nomina" ToRole="AsientoContable" />
         </EntityType>
         <EntityType Name="NominaDetalle">
           <Key>
@@ -729,6 +753,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Nomina_AsientoContable">
+          <End Type="Proyecto_Fin_Hibrido2Model.AsientoContable" Role="AsientoContable" Multiplicity="0..1" />
+          <End Type="Proyecto_Fin_Hibrido2Model.Nomina" Role="Nomina" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AsientoContable">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Nomina">
+              <PropertyRef Name="AsientoContableID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -783,6 +819,7 @@
           <EntitySetMapping Name="Nomina">
             <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.Nomina">
               <MappingFragment StoreEntitySet="Nomina">
+                <ScalarProperty Name="AsientoContableID" ColumnName="AsientoContableID" />
                 <ScalarProperty Name="Contabilizado" ColumnName="Contabilizado" />
                 <ScalarProperty Name="TipoNominaID" ColumnName="TipoNominaID" />
                 <ScalarProperty Name="Periodo" ColumnName="Periodo" />

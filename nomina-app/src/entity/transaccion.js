@@ -57,6 +57,8 @@ const Filters = [
   <ReferenceInput label="Empleado" source="EmpleadoID" reference="Empleado">
     <SelectInput label="Empleado" optionText="Nombre" />
   </ReferenceInput>,
+  <DateInput source="FechaInicial" />,
+  <DateInput source="FechaFinal" />,
   <DateInput source="Fecha" />,
   <RadioButtonGroupInput label="Tipo" source="Tipo" choices={tipos} />,
   <ReferenceInput

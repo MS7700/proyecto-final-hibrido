@@ -6,6 +6,7 @@ import {
   Create,
   SimpleForm,
   TextInput,
+  NumberInput,
 } from "react-admin";
 
 const Validations = (values) => {
@@ -19,8 +20,13 @@ const Validations = (values) => {
   return errors;
 };
 
+const Filters = [
+  <NumberInput label="ID" source="id" />,
+  <TextInput label="Cuenta" source="Descripcion" />,
+];
+
 export const CuentaList = (props) => (
-  <List {...props}>
+  <List {...props} filters={Filters}>
     <Datagrid rowClick="edit">
       <TextField source="id" />
       <TextField label="Cuenta" source="Descripcion" />

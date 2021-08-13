@@ -259,6 +259,16 @@ namespace NominaAPI.Controllers
 
         }
 
+        [EnableQuery]
+
+        public IQueryable<Nomina> GetNomina([FromODataUri] int key)
+
+        {
+
+            return db.AsientoContable.Where(m => m.id == key).SelectMany(m => m.Nomina);
+
+        }
+
 
         protected override void Dispose(bool disposing)
         {

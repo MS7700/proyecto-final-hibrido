@@ -239,6 +239,15 @@ namespace NominaAPI.Controllers
             return db.Nomina.Where(m => m.id == key).SelectMany(m => m.NominaResumen);
 
         }
+        [EnableQuery]
+
+        public SingleResult<AsientoContable> GetAsientoContable([FromODataUri] int key)
+
+        {
+
+            return SingleResult.Create(db.Nomina.Where(m => m.id == key).Select(m => m.AsientoContable));
+
+        }
 
 
         protected override void Dispose(bool disposing)
