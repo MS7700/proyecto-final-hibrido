@@ -113,12 +113,12 @@ namespace NominaAPI.Controllers
             datajson.Append("\"monedasId\":1,");
             datajson.Append("\"transacciones\":[{");
 
-            datajson.Append("\"cuentasContablesId\":" + asientoContable.Cuentadb + ",");
-            datajson.Append("\"tipoMovimientoId\":2" + ",");
+            datajson.Append("\"cuentasContablesId\":" + "1" + ",");
+            datajson.Append("\"tipoMovimientoId\":1" + ",");
             datajson.Append("\"monto\":" + asientoContable.Monto + "},{");
 
-            datajson.Append("\"cuentasContablesId\":" + asientoContable.Cuentacr + ",");
-            datajson.Append("\"tipoMovimientoId\":1" + ",");
+            datajson.Append("\"cuentasContablesId\":" + "2" + ",");
+            datajson.Append("\"tipoMovimientoId\":2" + ",");
             datajson.Append("\"monto\":" + asientoContable.Monto + "}]}");
 
             System.Diagnostics.Debug.WriteLine(datajson.ToString());
@@ -156,7 +156,7 @@ namespace NominaAPI.Controllers
                 System.Diagnostics.Debug.WriteLine(result.StatusCode);
                 System.Diagnostics.Debug.WriteLine(resultContent);
 
-                if (result.StatusCode.ToString() == "200")
+                if (result.StatusCode.ToString() == "Created")
                 {
                     //Si es existoso, cambiar Contabilizado a true
                     asientoContable.Contabilizado = true;

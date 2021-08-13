@@ -49,6 +49,7 @@
     <EntitySetMapping Name="Nomina">
       <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.Nomina">
         <MappingFragment StoreEntitySet="Nomina">
+          <ScalarProperty Name="AsientoContableID" ColumnName="AsientoContableID" />
           <ScalarProperty Name="Contabilizado" ColumnName="Contabilizado" />
           <ScalarProperty Name="TipoNominaID" ColumnName="TipoNominaID" />
           <ScalarProperty Name="Periodo" ColumnName="Periodo" />

@@ -50,6 +50,7 @@
     <Property Name="Periodo" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="TipoNominaID" Type="int" Nullable="false" />
     <Property Name="Contabilizado" Type="bit" Nullable="false" />
+    <Property Name="AsientoContableID" Type="int" />
   </EntityType>
   <EntityType Name="NominaDetalle">
     <Key>
@@ -178,6 +179,18 @@
       </Principal>
       <Dependent Role="Empleado">
         <PropertyRef Name="TipoNominaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Nomina_AsientoContable">
+    <End Role="AsientoContable" Type="Self.AsientoContable" Multiplicity="0..1" />
+    <End Role="Nomina" Type="Self.Nomina" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AsientoContable">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Nomina">
+        <PropertyRef Name="AsientoContableID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -313,6 +326,10 @@
     <AssociationSet Name="FK_Empleado_TipoNomina" Association="Self.FK_Empleado_TipoNomina">
       <End Role="TipoNomina" EntitySet="TipoNomina" />
       <End Role="Empleado" EntitySet="Empleado" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Nomina_AsientoContable" Association="Self.FK_Nomina_AsientoContable">
+      <End Role="AsientoContable" EntitySet="AsientoContable" />
+      <End Role="Nomina" EntitySet="Nomina" />
     </AssociationSet>
     <AssociationSet Name="FK_Nomina_TipoNomina" Association="Self.FK_Nomina_TipoNomina">
       <End Role="TipoNomina" EntitySet="TipoNomina" />

@@ -21,6 +21,10 @@
       <End Role="Cuenta" EntitySet="Cuenta" />
       <End Role="AsientoContable" EntitySet="AsientoContable" />
     </AssociationSet>
+    <AssociationSet Name="FK_Nomina_AsientoContable" Association="Proyecto_Fin_Hibrido2Model.FK_Nomina_AsientoContable">
+      <End Role="AsientoContable" EntitySet="AsientoContable" />
+      <End Role="Nomina" EntitySet="Nomina" />
+    </AssociationSet>
     <AssociationSet Name="FK_Empleado_Departamento" Association="Proyecto_Fin_Hibrido2Model.FK_Empleado_Departamento">
       <End Role="Departamento" EntitySet="Departamento" />
       <End Role="Empleado" EntitySet="Empleado" />
@@ -81,6 +85,7 @@
     <Property Name="Estado" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
     <NavigationProperty Name="Cuenta" Relationship="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta" FromRole="AsientoContable" ToRole="Cuenta" />
     <NavigationProperty Name="Cuenta1" Relationship="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta1" FromRole="AsientoContable" ToRole="Cuenta" />
+    <NavigationProperty Name="Nomina" Relationship="Proyecto_Fin_Hibrido2Model.FK_Nomina_AsientoContable" FromRole="AsientoContable" ToRole="Nomina" />
   </EntityType>
   <EntityType Name="Cuenta">
     <Key>
@@ -126,6 +131,8 @@
     <Property Name="Periodo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="TipoNominaID" Type="Int32" Nullable="false" />
     <Property Name="Contabilizado" Type="Boolean" Nullable="false" />
+    <Property Name="AsientoContableID" Type="Int32" />
+    <NavigationProperty Name="AsientoContable" Relationship="Proyecto_Fin_Hibrido2Model.FK_Nomina_AsientoContable" FromRole="Nomina" ToRole="AsientoContable" />
     <NavigationProperty Name="TipoNomina" Relationship="Proyecto_Fin_Hibrido2Model.FK_Nomina_TipoNomina" FromRole="Nomina" ToRole="TipoNomina" />
     <NavigationProperty Name="NominaResumen" Relationship="Proyecto_Fin_Hibrido2Model.FK_NominaResumen_Nomina" FromRole="Nomina" ToRole="NominaResumen" />
   </EntityType>
@@ -234,6 +241,18 @@
       </Principal>
       <Dependent Role="AsientoContable">
         <PropertyRef Name="Cuentacr" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Nomina_AsientoContable">
+    <End Type="Proyecto_Fin_Hibrido2Model.AsientoContable" Role="AsientoContable" Multiplicity="0..1" />
+    <End Type="Proyecto_Fin_Hibrido2Model.Nomina" Role="Nomina" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AsientoContable">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Nomina">
+        <PropertyRef Name="AsientoContableID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
