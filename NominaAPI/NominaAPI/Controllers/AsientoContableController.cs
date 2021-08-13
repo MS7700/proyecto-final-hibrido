@@ -16,6 +16,8 @@ using System.Threading.Tasks;
 using NominaAPI.Models;
 using Microsoft.AspNet.OData.Routing;
 using System.Data.Entity.Validation;
+using System.Text;
+using Microsoft.OData.Edm;
 
 namespace NominaAPI.Controllers
 {
@@ -91,9 +93,83 @@ namespace NominaAPI.Controllers
 
         }
 
+        private string BuildJson(AsientoContable asientoContable)
+        {
+
+            var date = asientoContable.Fecha;
+            var converteddate = date.ToString("o");
+            System.Diagnostics.Debug.WriteLine(converteddate);
+            int year = date.Year;
+            int month = date.Month;
+            int day = date.Day;
+            //var converteddate = new Date(year, month, day).ToString();
+
+            StringBuilder datajson = new StringBuilder();
+            datajson.Append("{");
+            datajson.Append("\"descripcion\":\"" + asientoContable.Descripcion + "\",");
+            datajson.Append("\"catalogoAuxiliarId\":" + asientoContable.Auxiliar + ",");
+            //datajson.Append("\"Fecha\":\"" + year + "-" + month + "-" + day + "T00:00:00\",");
+            datajson.Append("\"fecha\":\"" + converteddate + "\",");
+            datajson.Append("\"monedasId\":1,");
+            datajson.Append("\"transacciones\":[{");
+
+            datajson.Append("\"cuentasContablesId\":" + asientoContable.Cuentadb + ",");
+            datajson.Append("\"tipoMovimientoId\":2" + ",");
+            datajson.Append("\"monto\":" + asientoContable.Monto + "},{");
+
+            datajson.Append("\"cuentasContablesId\":" + asientoContable.Cuentacr + ",");
+            datajson.Append("\"tipoMovimientoId\":1" + ",");
+            datajson.Append("\"monto\":" + asientoContable.Monto + "}]}");
+
+            System.Diagnostics.Debug.WriteLine(datajson.ToString());
+
+            return datajson.ToString();
+        }
+
+
         [HttpPost]
         public async Task<IHttpActionResult> EnviarAsiento([FromODataUri] int key)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            AsientoContable asientoContable = await db.AsientoContable.FindAsync(key);
+
+            if (asientoContable.Contabilizado)
+            {
+                return BadRequest("El asiento ya está contabilizado");
+            }
+            //Unir con API contabilidad
+            string json = BuildJson(asientoContable);
+            using (var client = new HttpClient())
+            {
+
+                client.BaseAddress = new Uri("https://contabilidad2021.azurewebsites.net/");
+
+                // serialize your json using newtonsoft json serializer then add it to the StringContent
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                // method address would be like api/callUber:SomePort for example
+                var result = await client.PostAsync("api/Asientos", content);
+                string resultContent = await result.Content.ReadAsStringAsync();
+                System.Diagnostics.Debug.WriteLine(result.StatusCode);
+                System.Diagnostics.Debug.WriteLine(resultContent);
+
+                if (result.StatusCode.ToString() == "200")
+                {
+                    //Si es existoso, cambiar Contabilizado a true
+                    asientoContable.Contabilizado = true;
+                    await db.SaveChangesAsync();
+                    return Ok(asientoContable);
+                }
+                else
+                {
+                    return BadRequest("Ha ocurrido un error en el envío.");
+                }
+            }
+        
+            /*
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -112,6 +188,7 @@ namespace NominaAPI.Controllers
 
 
             return Ok(asientoContable);
+            */
         }
 
 
