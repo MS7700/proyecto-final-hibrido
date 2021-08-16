@@ -86,6 +86,7 @@
     <NavigationProperty Name="Cuenta" Relationship="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta" FromRole="AsientoContable" ToRole="Cuenta" />
     <NavigationProperty Name="Cuenta1" Relationship="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta1" FromRole="AsientoContable" ToRole="Cuenta" />
     <NavigationProperty Name="Nomina" Relationship="Proyecto_Fin_Hibrido2Model.FK_Nomina_AsientoContable" FromRole="AsientoContable" ToRole="Nomina" />
+    <Property Name="ContabilidadID" Type="Int32" />
   </EntityType>
   <EntityType Name="Cuenta">
     <Key>
@@ -135,6 +136,7 @@
     <NavigationProperty Name="AsientoContable" Relationship="Proyecto_Fin_Hibrido2Model.FK_Nomina_AsientoContable" FromRole="Nomina" ToRole="AsientoContable" />
     <NavigationProperty Name="TipoNomina" Relationship="Proyecto_Fin_Hibrido2Model.FK_Nomina_TipoNomina" FromRole="Nomina" ToRole="TipoNomina" />
     <NavigationProperty Name="NominaResumen" Relationship="Proyecto_Fin_Hibrido2Model.FK_NominaResumen_Nomina" FromRole="Nomina" ToRole="NominaResumen" />
+    <Property Name="MontoTotal" Type="Double" />
   </EntityType>
   <EntityType Name="NominaDetalle">
     <Key>

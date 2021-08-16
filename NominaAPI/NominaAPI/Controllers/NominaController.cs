@@ -107,7 +107,7 @@ namespace NominaAPI.Controllers
             //Nota: Se asume que quincenal es id = 1, todos los demás tipos de nómina que se creen se guardará en formato mensual.
             nomina.Periodo = AsignarPeriodo(nomina.Fecha, nomina.TipoNominaID);
             db.Nomina.Add(nomina);
-
+            nomina.MontoTotal = 0;
             try
             {
                 
@@ -118,6 +118,7 @@ namespace NominaAPI.Controllers
                     nominaResumen.EmpleadoID = e.id;
                     nominaResumen.SueldoBruto = e.Salario;
                     nominaResumen.SueldoDevengado = BuscarDevengado(e.id, e.Salario, nomina.Fecha);
+                    nomina.MontoTotal += nominaResumen.SueldoDevengado;
                     db.NominaResumen.Add(nominaResumen);
 
                     await db.SaveChangesAsync();

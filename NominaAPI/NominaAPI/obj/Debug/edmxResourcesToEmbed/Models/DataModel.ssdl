@@ -13,6 +13,7 @@
     <Property Name="Monto" Type="float" Nullable="false" />
     <Property Name="Contabilizado" Type="bit" Nullable="false" />
     <Property Name="Estado" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="ContabilidadID" Type="int" />
   </EntityType>
   <EntityType Name="Cuenta">
     <Key>
@@ -51,6 +52,7 @@
     <Property Name="TipoNominaID" Type="int" Nullable="false" />
     <Property Name="Contabilizado" Type="bit" Nullable="false" />
     <Property Name="AsientoContableID" Type="int" />
+    <Property Name="MontoTotal" Type="float" />
   </EntityType>
   <EntityType Name="NominaDetalle">
     <Key>
