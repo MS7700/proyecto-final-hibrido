@@ -276,6 +276,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Attributes\BasicAuthenticationAttribute.cs" />
+    <Compile Include="Attributes\BasicAuthorizeAttribute.cs" />
     <Compile Include="Controllers\AsientoContableController.cs" />
     <Compile Include="Controllers\CuentaController.cs" />
     <Compile Include="Controllers\DepartamentoController.cs" />
@@ -288,6 +290,7 @@
     <Compile Include="Controllers\TipoIngresoController.cs" />
     <Compile Include="Controllers\TipoNominaController.cs" />
     <Compile Include="Controllers\TransaccionController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Data\NominaAPIContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -341,6 +344,9 @@
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Transaccion.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Usuario.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

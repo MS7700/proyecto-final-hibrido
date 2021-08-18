@@ -124,6 +124,19 @@
     <Property Name="Monto" Type="float" Nullable="false" />
     <Property Name="Contabilizado" Type="bit" Nullable="false" />
   </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Roles" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Apellido" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Estado" Type="bit" Nullable="false" />
+  </EntityType>
   <Association Name="FK_AsientoContable_Cuenta">
     <End Role="Cuenta" Type="Self.Cuenta" Multiplicity="1" />
     <End Role="AsientoContable" Type="Self.AsientoContable" Multiplicity="*" />
@@ -309,6 +322,7 @@
     <EntitySet Name="TipoIngreso" EntityType="Self.TipoIngreso" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoNomina" EntityType="Self.TipoNomina" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Transaccion" EntityType="Self.Transaccion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_AsientoContable_Cuenta" Association="Self.FK_AsientoContable_Cuenta">
       <End Role="Cuenta" EntitySet="Cuenta" />
       <End Role="AsientoContable" EntitySet="AsientoContable" />

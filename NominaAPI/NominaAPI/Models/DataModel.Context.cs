@@ -37,5 +37,6 @@ namespace NominaAPI.Models
         public virtual DbSet<TipoIngreso> TipoIngreso { get; set; }
         public virtual DbSet<TipoNomina> TipoNomina { get; set; }
         public virtual DbSet<Transaccion> Transaccion { get; set; }
+        public virtual DbSet<Usuario> Usuario { get; set; }
     }
 }

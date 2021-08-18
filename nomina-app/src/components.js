@@ -52,9 +52,10 @@ export const EnviarButton = ({ record }) => {
     setLoading(true);
     dispatch(fetchStart()); // start the global loading indicator
     const Record = { ...record };
+    console.log(record);
     fetch(
       `https://localhost:44340/AsientoContable(${record.id})/Contabilidad.EnviarAsiento`,
-      { method: "POST", body: Record }
+      { method: "POST", body: Record, headers: {'Authorization': 'Basic QURNSU46MTIzNDU='} }
     )
       .then(() => {
         notify("Asiento enviado a contabilidad");

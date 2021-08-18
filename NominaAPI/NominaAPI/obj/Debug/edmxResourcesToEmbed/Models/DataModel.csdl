@@ -69,6 +69,7 @@
       <End Role="TipoIngreso" EntitySet="TipoIngreso" />
       <End Role="Transaccion" EntitySet="Transaccion" />
     </AssociationSet>
+    <EntitySet Name="Usuario" EntityType="Proyecto_Fin_Hibrido2Model.Usuario" />
   </EntityContainer>
   <EntityType Name="AsientoContable">
     <Key>
@@ -394,4 +395,17 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Roles" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Apellido" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+  </EntityType>
 </Schema>

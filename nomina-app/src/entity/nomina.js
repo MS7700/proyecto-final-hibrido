@@ -53,6 +53,7 @@ const Filters = [
   >
     <SelectInput label="Tipo de Nómina" optionText="Descripcion" />
   </ReferenceInput>,
+  <NumberField source="MontoTotal" />,
   <BooleanInput source="Contabilizado" />,
 ];
 
@@ -69,6 +70,7 @@ export const NominaList = (props) => (
       >
         <TextField source="Descripcion" />
       </ReferenceField>
+      <NumberField source="MontoTotal" />
       <BooleanField source="Contabilizado" />
     </Datagrid>
   </List>
@@ -86,6 +88,7 @@ const AsideInfo = (props) => (
     >
       <TextField source="Descripcion" />
     </ReferenceField>
+    <NumberField source="MontoTotal" />
     <BooleanField source="Contabilizado" />
     <DeleteButton />
     <ExportNominaButton label="Exportar Detallado" detallado={1} />

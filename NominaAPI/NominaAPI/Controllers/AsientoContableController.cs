@@ -308,12 +308,23 @@ namespace NominaAPI.Controllers
             {
                 return NotFound();
             }
+            if (asientoContable.Contabilizado)
+            {
+                return BadRequest("No se pueden eliminar asientos contabilizados");
+            }
 
-            foreach (var e in db.Nomina.Where(a => a.Periodo.Substring(0,5) == asientoContable.Descripcion.Substring(0,5))) {
+            foreach (var e in db.Nomina.Where(a => a.AsientoContableID == asientoContable.id))
+            {
                 e.Contabilizado = false;
                 e.AsientoContableID = null;
             }
 
+            /*
+            foreach (var e in db.Nomina.Where(a => a.Periodo.Substring(0,5) == asientoContable.Descripcion.Substring(0,5))) {
+                e.Contabilizado = false;
+                e.AsientoContableID = null;
+            }
+            */
             db.AsientoContable.Remove(asientoContable);
             await db.SaveChangesAsync();
 

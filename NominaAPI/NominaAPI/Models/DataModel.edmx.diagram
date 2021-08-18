@@ -31,6 +31,7 @@
         <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_NominaDetalle_Transaccion" />
         <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_Transaccion_TipoDeduccion" />
         <AssociationConnector Association="Proyecto_Fin_Hibrido2Model.FK_Transaccion_TipoIngreso" />
+        <EntityTypeShape EntityType="Proyecto_Fin_Hibrido2Model.Usuario" Width="1.5" PointX="11.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
