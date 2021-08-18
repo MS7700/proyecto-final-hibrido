@@ -54,7 +54,7 @@ export const EnviarButton = ({ record }) => {
     const Record = { ...record };
     console.log(record);
     fetch(
-      `https://localhost:44340/AsientoContable(${record.id})/Contabilidad.EnviarAsiento`,
+      `https://nominaapi202102.azurewebsites.net/AsientoContable(${record.id})/Contabilidad.EnviarAsiento`,
       { method: "POST", body: Record, headers: {'Authorization': 'Basic QURNSU46MTIzNDU='} }
     )
       .then(() => {

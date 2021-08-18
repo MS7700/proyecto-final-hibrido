@@ -3,7 +3,7 @@ const authProvider = {
         
         var token = window.btoa(username + ':' + password);
         sessionStorage.setItem('token',token);
-        const request = new Request("https://localhost:44340/Autenticar", {
+        const request = new Request("https://nominaapi202102.azurewebsites.net/Autenticar", {
             method: 'GET',
             headers: new Headers({ 'Content-Type': 'application/json',
             "Access-Control-Allow-Headers": "Authorization",

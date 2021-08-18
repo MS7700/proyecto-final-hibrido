@@ -67,17 +67,11 @@ import { i18nProvider } from "./i18nProvider";
 import authProvider from './authProvider';
 
 function App() {
-  /*
-  const [dataProvider, setDataProvider] = useState<OdataDataProvider>();
-  useEffect(() => {
-    odataProvider("https://localhost:44340/").then((p) => setDataProvider(p));
-    return () => {};
-  }, []);
-  */
+  
   const [dataProvider, setDataProvider] = useState<OdataDataProvider>();
   useEffect(() => {
     if (sessionStorage.getItem("token") !== "null") {
-      odataProvider("https://localhost:44340/", () => {
+      odataProvider("https://nominaapi202102.azurewebsites.net/", () => {
         return Promise.resolve()
           .then((token) => ({
             headers: {
@@ -90,7 +84,7 @@ function App() {
       return () => { };
     } else {
       odataProvider(
-        "https://localhost:44340/"
+        "https://nominaapi202102.azurewebsites.net/"
       ).then((p) => setDataProvider(p));
       return () => { };
     }
@@ -211,119 +205,6 @@ function App() {
   ) : (
     <Loading loadingPrimary="Cargando..." loadingSecondary="Espere un momento"></Loading>
   );
-
-  /*
-  return dataProvider ? (
-    <Admin
-      locale="es"
-      i18nProvider={i18nProvider}
-      //@ts-ignore
-      theme={theme}
-      title="Nómina APP"
-      dataProvider={dataProvider}
-      //@ts-ignore
-      authProvider={authProvider}
-    >
-      <Resource
-        name="Empleado"
-        list={EmpleadoList}
-        edit={EmpleadoEdit}
-        create={EmpleadoCreate}
-        icon={EmpleadosIcon}
-      />
-      <Resource
-        name="Puesto"
-        list={PuestoList}
-        edit={PuestoEdit}
-        create={PuestoCreate}
-        icon={WorkIcon}
-      />
-      <Resource
-        name="Departamento"
-        list={DepartamentoList}
-        edit={DepartamentoEdit}
-        create={DepartamentoCreate}
-        icon={DepartamentoIcon}
-      />
-      <Resource
-        name="Nomina"
-        list={NominaList}
-        show={NominaShow}
-        create={NominaCreate}
-        options={{ label: "Nóminas" }}
-        icon={NominaIcon}
-      />
-      <Resource
-        name="TipoNomina"
-        list={TipoNominaList}
-        edit={TipoNominaEdit}
-        create={TipoNominaCreate}
-        options={{ label: "Tipos de Nóminas" }}
-        icon={TipoNominaIcon}
-      />
-      <Resource
-        name="NominaResumen"
-        list={NominaResumenList}
-        options={{ label: "Resumen de Nóminas" }}
-        icon={NominaIcon}
-      />
-      <Resource
-        name="NominaDetalle"
-        list={NominaDetalleList}
-        options={{ label: "Detalles de Nóminas" }}
-        icon={NominaIcon}
-      />
-      <Resource
-        name="AsientoContable"
-        list={AsientoContableList}
-        show={AsientoContableShow}
-        create={AsientoContableCreate}
-        options={{ label: "Asientos Contables" }}
-        icon={AsientoContableIcon}
-      />
-      <Resource
-        name="Cuenta"
-        list={CuentaList}
-        edit={CuentaEdit}
-        create={CuentaCreate}
-        options={{ label: "Catálogo de Cuentas" }}
-        icon={CuentaIcon}
-      />
-      <Resource
-        name="TipoDeduccion"
-        list={DeduccionList}
-        edit={DeduccionEdit}
-        create={DeduccionCreate}
-        options={{ label: "Deducciones" }}
-        icon={DeduccionIcon}
-      />
-      <Resource
-        name="TipoIngreso"
-        list={IngresoList}
-        edit={IngresoEdit}
-        create={IngresoCreate}
-        options={{ label: "Ingresos" }}
-        icon={IngresoIcon}
-      />
-      <Resource
-        name="Transaccion"
-        list={TransaccionList}
-        edit={TransaccionEdit}
-        create={TransaccionCreate}
-        options={{ label: "Transacciones" }}
-        icon={TransaccionIcon}
-      />
-      <Resource
-        name="Usuario"
-        list={UsuarioList}
-        edit={UsuarioEdit}
-        create={UsuarioCreate}
-        icon={UsuariosIcon}
-      />
-    </Admin>
-  ) : (
-    <Loading loadingPrimary="Cargando..." loadingSecondary="Espere un momento"></Loading>
-  ); */
 }
 
 export default App;
