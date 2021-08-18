@@ -4,12 +4,13 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AsientoContable">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ContabilidadID" Type="int" />
           <Property Name="Fecha" Type="date" Nullable="false" />
           <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Auxiliar" Type="int" Nullable="false" />
@@ -18,7 +19,6 @@
           <Property Name="Monto" Type="float" Nullable="false" />
           <Property Name="Contabilizado" Type="bit" Nullable="false" />
           <Property Name="Estado" Type="char" MaxLength="1" Nullable="false" />
-          <Property Name="ContabilidadID" Type="int" />
         </EntityType>
         <EntityType Name="Cuenta">
           <Key>
@@ -55,9 +55,9 @@
           <Property Name="Fecha" Type="date" Nullable="false" />
           <Property Name="Periodo" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="TipoNominaID" Type="int" Nullable="false" />
+          <Property Name="MontoTotal" Type="float" />
           <Property Name="Contabilizado" Type="bit" Nullable="false" />
           <Property Name="AsientoContableID" Type="int" />
-          <Property Name="MontoTotal" Type="float" />
         </EntityType>
         <EntityType Name="NominaDetalle">
           <Key>
@@ -402,6 +402,7 @@
           <EntitySet Name="TipoIngreso" EntityType="Proyecto_Fin_Hibrido2Model.TipoIngreso" />
           <EntitySet Name="TipoNomina" EntityType="Proyecto_Fin_Hibrido2Model.TipoNomina" />
           <EntitySet Name="Transaccion" EntityType="Proyecto_Fin_Hibrido2Model.Transaccion" />
+          <EntitySet Name="Usuario" EntityType="Proyecto_Fin_Hibrido2Model.Usuario" />
           <AssociationSet Name="FK_AsientoContable_Cuenta" Association="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta">
             <End Role="Cuenta" EntitySet="Cuenta" />
             <End Role="AsientoContable" EntitySet="AsientoContable" />
@@ -458,13 +459,13 @@
             <End Role="TipoIngreso" EntitySet="TipoIngreso" />
             <End Role="Transaccion" EntitySet="Transaccion" />
           </AssociationSet>
-          <EntitySet Name="Usuario" EntityType="Proyecto_Fin_Hibrido2Model.Usuario" />
         </EntityContainer>
         <EntityType Name="AsientoContable">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ContabilidadID" Type="Int32" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Auxiliar" Type="Int32" Nullable="false" />
@@ -476,7 +477,6 @@
           <NavigationProperty Name="Cuenta" Relationship="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta" FromRole="AsientoContable" ToRole="Cuenta" />
           <NavigationProperty Name="Cuenta1" Relationship="Proyecto_Fin_Hibrido2Model.FK_AsientoContable_Cuenta1" FromRole="AsientoContable" ToRole="Cuenta" />
           <NavigationProperty Name="Nomina" Relationship="Proyecto_Fin_Hibrido2Model.FK_Nomina_AsientoContable" FromRole="AsientoContable" ToRole="Nomina" />
-          <Property Name="ContabilidadID" Type="Int32" />
         </EntityType>
         <EntityType Name="Cuenta">
           <Key>
@@ -521,12 +521,12 @@
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Periodo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TipoNominaID" Type="Int32" Nullable="false" />
+          <Property Name="MontoTotal" Type="Double" />
           <Property Name="Contabilizado" Type="Boolean" Nullable="false" />
           <Property Name="AsientoContableID" Type="Int32" />
           <NavigationProperty Name="AsientoContable" Relationship="Proyecto_Fin_Hibrido2Model.FK_Nomina_AsientoContable" FromRole="Nomina" ToRole="AsientoContable" />
           <NavigationProperty Name="TipoNomina" Relationship="Proyecto_Fin_Hibrido2Model.FK_Nomina_TipoNomina" FromRole="Nomina" ToRole="TipoNomina" />
           <NavigationProperty Name="NominaResumen" Relationship="Proyecto_Fin_Hibrido2Model.FK_NominaResumen_Nomina" FromRole="Nomina" ToRole="NominaResumen" />
-          <Property Name="MontoTotal" Type="Double" />
         </EntityType>
         <EntityType Name="NominaDetalle">
           <Key>
@@ -611,6 +611,19 @@
           <NavigationProperty Name="NominaDetalle" Relationship="Proyecto_Fin_Hibrido2Model.FK_NominaDetalle_Transaccion" FromRole="Transaccion" ToRole="NominaDetalle" />
           <NavigationProperty Name="TipoDeduccion" Relationship="Proyecto_Fin_Hibrido2Model.FK_Transaccion_TipoDeduccion" FromRole="Transaccion" ToRole="TipoDeduccion" />
           <NavigationProperty Name="TipoIngreso" Relationship="Proyecto_Fin_Hibrido2Model.FK_Transaccion_TipoIngreso" FromRole="Transaccion" ToRole="TipoIngreso" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Roles" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_AsientoContable_Cuenta">
           <End Type="Proyecto_Fin_Hibrido2Model.Cuenta" Role="Cuenta" Multiplicity="1" />
@@ -784,19 +797,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Usuario">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Roles" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Apellido" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Estado" Type="Boolean" Nullable="false" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -806,7 +806,6 @@
           <EntitySetMapping Name="AsientoContable">
             <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.AsientoContable">
               <MappingFragment StoreEntitySet="AsientoContable">
-                <ScalarProperty Name="ContabilidadID" ColumnName="ContabilidadID" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="Contabilizado" ColumnName="Contabilizado" />
                 <ScalarProperty Name="Monto" ColumnName="Monto" />
@@ -815,6 +814,7 @@
                 <ScalarProperty Name="Auxiliar" ColumnName="Auxiliar" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="ContabilidadID" ColumnName="ContabilidadID" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -852,9 +852,9 @@
           <EntitySetMapping Name="Nomina">
             <EntityTypeMapping TypeName="Proyecto_Fin_Hibrido2Model.Nomina">
               <MappingFragment StoreEntitySet="Nomina">
-                <ScalarProperty Name="MontoTotal" ColumnName="MontoTotal" />
                 <ScalarProperty Name="AsientoContableID" ColumnName="AsientoContableID" />
                 <ScalarProperty Name="Contabilizado" ColumnName="Contabilizado" />
+                <ScalarProperty Name="MontoTotal" ColumnName="MontoTotal" />
                 <ScalarProperty Name="TipoNominaID" ColumnName="TipoNominaID" />
                 <ScalarProperty Name="Periodo" ColumnName="Periodo" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />

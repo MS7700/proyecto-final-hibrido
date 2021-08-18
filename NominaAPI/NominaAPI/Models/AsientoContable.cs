@@ -21,6 +21,7 @@ namespace NominaAPI.Models
         }
     
         public int id { get; set; }
+        public Nullable<int> ContabilidadID { get; set; }
         public System.DateTime Fecha { get; set; }
         public string Descripcion { get; set; }
         public int Auxiliar { get; set; }
@@ -29,7 +30,6 @@ namespace NominaAPI.Models
         public double Monto { get; set; }
         public bool Contabilizado { get; set; }
         public string Estado { get; set; }
-        public Nullable<int> ContabilidadID { get; set; }
     
         public virtual Cuenta Cuenta { get; set; }
         public virtual Cuenta Cuenta1 { get; set; }

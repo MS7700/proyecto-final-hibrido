@@ -24,9 +24,9 @@ namespace NominaAPI.Models
         public System.DateTime Fecha { get; set; }
         public string Periodo { get; set; }
         public int TipoNominaID { get; set; }
+        public Nullable<double> MontoTotal { get; set; }
         public bool Contabilizado { get; set; }
         public Nullable<int> AsientoContableID { get; set; }
-        public Nullable<double> MontoTotal { get; set; }
     
         public virtual AsientoContable AsientoContable { get; set; }
         public virtual TipoNomina TipoNomina { get; set; }

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="NominaAPIContext-Web.config Connection String" description="NominaAPIContext Cadena de conexión que usa la aplicación en web.config para obtener acceso a la base de datos." defaultValue="Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=NominaAPIContext-20210806081317; Integrated Security=True; MultipleActiveResultSets=True; AttachDbFilename=|DataDirectory|NominaAPIContext-20210806081317.mdf" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\manue\\Documents\\GitHub\\proyecto-final-hibrido\\NominaAPI\\NominaAPI\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='NominaAPIContext']/@connectionString" />
+  </parameter>
+  <parameter name="Proyecto_Fin_Hibrido2Entities1-Web.config Connection String" description="Proyecto_Fin_Hibrido2Entities1 Cadena de conexión que usa la aplicación en web.config para obtener acceso a la base de datos." defaultValue="metadata=res://*/Models.DataModel.csdl|res://*/Models.DataModel.ssdl|res://*/Models.DataModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=proyecto-nomina.database.windows.net;initial catalog=nominaDB2021;persist security info=True;user id=admin-nomina;password=GrupoHibrido2021;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\manue\\Documents\\GitHub\\proyecto-final-hibrido\\NominaAPI\\NominaAPI\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='Proyecto_Fin_Hibrido2Entities1']/@connectionString" />
+  </parameter>
+</parameters>
