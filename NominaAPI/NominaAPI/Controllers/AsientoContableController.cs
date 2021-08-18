@@ -18,6 +18,7 @@ using Microsoft.AspNet.OData.Routing;
 using System.Data.Entity.Validation;
 using System.Text;
 using Microsoft.OData.Edm;
+using Newtonsoft.Json.Linq;
 
 namespace NominaAPI.Controllers
 {
@@ -155,11 +156,17 @@ namespace NominaAPI.Controllers
                 string resultContent = await result.Content.ReadAsStringAsync();
                 System.Diagnostics.Debug.WriteLine(result.StatusCode);
                 System.Diagnostics.Debug.WriteLine(resultContent);
+                System.Diagnostics.Debug.WriteLine(resultContent);
+                var responseJSON = JObject.Parse(resultContent);
 
                 if (result.StatusCode.ToString() == "Created")
                 {
                     //Si es existoso, cambiar Contabilizado a true
                     asientoContable.Contabilizado = true;
+                    if (responseJSON.ContainsKey("id"))
+                    {
+                        asientoContable.ContabilidadID = int.Parse(responseJSON["id"].ToString());
+                    }
                     await db.SaveChangesAsync();
                     return Ok(asientoContable);
                 }
@@ -230,7 +237,7 @@ namespace NominaAPI.Controllers
                     asientoContable.Monto += nominaResumen.SueldoDevengado;
                 }
                 nomina.Contabilizado = true;
-
+                nomina.AsientoContableID = asientoContable.id;
             }
 
             db.AsientoContable.Add(asientoContable);
@@ -304,6 +311,7 @@ namespace NominaAPI.Controllers
 
             foreach (var e in db.Nomina.Where(a => a.Periodo.Substring(0,5) == asientoContable.Descripcion.Substring(0,5))) {
                 e.Contabilizado = false;
+                e.AsientoContableID = null;
             }
 
             db.AsientoContable.Remove(asientoContable);

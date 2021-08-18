@@ -35,7 +35,7 @@ const Validations = (values) => {
 };
 
 const Filters = [
-  <NumberInput label="ID" source="id" />,
+  <NumberInput label="id" source="ContabilidadID" />,
   <DateInput source="FechaInicial" />,
   <DateInput source="FechaFinal" />,
   <DateInput source="Fecha" />,
@@ -47,7 +47,7 @@ const Filters = [
 export const AsientoContableList = (props) => (
   <List {...props} filters={Filters} sort={{ field: "Fecha", order: "DESC" }}>
     <Datagrid rowClick="show" >
-      <TextField source="id" />
+      <TextField label="id" source="ContabilidadID" />
       <DateField source="Fecha" />
       <TextField label="Descripción" source="Descripcion" />
       <NumberField source="Auxiliar" />
@@ -94,7 +94,7 @@ export const AsientoContableShow = (props) => {
         <RaBox flexWrap="wrap" display="flex" className={classes.ContainerBox}>
           <RaBox flex="1 1 20%" className={classes.detailsBox}>
             <RaBox display="flex" justifyContent="space-between">
-              <TextField source="id" />
+              <TextField label="id" source="ContabilidadID" />
               <DateField source="Fecha" />
             </RaBox>
             <RaBox display="flex" justifyContent="space-between">
