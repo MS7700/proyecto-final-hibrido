@@ -114,11 +114,11 @@ namespace NominaAPI.Controllers
             datajson.Append("\"monedasId\":1,");
             datajson.Append("\"transacciones\":[{");
 
-            datajson.Append("\"cuentasContablesId\":" + "1" + ",");
+            datajson.Append("\"cuentasContablesId\":" + asientoContable.Cuentadb + ",");
             datajson.Append("\"tipoMovimientoId\":1" + ",");
             datajson.Append("\"monto\":" + asientoContable.Monto + "},{");
 
-            datajson.Append("\"cuentasContablesId\":" + "2" + ",");
+            datajson.Append("\"cuentasContablesId\":" + asientoContable.Cuentacr + ",");
             datajson.Append("\"tipoMovimientoId\":2" + ",");
             datajson.Append("\"monto\":" + asientoContable.Monto + "}]}");
 
